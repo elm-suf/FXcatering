@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-border-width: 5 5 5 5; -fx-border-color: transparent;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catering.MenuEditController">
+   <center>
+      <BorderPane fx:id="mainPane" BorderPane.alignment="CENTER">
+         <top>
+                  <BorderPane fx:id="titlePane" style="-fx-border-color: transparent; -fx-border-width: 0 0 5 0;">
+               <center>
+                  <Label fx:id="menuTitle" alignment="CENTER" contentDisplay="CENTER" text="titolo" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </center>
+               <right>
+                  <Button fx:id="editTitleButton" mnemonicParsing="false" onAction="#onEditMenuTitle" text="..." BorderPane.alignment="CENTER" />
+               </right>
+                  </BorderPane>
+         </top>
+         <center>
+            <HBox fx:id="detailsPane" prefHeight="100.0" prefWidth="200.0" style="-fx-border-insets: 5; -fx-border-style: solid; -fx-border-width: 1; -fx-border-color: aaaaaa;" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane fx:id="sectionsPane" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: transparent; -fx-border-width: 5;" HBox.hgrow="ALWAYS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <top>
+                        <Label text="Sezioni" BorderPane.alignment="CENTER" />
+                     </top>
+                     <center>
+                        <ListView fx:id="sectionsList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                     </center>
+                     <bottom>
+                        <FlowPane alignment="CENTER" hgap="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="addSectionButton" minWidth="30.0" mnemonicParsing="false" onAction="#onAddSection" text="+" />
+                              <Button fx:id="deleteSectionButton" disable="true" minWidth="30.0" mnemonicParsing="false" onAction="#onDeleteSection" text="–" />
+                              <Button fx:id="editSectionButton" disable="true" layoutX="68.0" layoutY="16.0" minWidth="30.0" mnemonicParsing="false" onAction="#onEditSection" text="..." />
+                              <Button fx:id="moveDownSectionButton" disable="true" layoutX="73.0" layoutY="15.0" minWidth="30.0" mnemonicParsing="false" onAction="#onMoveDownSection" text="↓">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="moveUpSectionButton" disable="true" layoutX="108.0" layoutY="10.0" minWidth="30.0" mnemonicParsing="false" onAction="#onMoveUpSection" text="↑" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </FlowPane>
+                     </bottom>
+                  </BorderPane>
+                  <BorderPane fx:id="itemsPane" layoutX="16.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: transparent; -fx-border-width: 5;" HBox.hgrow="ALWAYS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <top>
+                        <Label fx:id="sectname" text=" Voci:" BorderPane.alignment="CENTER" />
+                     </top>
+                     <center>
+                        <ListView fx:id="itemsList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                     </center>
+                     <bottom>
+                        <FlowPane alignment="CENTER" hgap="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="addItemButton" disable="true" minWidth="30.0" mnemonicParsing="false" onAction="#onAddItem" text="+" />
+                              <Button fx:id="deleteItemButton" disable="true" minWidth="30.0" mnemonicParsing="false" onAction="#onDeleteItem" text="–" />
+                              <Button fx:id="editItemButton" disable="true" layoutX="68.0" layoutY="16.0" minWidth="30.0" mnemonicParsing="false" onAction="#onEditItem" text="..." />
+                              <Button fx:id="moveDownItemButton" disable="true" layoutX="73.0" layoutY="15.0" minWidth="30.0" mnemonicParsing="false" onAction="#onMoveDownItem" text="↓">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="moveUpItemButton" disable="true" layoutX="108.0" layoutY="10.0" minWidth="30.0" mnemonicParsing="false" onAction="#onMoveUpItem" text="↑" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </FlowPane>
+                     </bottom>
+                  </BorderPane>
+                  <BorderPane fx:id="setItemPane" layoutX="305.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: transparent; -fx-border-width: 5;" HBox.hgrow="ALWAYS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <top>
+                        <Label text="Nuova voce di menu" BorderPane.alignment="CENTER" />
+                     </top>
+                     <center>
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: aaaaaa; -fx-padding: 5;" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Ricetta:" />
+                              <ComboBox fx:id="recipesCombo" maxWidth="1.7976931348623157E308" />
+                              <Separator prefWidth="200.0" style="-fx-padding: 5;">
+                                 <opaqueInsets>
+                                    <Insets top="5.0" />
+                                 </opaqueInsets>
+                              </Separator>
+                              <Label text="Testo per il menu (opzionale):" wrapText="true" VBox.vgrow="SOMETIMES" />
+                              <TextArea fx:id="itemDescription" prefHeight="90.0" />
+                              <Separator prefWidth="200.0" style="-fx-padding: 5;">
+                                 <opaqueInsets>
+                                    <Insets top="5.0" />
+                                 </opaqueInsets>
+                              </Separator>
+                              <Label text="Sezione:" />
+                              <ComboBox fx:id="sectionsCombo" layoutX="16.0" layoutY="33.0" maxWidth="1.7976931348623157E308" />
+                           </children>
+                        </VBox>
+                     </center>
+                     <bottom>
+                        <FlowPane alignment="CENTER" hgap="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="okSetItemButton" minWidth="30.0" mnemonicParsing="false" onAction="#onOkSetItem" text="Ok" />
+                              <Button fx:id="cancelSetItemButton" minWidth="30.0" mnemonicParsing="false" onAction="#onCancelSetItem" text="Cancel" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </FlowPane>
+                     </bottom>
+                  </BorderPane>
+               </children>
+            </HBox>
+         </center></BorderPane>
+   </center>
+   <bottom>
+      <FlowPane fx:id="bottomPane" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5" style="-fx-border-color: transparent; -fx-border-width: 5 0 0 0;">
+         <children>
+            <Button onAction="#onPublishMenu" text="Publish" />
+            <Button layoutX="274.0" layoutY="15.0" onAction="#onCloseMenu" text="Close" />
+         </children>
+      </FlowPane>
+   </bottom>
+</BorderPane>
