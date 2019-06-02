@@ -18,7 +18,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         this.app = CateringAppManager.getInstance();
 
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("assign_tasks_main.fxml"));
         Parent main = mainLoader.load();
         Scene mainScene = new Scene(main);
 
