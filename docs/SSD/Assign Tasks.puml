@@ -4,22 +4,22 @@ skinparam SequenceMessageAlign center
 
 Actor Chef as ch
 participant System as sy
-ch -> sy : apriFoglioRiepilogativo(Evento: ev)
+ch -> sy : apriFoglioRiepilogativo(Evento)
 ch <-- sy : FoglioRiepilogativo
 
 opt
     loop
-        alt 2 : aggiungi procedura
+        alt 2 : aggiungi compito
             ch -> sy : aggiungiCompito(ProceduraDiCucina)
             ch <-- sy : OK
-        else 2a: rimuovi procedura
-            ch -> sy : rimmuoviCompito(ProceduraDiCucina)
+        else 2a: rimuovi compito
+            ch -> sy : rimuoviCompito(Compito)
             ch <-- sy : OK
         end
     end
 
     opt 3: ordinare elenco
-        ch -> sy : ordinaElenco(procedura, posizione)
+        ch -> sy : ordinaElenco(Compito, posizione)
         ch <-- sy : OK
     end
     loop
@@ -28,19 +28,16 @@ opt
             ch <-- sy : TabelloneDeiTurni
         end
         alt 5: assegnare compiti
-            ch -> sy : creaCompito(ProceduraDiCucina, Turno, Cuoco?, Quantita?, StimaTempo?, difficolta?)
-            ch <-- sy : Foglio aggiornato
-            else 5a: modifica compito
-            ch -> sy : modificaCompito(oldCompito, newCompito)
+            ch -> sy : assegnaCompito(Compito, Turno, Cuoco?, Quantita?, StimaTempo?, difficolta?)
             ch <-- sy : Foglio aggiornato
             else eccezione 5a
-            ch -> sy : modificaCompito(oldCompito, newCompito)
+            ch -> sy : assegnaCompito(Compito, Turno, Cuoco?, Quantita?, StimaTempo?, difficolta?)
             ch <--X sy : cuoco non disponibile in turno
             else eccezione 5b
-            ch -> sy : modificaCompito(oldCompito, newCompito)
+            ch -> sy : assegnaCompito(Compito, Turno, Cuoco?, Quantita?, StimaTempo?, difficolta?)
             ch <--X sy : tempo compito eccede tempo diponibile
-            else 5b: elimina compito
-            ch -> sy : eliminaCompito(compito)
+            else 5a: elimina assegnamento
+            ch -> sy : eliminaAssegnamento(Compito)
             ch <-- sy : Foglio aggiornato
         end
 
