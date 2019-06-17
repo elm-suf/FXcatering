@@ -1,0 +1,48 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam SequenceMessageAlign center
+
+title add Task
+Actor Chef as ch
+participant "AppM.eventManager:\nEventManager" as EventManager
+participant "AppM.userManager:\nUserManager" as UserManager
+
+
+ch ->  EventManager: addTask(Recipe recipe)
+activate EventManager
+	EventManager -> UserManager: getCurrentUser()
+	activate UserManager
+    	UserManager --> EventManager: user
+	deactivate UserManager
+
+    alt !user.isChef()
+ 	    ch <--x EventManager: UseCaseLogicException
+    else
+
+        create Task
+        EventManager -> Task : create(recipe, null, null, null, false, false)
+        activate Task
+        Task -> Task : setRecipe(recipe)
+        Task -> Task : setDifficulty(null)
+        Task -> Task : setDuration(null)
+        Task -> Task : setIndex(null)
+        Task -> Task : setIsCompleted(false)
+        Task -> Task : setIsAssigned(false)
+        EventManager <-- Task : task
+        deactivate Task
+
+        participant "AppM.eventManager.currentEvent.tasks:\nList<Task>" as CurrentEvent
+        EventManager -> CurrentEvent : add(task)
+        activate CurrentEvent
+        deactivate CurrentEvent
+
+        loop for r in receivers
+            participant "receiver:\n CATEventReceiver" as r
+        	EventManager -> r : notifyTaskAdded(task)
+        	activate r
+        	deactivate r
+        end
+
+end
+deactivate EventManager
+@enduml
