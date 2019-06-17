@@ -1,0 +1,50 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam SequenceMessageAlign center
+
+Actor Chef as ch
+participant System as sy
+ch -> sy : apriFoglioRiepilogativo(Evento: ev)
+ch <-- sy : FoglioRiepilogativo
+
+opt
+    loop
+        alt 2 : aggiungi procedura
+            ch -> sy : aggiungiProcedura(ProceduraDiCucina)
+            ch <-- sy : OK
+        else 2a: rimuovi procedura
+            ch -> sy : rimmuoviProcedura(ProceduraDiCucina)
+            ch <-- sy : OK
+        end
+    end
+
+    opt 3: ordinare elenco
+        ch -> sy : ordinaElenco(procedura, posizione)
+        ch <-- sy : OK
+    end
+    loop
+        opt 4: consultare tabellone
+            ch -> sy : consultaTabellone()
+            ch <-- sy : TabelloneDeiTurni
+        end
+        alt 5: assegnare compiti
+            ch -> sy : creaAssegnazione(ProceduraDiCucina, Turno, Cuoco?, Quantita?, StimaTempo?)
+            ch <-- sy : Foglio aggiornato
+            else 5a: modifica assegnazione
+            ch -> sy : modificaAssegnazione(oldAssegnazione, newAssegnazione)
+            ch <-- sy : Foglio aggiornato
+            else eccezione 5a
+            ch -> sy : modificaAssegnazione(oldAssegnazione, newAssegnazione)
+            ch <--X sy : cuoco non disponibile in turno
+            else eccezione 5b
+            ch -> sy : modificaAssegnazione(oldAssegnazione, newAssegnazione)
+            ch <--X sy : tempo assegnazione eccede tempo diponibile
+            else 5b: elimina assegnazione
+            ch -> sy : eliminaAssegnazione(assegnazione)
+            ch <-- sy : Foglio aggiornato
+        end
+
+    end
+
+end
+@enduml
