@@ -1,0 +1,29 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam SequenceMessageAlign center
+
+title selct Event
+Actor Chef as ch
+participant "AppM.eventManager:\nEventManager" as EventManager
+participant "AppM.userManager:\nUserManager" as UserManager
+
+
+ch ->  EventManager: selectEvent(CatEvent event)
+activate EventManager
+	EventManager -> UserManager: getCurrentUser()
+	activate UserManager
+    	UserManager --> EventManager: user
+	deactivate UserManager
+
+    alt !user.isChef()
+ 	    ch <--x EventManager: UseCaseLogicException
+    else
+    EventManager -> EventManager : setCurrentEvent(event)
+end
+deactivate EventManager
+
+@enduml
+
+
+
+
