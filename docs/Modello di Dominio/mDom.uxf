@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>121</y>
+      <w>198</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>Menù
+--
+titolo: testo
+pubblicato: sì/no
+layer=-1
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>319</x>
+      <y>0</y>
+      <w>154</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Sezione
+--
+nome: testo
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>550</x>
+      <y>495</y>
+      <w>143</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Ricettario
+--
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>693</x>
+      <y>275</y>
+      <w>143</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Ricetta
+--
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>319</x>
+      <y>275</y>
+      <w>154</w>
+      <h>121</h>
+    </coordinates>
+    <panel_attributes>Voce
+--
+descrizione: testo
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>11</x>
+      <y>495</y>
+      <w>154</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Evento
+--
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>77</x>
+      <y>22</y>
+      <w>264</w>
+      <h>121</h>
+    </coordinates>
+    <panel_attributes>lt=-
+contiene ^
+m2=0..n
+m1=1
+fg=black</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>385</x>
+      <y>88</y>
+      <w>110</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>lt=-
+si trova in ^
+m2=0..1
+m1=0..n
+fg=black</panel_attributes>
+    <additional_attributes>10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>275</y>
+      <w>231</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>lt=-
+appartiene ^
+m2=0..n
+m1=1
+fg=black</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;190.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>77</x>
+      <y>275</y>
+      <w>110</w>
+      <h>242</h>
+    </coordinates>
+    <panel_attributes>lt=-
+in uso in v
+m2=0..n
+m1=0..1
+fg=black</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>462</x>
+      <y>319</y>
+      <w>253</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=-
+fa riferimento a &gt;
+m2=0..n
+m1=1
+fg=black</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>363</x>
+      <y>1408</y>
+      <w>187</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Una ricetta compare in una sola voce all'interno di un dato menù
+style=wordwrap
+fontsize=12
+bg=yellow
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>682</x>
+      <y>484</y>
+      <w>165</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; si trova in
+m2=1
+m1=0..n
+fg=black</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>0</x>
+      <y>187</y>
+      <w>220</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>consigliato cuoco: sì/no
+piatti caldi: sì/no
+richiede cucina: sì/no
+buffet: sì/no
+finger food: sì/no
+style=wordwrap
+layer=-1
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>825</x>
+      <y>495</y>
+      <w>143</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Procedura
+--
+nome: testo
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>968</x>
+      <y>275</y>
+      <w>143</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Preparazione
+--
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>891</x>
+      <y>363</y>
+      <w>176</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;70.0;140.0;70.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>748</x>
+      <y>363</y>
+      <w>176</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>140.0;120.0;140.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>792</x>
+      <y>682</y>
+      <w>198</w>
+      <h>121</h>
+    </coordinates>
+    <panel_attributes>Compito
+--
+quantita: porzioni/peso
+difficolta: numero
+completato: si/no
+assegnato: si/no
+indice: numero
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>957</x>
+      <y>275</y>
+      <w>374</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+ingrediente_in v</panel_attributes>
+    <additional_attributes>140.0;10.0;220.0;10.0;220.0;210.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>583</y>
+      <w>110</w>
+      <h>121</h>
+    </coordinates>
+    <panel_attributes>lt=-
+si trova in ^
+m2=0..1
+m1=0..n
+fg=black</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>341</x>
+      <y>880</y>
+      <w>198</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Cuoco
+--
+nome: testo
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>429</x>
+      <y>726</y>
+      <w>385</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; eseguito da
+m2=1
+m1=0..n
+fg=black</panel_attributes>
+    <additional_attributes>330.0;20.0;10.0;20.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>792</x>
+      <y>880</y>
+      <w>198</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Turno
+--
+data: data
+tipo: (servizio/cucina)
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>792</y>
+      <w>143</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-
+svolto durante v
+m2=1
+m1=0..n
+fg=black</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>869</y>
+      <w>286</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=-
+lavora in &gt;
+m2=0..n
+m1=0..n
+fg=black</panel_attributes>
+    <additional_attributes>10.0;20.0;240.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1111</x>
+      <y>880</y>
+      <w>198</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Tabellone Turni
+--
+data: data
+tipo: (servizio/cucina)
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>979</x>
+      <y>924</y>
+      <w>154</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; prevede
+m2=0..n
+m1=1
+fg=black</panel_attributes>
+    <additional_attributes>120.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>11</x>
+      <y>682</y>
+      <w>143</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Chef
+--
+nome: testo
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>341</x>
+      <y>495</y>
+      <w>187</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Foglio Riepilogativo
+--
+
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>77</x>
+      <y>550</y>
+      <w>132</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>lt=-
+incaricato di ^
+m2=0..n
+m1=1
+fg=black</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>154</x>
+      <y>484</y>
+      <w>209</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=-
+richiede &gt;
+m2=1
+m1=1
+fg=black</panel_attributes>
+    <additional_attributes>170.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>429</x>
+      <y>550</y>
+      <w>385</w>
+      <h>187</h>
+    </coordinates>
+    <panel_attributes>lt=-
+contiene &gt;
+{ordered}
+m2=1
+m1=0..n
+</panel_attributes>
+    <additional_attributes>330.0;130.0;10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

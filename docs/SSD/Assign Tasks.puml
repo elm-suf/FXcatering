@@ -10,10 +10,10 @@ ch <-- sy : FoglioRiepilogativo
 opt
     loop
         alt 2 : aggiungi procedura
-            ch -> sy : aggiungiProcedura(ProceduraDiCucina)
+            ch -> sy : aggiungiCompito(ProceduraDiCucina)
             ch <-- sy : OK
         else 2a: rimuovi procedura
-            ch -> sy : rimmuoviProcedura(ProceduraDiCucina)
+            ch -> sy : rimmuoviCompito(ProceduraDiCucina)
             ch <-- sy : OK
         end
     end
@@ -28,19 +28,19 @@ opt
             ch <-- sy : TabelloneDeiTurni
         end
         alt 5: assegnare compiti
-            ch -> sy : creaAssegnazione(ProceduraDiCucina, Turno, Cuoco?, Quantita?, StimaTempo?)
+            ch -> sy : creaCompito(ProceduraDiCucina, Turno, Cuoco?, Quantita?, StimaTempo?, difficolta?)
             ch <-- sy : Foglio aggiornato
-            else 5a: modifica assegnazione
-            ch -> sy : modificaAssegnazione(oldAssegnazione, newAssegnazione)
+            else 5a: modifica compito
+            ch -> sy : modificaCompito(oldCompito, newCompito)
             ch <-- sy : Foglio aggiornato
             else eccezione 5a
-            ch -> sy : modificaAssegnazione(oldAssegnazione, newAssegnazione)
+            ch -> sy : modificaCompito(oldCompito, newCompito)
             ch <--X sy : cuoco non disponibile in turno
             else eccezione 5b
-            ch -> sy : modificaAssegnazione(oldAssegnazione, newAssegnazione)
-            ch <--X sy : tempo assegnazione eccede tempo diponibile
-            else 5b: elimina assegnazione
-            ch -> sy : eliminaAssegnazione(assegnazione)
+            ch -> sy : modificaCompito(oldCompito, newCompito)
+            ch <--X sy : tempo compito eccede tempo diponibile
+            else 5b: elimina compito
+            ch -> sy : eliminaCompito(compito)
             ch <-- sy : Foglio aggiornato
         end
 
