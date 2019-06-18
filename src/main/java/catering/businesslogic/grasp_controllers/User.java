@@ -4,13 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class User {
+    private String name;
+    private Set<Role> roles;
     public User(String name) {
         this.name = name;
         this.roles = new HashSet<>();
     }
-
-    private String name;
-    private Set<Role> roles;
 
     public boolean isCook() {
         return this.roles.contains(Role.Cuoco);

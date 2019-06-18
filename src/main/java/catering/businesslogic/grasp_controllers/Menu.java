@@ -154,10 +154,10 @@ public class Menu implements Cloneable {
         copia.setFingerFood(this.fingerFood);
         copia.setCookRequired(this.cookRequired);
         copia.setBuffet(this.buffet);
-        for (Section s: this.sections) {
+        for (Section s : this.sections) {
             copia.sections.add(s.clone());
         }
-        for (MenuItem it: this.itemsWithoutSection) {
+        for (MenuItem it : this.itemsWithoutSection) {
             copia.itemsWithoutSection.add(it.clone());
         }
         return copia;
@@ -196,7 +196,7 @@ public class Menu implements Cloneable {
     }
 
     public Section getSection(MenuItem it) {
-        for (Section section: sections) {
+        for (Section section : sections) {
             if (section.hasItem(it)) return section;
         }
         return null;
@@ -204,7 +204,7 @@ public class Menu implements Cloneable {
 
     public void changeSection(MenuItem it, Section newSec) {
         itemsWithoutSection.remove(it);
-        for (Section sec: sections) {
+        for (Section sec : sections) {
             if (sec.hasItem(it)) {
                 sec.removeItem(it);
                 break;
