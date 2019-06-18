@@ -7,9 +7,9 @@ import java.util.*;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";
+    private String password = "root";
     private String serverName = "localhost";
-    private String portNumber = "8889";
+    private String portNumber = "3306";
 
 
     private Connection connection;
