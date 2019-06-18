@@ -1,4 +1,4 @@
-package catering.businesslogic;
+package catering.businesslogic.grasp_controllers;
 
 public class MenuItem implements Cloneable {
     private Recipe recipe;

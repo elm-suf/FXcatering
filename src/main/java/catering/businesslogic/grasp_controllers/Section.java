@@ -1,4 +1,4 @@
-package catering.businesslogic;
+package catering.businesslogic.grasp_controllers;
 
 import java.util.ArrayList;
 import java.util.List;

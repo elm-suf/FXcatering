@@ -1,4 +1,4 @@
-package catering.businesslogic;
+package catering.businesslogic.grasp_controllers;
 
 // questa classe è solo uno scheletro
 // sono implementate solo le caratteristiche richieste da "Gestire menu"
@@ -10,7 +10,8 @@ public class Recipe {
         return name;
     }
 
-    public  enum Type {Preparation, Dish};
+    public enum Type {Preparation, Dish}
+
     private String name;
     private Type type;
 

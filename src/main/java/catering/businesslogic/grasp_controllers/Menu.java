@@ -1,4 +1,4 @@
-package catering.businesslogic;
+package catering.businesslogic.grasp_controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +203,7 @@ public class Menu implements Cloneable {
     }
 
     public void changeSection(MenuItem it, Section newSec) {
-        if (itemsWithoutSection.contains(it)) itemsWithoutSection.remove(it);
+        itemsWithoutSection.remove(it);
         for (Section sec: sections) {
             if (sec.hasItem(it)) {
                 sec.removeItem(it);
@@ -224,7 +224,7 @@ public class Menu implements Cloneable {
     }
 
     public void removeItem(MenuItem it) {
-        if (itemsWithoutSection.contains(it)) itemsWithoutSection.remove(it);
+        itemsWithoutSection.remove(it);
         Section s = this.getSection(it);
         if (s != null) s.removeItem(it);
     }
