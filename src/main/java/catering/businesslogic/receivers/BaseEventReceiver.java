@@ -1,4 +1,8 @@
-package catering.businesslogic;
+package catering.businesslogic.receivers;
+
+import catering.businesslogic.grasp_controllers.Menu;
+import catering.businesslogic.grasp_controllers.MenuItem;
+import catering.businesslogic.grasp_controllers.Section;
 
 public class BaseEventReceiver implements MenuEventReceiver {
     @Override
