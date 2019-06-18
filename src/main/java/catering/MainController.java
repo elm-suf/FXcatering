@@ -1,6 +1,6 @@
 package catering;
 
-import catering.businesslogic.CateringAppManager;
+import catering.businesslogic.managers.CateringAppManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

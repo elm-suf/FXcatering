@@ -104,4 +104,9 @@ public class EventManager {
         this.receivers.add(rec);
     }
 
+    public List<CatEvent> getAllEvents(User currentUser) {
+        return CateringAppManager.dataManager.loadEvents(currentUser.getName());
+    }
+
+
 }

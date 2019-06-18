@@ -1,15 +1,16 @@
 package catering;
 
-import catering.businesslogic.*;
-import catering.businesslogic.Menu;
-import catering.businesslogic.MenuItem;
+import catering.businesslogic.grasp_controllers.Menu;
+import catering.businesslogic.grasp_controllers.MenuItem;
+import catering.businesslogic.grasp_controllers.Recipe;
+import catering.businesslogic.grasp_controllers.Section;
+import catering.businesslogic.managers.CateringAppManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;

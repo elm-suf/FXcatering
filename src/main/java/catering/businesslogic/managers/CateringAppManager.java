@@ -8,7 +8,7 @@ public class CateringAppManager {
     private static CateringAppManager singleInstance;
     public static UserManager userManager;
     public static MenuManager menuManager;
-//    public static RecipeManager recipeManager;
+    public static RecipeManager recipeManager;
     public static EventManager eventManager;
 //    public static ShiftManager shiftManager;
 
@@ -26,7 +26,7 @@ public class CateringAppManager {
         CateringAppManager.userManager = new UserManager();
         CateringAppManager.eventManager = new EventManager();
         CateringAppManager.menuManager = new MenuManager();
-//        CateringAppManager.recipeManager = new RecipeManager();
+        CateringAppManager.recipeManager = new RecipeManager();
         // Inizializza i GRASP controller e i servizi da utilizzare
 
         try {

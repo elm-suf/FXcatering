@@ -1,6 +1,9 @@
 package catering.persistence;
 
-import catering.businesslogic.*;
+import catering.businesslogic.grasp_controllers.*;
+import catering.businesslogic.managers.CateringAppManager;
+import catering.businesslogic.receivers.CatEventReceiver;
+import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
 import java.util.*;
@@ -99,7 +102,7 @@ public class DataManager {
                 }
 
                 List<MenuItem> menuItems = m.getItemsWithoutSection();
-                for (int z=0; z < menuItems.size(); z++) {
+                for (int z = 0; z < menuItems.size(); z++) {
                     MenuItem it = menuItems.get(z);
                     int iid = writeNewItem(mid, 0, z, it);
                     itemObjects.put(it, iid);
@@ -211,6 +214,34 @@ public class DataManager {
             @Override
             public void notifyMenuTitleChanged(Menu m) {
                 writeMenuChanges(m);
+            }
+        });
+
+        //todo implement receivers
+        CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
+            @Override
+            public void notifyTaskAdded(Task task) {
+
+            }
+
+            @Override
+            public void notifyTaskRemoved(Task task) {
+
+            }
+
+            @Override
+            public void notifyTaskSorted(Task task) {
+
+            }
+
+            @Override
+            public void notifyTaskAssigned(Task task, User cook) {
+
+            }
+
+            @Override
+            public void notifyTaskAssignmentDeleted(Task task, User cook) {
+
             }
         });
     }
@@ -797,5 +828,40 @@ public class DataManager {
                 u.addRole(User.Role.Servizio);
                 break;
         }
+    }
+
+    public List<CatEvent> loadEvents(String chefName) {
+        String SQL = "SELECT ev.id, ev.nome, ev.menu\n" +
+                "FROM event_chef ec,\n" +
+                "     events ev,\n" +
+                "     users\n" +
+                "WHERE users.name = ?\n" +
+                "    AND users.id = ec.chef\n" +
+                "    AND ec.event = ev.id;";
+
+        PreparedStatement st = null;
+        List<CatEvent> allEvents = new ArrayList<>();
+
+        try {
+            st = this.connection.prepareStatement(SQL);
+            st.setString(1, chefName);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                int menu = rs.getInt("menu");
+                allEvents.add(new CatEvent(id, nome, menu));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return allEvents;
     }
 }

@@ -1,7 +1,7 @@
 package catering;
 
-import catering.businesslogic.CateringAppManager;
-import catering.businesslogic.Menu;
+import catering.businesslogic.grasp_controllers.Menu;
+import catering.businesslogic.managers.CateringAppManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

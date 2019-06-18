@@ -11,6 +11,10 @@ public class User {
         this.roles = new HashSet<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean isCook() {
         return this.roles.contains(Role.Cuoco);
     }
