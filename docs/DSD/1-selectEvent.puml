@@ -21,7 +21,6 @@ activate EventManager
     EventManager -> EventManager : setCurrentEvent(event)
 end
 deactivate EventManager
-
 @enduml
 
 

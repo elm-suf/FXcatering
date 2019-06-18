@@ -1,0 +1,18 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam SequenceMessageAlign center
+
+title get shifts
+Actor Chef as ch
+participant "AppM.eventManager:\nEventManager" as EventManager
+participant "AppM.shiftManager:\n ShiftManager" as ShiftManager
+
+    ch ->  EventManager: getShiftTable()
+activate EventManager
+activate ShiftManager
+    EventManager ->  ShiftManager: getShifts()
+    ShiftManager -->  EventManager: shifts
+    EventManager -->  ch: shifts
+deactivate EventManager
+deactivate ShiftManager
+@enduml

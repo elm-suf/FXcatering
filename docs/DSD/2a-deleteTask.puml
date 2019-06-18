@@ -1,0 +1,37 @@
+@startuml
+skinparam defaultTextAlignment center
+skinparam SequenceMessageAlign center
+
+title delete Task
+Actor Chef as ch
+participant "AppM.eventManager:\nEventManager" as EventManager
+participant "AppM.userManager:\nUserManager" as UserManager
+
+
+ch ->  EventManager: deleteTask(Task task)
+activate EventManager
+  EventManager -> UserManager: getCurrentUser()
+  activate UserManager
+      UserManager --> EventManager: user
+  deactivate UserManager
+
+   alt !user.isChef()
+          ch <--x EventManager: UseCaseLogicException
+       else
+           participant "AppM.eventManager.\ncurrentEvent.tasks:\n List<Task>" as CurrentEvent
+           EventManager -> CurrentEvent : remove(task)
+           activate CurrentEvent
+           deactivate CurrentEvent
+
+           participant "task: Task" as task
+           EventManager ->X task : destroy
+
+       loop for r in receivers
+           participant "receiver:\n CATEventReceiver" as r
+          EventManager -> r : notifyTaskRemoved(task)
+          activate r
+          deactivate r
+       end
+   end
+deactivate EventManager
+@enduml
