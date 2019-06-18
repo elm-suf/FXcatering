@@ -1,6 +1,6 @@
-package catering.businesslogic;
+package catering.businesslogic.managers;
 
-import catering.persistence.DataManager;
+import catering.businesslogic.grasp_controllers.User;
 
 public class UserManager {
 

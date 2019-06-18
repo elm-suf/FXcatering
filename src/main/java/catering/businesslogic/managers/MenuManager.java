@@ -1,4 +1,10 @@
-package catering.businesslogic;
+package catering.businesslogic.managers;
+
+import catering.businesslogic.exceptions.MenuException;
+import catering.businesslogic.exceptions.UseCaseLogicException;
+import catering.businesslogic.grasp_controllers.*;
+import catering.businesslogic.receivers.BaseEventReceiver;
+import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +28,13 @@ public class MenuManager {
                 allMenus.remove(m);
             }
         });
-    };
+    }
 
     // Nota: nell'inizializzazione non carichiamo l'elenco di ricette
     // perché lo faremo "onDemand", ossia se viene richiesto da qualche altro oggetto
     // L'idea è evitare di caricare tutto se non serve.
-    public void initialize() {};
+    public void initialize() {
+    }
 
     // Questo metodo non è stato descritto nel Class Diagram perché
     // l'UC che abbiamo analizzato partiva dal presupposto che l'utente

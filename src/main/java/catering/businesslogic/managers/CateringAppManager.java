@@ -1,4 +1,4 @@
-package catering.businesslogic;
+package catering.businesslogic.managers;
 
 import catering.persistence.DataManager;
 
@@ -10,7 +10,7 @@ public class CateringAppManager {
     public static MenuManager menuManager;
 //    public static RecipeManager recipeManager;
     public static EventManager eventManager;
-    public static ShiftManager shiftManager;
+//    public static ShiftManager shiftManager;
 
     // il data manager non è presente nel DSD perché non fa parte della business logic
     public static DataManager dataManager;
