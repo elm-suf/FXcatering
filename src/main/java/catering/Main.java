@@ -22,7 +22,6 @@ public class Main extends Application {
         Parent main = mainLoader.load();
         Scene mainScene = new Scene(main);
 
-        MainController mainController = mainLoader.getController();
 
         primaryStage.setScene(mainScene);
         primaryStage.setWidth(800);
