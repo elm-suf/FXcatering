@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #000000;"
+            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="catering.EventEditController">
+    <children>
+        <JFXListView fx:id="tasks_listview" layoutX="300.0" layoutY="38.0" AnchorPane.bottomAnchor="84.0"
+                     AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0"/>
+        <HBox alignment="CENTER" layoutX="300.0" layoutY="486.0" prefHeight="64.0" spacing="92.0"
+              style="-fx-background-color: fff;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="16.0"
+              AnchorPane.rightAnchor="16.0">
+            <children>
+                <JFXButton fx:id="add_task_btn" buttonType="RAISED" text="Aggiungi Compito"/>
+                <JFXButton fx:id="delete_task_btn" text="Elimina Compito"/>
+                <JFXButton fx:id="assign_task_btn" buttonType="RAISED" text="Assegna Compito"/>
+                <JFXButton fx:id="delete_assignment_btn" buttonType="RAISED" text="Rimuovi Assegnamento"/>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

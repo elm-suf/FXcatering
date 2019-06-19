@@ -9,6 +9,7 @@ import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.receivers.CatEventReceiver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EventManager {
@@ -109,4 +110,18 @@ public class EventManager {
     }
 
 
+    public List<Task> getAllTasks() {
+//                currentEvent
+        CateringAppManager.dataManager.loadMenus()
+        Recipe rec = new Recipe("rec", Recipe.Type.Dish);
+        Recipe rec1 = new Recipe("rec1", Recipe.Type.Dish);
+        Recipe rec2 = new Recipe("rec2", Recipe.Type.Dish);
+
+
+        return new ArrayList<>(Arrays.asList(
+                new Task(rec, null, null, false, false),
+                new Task(rec1, null, null, false, false),
+                new Task(rec2, null, null, false, true)
+        ));
+    }
 }
