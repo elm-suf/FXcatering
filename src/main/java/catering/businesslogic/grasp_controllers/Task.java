@@ -11,6 +11,30 @@ public class Task {
     private int durationMinutes;
     private int index;
 
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public Shift getShift() {
+        return shift;
+    }
+
+    public void setShift(Shift shift) {
+        this.shift = shift;
+    }
+
+    public User getCook() {
+        return cook;
+    }
+
+    public void setCook(User cook) {
+        this.cook = cook;
+    }
+
     public Task(Recipe recipe, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
         this.recipe = recipe;
         this.shift = shift;
