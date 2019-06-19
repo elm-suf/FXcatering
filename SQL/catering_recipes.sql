@@ -1,0 +1,17 @@
+INSERT INTO catering.recipes (id, name, type) VALUES (1, 'Salsa Tonnata', 'p');
+INSERT INTO catering.recipes (id, name, type) VALUES (2, 'Vitello Tonnato', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (3, 'Vitello Tonnato all''Antica', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (4, 'Brodo di Manzo Ristretto', 'p');
+INSERT INTO catering.recipes (id, name, type) VALUES (5, 'Risotto alla Milanese', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (6, 'Pesto Ligure', 'p');
+INSERT INTO catering.recipes (id, name, type) VALUES (7, 'Trofie avvantaggiate al pesto', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (8, 'Orata al forno con olive', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (9, 'Insalata russa', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (10, 'Bagnet vert', 'p');
+INSERT INTO catering.recipes (id, name, type) VALUES (11, 'Acciughe al verde', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (12, 'Agnolotti del plin', 'p');
+INSERT INTO catering.recipes (id, name, type) VALUES (13, 'Agnolotti al sugo d''arrosto', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (14, 'Agnolotti burro e salvia', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (15, 'Brasato al barolo', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (16, 'Panna cotta', 'r');
+INSERT INTO catering.recipes (id, name, type) VALUES (17, 'Tarte tatin', 'r');

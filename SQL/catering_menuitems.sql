@@ -1,0 +1,13 @@
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (1, 3, 1, 'Voce 1', 1, 0);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (2, 3, 1, 'Voce 2', 1, 1);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (3, 3, 2, 'Voce 3', 1, 0);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (4, 3, 2, 'Voce 4', 1, 2);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (5, 3, 0, 'Voce 0', 1, 0);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (6, 3, 1, 'Voce 1.5', 1, 2);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (7, 3, 2, 'Voce 3.5', 1, 1);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (8, 3, 0, 'Voce 0.2', 1, 1);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (9, 3, 0, 'Voce 0.8', 1, 2);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (10, 3, 3, 'Voce 5', 1, 0);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (11, 3, 3, 'Voce 6', 1, 1);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (12, 3, 3, 'Voce 7', 1, 2);
+INSERT INTO catering.menuitems (id, menu, section, description, recipe, position) VALUES (26, 4, 10, 'dr', 8, 0);
