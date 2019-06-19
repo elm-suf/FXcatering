@@ -1,39 +1,56 @@
 package catering;
 
-import catering.businesslogic.grasp_controllers.Task;
-import catering.businesslogic.managers.CateringAppManager;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 
-import java.util.List;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class EventEditController {
 
-    ObservableList<Task> observableTasks;
-    List<Task> tasks;
     @FXML
-    private JFXListView<Task> tasks_listview;
-    @FXML
-    private JFXButton add_task_btn;
-    @FXML
-    private JFXButton delete_task_btn;
-    @FXML
-    private JFXButton assign_task_btn;
-    @FXML
-    private JFXButton delete_assignment_btn;
+    private ResourceBundle resources;
 
     @FXML
-    public void initialize() {
-        this.initList();
+    private URL location;
+
+    @FXML
+    private AnchorPane root_pane;
+
+    @FXML
+    private TableView<?> task_list;
+
+    @FXML
+    private TableColumn<?, ?> task_index;
+
+    @FXML
+    private TableColumn<?, ?> task_recipe;
+
+    @FXML
+    private TableColumn<?, ?> task_is_assigned;
+
+    @FXML
+    private TableColumn<?, ?> task_is_completed;
+
+    @FXML
+    private AnchorPane detail_task;
+
+    @FXML
+    private Button cestino;
+
+    @FXML
+    private Button event_edit_back_btn;
+
+    @FXML
+    void deleteMail(ActionEvent event) {
+
     }
 
-    private void initList() {
-        tasks = CateringAppManager.eventManager.getAllTasks();
-        observableTasks = FXCollections.observableList(tasks);
-        tasks_listview.setItems(observableTasks);
+    @FXML
+    void initialize() {
     }
-
 }

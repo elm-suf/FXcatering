@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" style="-fx-background-color: #2D3447;"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="catering.EventEditController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0"
+            style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="catering.EventEditController">
     <children>
         <SplitPane dividerPositions="0.6124818577648766" layoutX="102.0" layoutY="56.0" minWidth="-Infinity"
                    prefHeight="344.0" prefWidth="648.0" style="-fx-background-color: white;"
                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="56.0">
             <items>
-                <AnchorPane prefHeight="342.0" prefWidth="354.0">
+                <AnchorPane prefHeight="342.0" prefWidth="354.0" fx:id="root_pane">
                     <children>
-                        <TableView fx:id="tableView" layoutX="-3.0" prefHeight="342.0" prefWidth="340.0"
+                        <TableView fx:id="task_list" layoutX="-3.0" prefHeight="342.0" prefWidth="340.0"
                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
@@ -31,15 +32,16 @@
                         </TableView>
                     </children>
                 </AnchorPane>
-                <AnchorPane prefHeight="342.0" prefWidth="289.0" style="-fx-background-color: #e7e7e7;"/>
+                <AnchorPane fx:id="detail_task" prefHeight="342.0" prefWidth="289.0"
+                            style="-fx-background-color: #e7e7e7;"/>
             </items>
         </SplitPane>
-        <Button fx:id="cestino" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteMail"
-                prefHeight="30.0" prefWidth="34.0" style="-fx-background-color: white;" AnchorPane.rightAnchor="14.0">
+        <Button fx:id="cestino" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="34.0" style="-fx-background-color: white;" AnchorPane.rightAnchor="14.0">
             <graphic>
                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../images/cestino.png"/>
+
                     </image>
                 </ImageView>
             </graphic>
