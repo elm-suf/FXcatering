@@ -4,8 +4,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" maxHeight="-Infinity" maxWidth="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="edit_root_pane"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+            AnchorPane.topAnchor="0.0"
+            maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0"
             style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="catering.EventEditController">
@@ -15,7 +17,7 @@
                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="56.0">
             <items>
-                <AnchorPane prefHeight="342.0" prefWidth="354.0" fx:id="root_pane">
+                <AnchorPane prefHeight="342.0" prefWidth="354.0" fx:id="all_tasks_pane">
                     <children>
                         <TableView fx:id="task_list" layoutX="-3.0" prefHeight="342.0" prefWidth="340.0"
                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"

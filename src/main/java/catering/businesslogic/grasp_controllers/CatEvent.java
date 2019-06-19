@@ -26,6 +26,7 @@ public class CatEvent {
         this.name = name;
         this.menuId = menuId;
         this.chef = chef;
+
     }
 
     public User getChef() {

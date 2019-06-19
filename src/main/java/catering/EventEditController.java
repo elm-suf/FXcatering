@@ -1,40 +1,31 @@
 package catering;
 
-import javafx.event.ActionEvent;
+import catering.businesslogic.grasp_controllers.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
 public class EventEditController {
 
-    @FXML
-    private ResourceBundle resources;
 
+    AnchorPane newAnchorPane;
     @FXML
-    private URL location;
-
+    private AnchorPane edit_root_pane;
     @FXML
-    private AnchorPane root_pane;
-
+    private AnchorPane all_tasks_pane;
     @FXML
-    private TableView<?> task_list;
-
+    private TableView<Task> task_list;
     @FXML
-    private TableColumn<?, ?> task_index;
-
+    private TableColumn<Task, Integer> task_index;
     @FXML
-    private TableColumn<?, ?> task_recipe;
-
+    private TableColumn<Task, String> task_recipe;
     @FXML
-    private TableColumn<?, ?> task_is_assigned;
-
-    @FXML
-    private TableColumn<?, ?> task_is_completed;
+    private TableColumn<Task, Boolean> task_is_assigned;
 
     @FXML
     private AnchorPane detail_task;
@@ -44,13 +35,21 @@ public class EventEditController {
 
     @FXML
     private Button event_edit_back_btn;
-
     @FXML
-    void deleteMail(ActionEvent event) {
-
-    }
+    private TableColumn<Task, Boolean> task_is_completed;
 
     @FXML
     void initialize() {
+        event_edit_back_btn.setOnMouseClicked(e -> goBack());
+    }
+
+    private void goBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("assign_tasks_main.fxml"));
+            newAnchorPane = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        edit_root_pane.getChildren().setAll(newAnchorPane);
     }
 }
