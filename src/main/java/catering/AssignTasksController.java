@@ -1,5 +1,6 @@
 package catering;
 
+import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.grasp_controllers.CatEvent;
 import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.managers.CateringAppManager;
@@ -43,13 +44,6 @@ public class AssignTasksController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("event_edit.fxml"));
-            editEvent = loader.load();
-            eventEditController = loader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
         this.currentUser = CateringAppManager.userManager.getCurrentUser();
@@ -65,6 +59,18 @@ public class AssignTasksController implements Initializable {
         });
         assign_btn.setOnMouseClicked((ev) -> {
             System.out.println(selectedEvent);
+            try {
+                CateringAppManager.eventManager.selectEvent(selectedEvent);
+            } catch (AssignTaskException e) {
+                e.printStackTrace();
+            }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("event_edit.fxml"));
+                editEvent = loader.load();
+                eventEditController = loader.getController();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             root_pane.getChildren().setAll(editEvent);
         });
     }

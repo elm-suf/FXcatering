@@ -21,6 +21,13 @@ public class CatEvent {
         this.menuId = menuId;
     }
 
+    public CatEvent(int id, String name, int menuId, User chef) {
+        this.id = id;
+        this.name = name;
+        this.menuId = menuId;
+        this.chef = chef;
+    }
+
     public User getChef() {
         return chef;
     }
@@ -62,5 +69,9 @@ public class CatEvent {
 
     public void deleteTask(Task task) {
         this.tasks.remove(task);
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

@@ -27,9 +27,7 @@ public class EventEditController {
 
     @FXML
     public void initialize() {
-
         this.initList();
-
     }
 
     private void initList() {

@@ -830,7 +830,7 @@ public class DataManager {
         }
     }
 
-    public List<CatEvent> loadEvents(String chefName) {
+    public List<CatEvent> loadEvents(User chef) {
         String SQL = "SELECT ev.id, ev.nome, ev.menu\n" +
                 "FROM event_chef ec,\n" +
                 "     events ev,\n" +
@@ -844,14 +844,14 @@ public class DataManager {
 
         try {
             st = this.connection.prepareStatement(SQL);
-            st.setString(1, chefName);
+            st.setString(1, chef.getName());
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nome = rs.getString("nome");
                 int menu = rs.getInt("menu");
-                allEvents.add(new CatEvent(id, nome, menu));
+                allEvents.add(new CatEvent(id, nome, menu, chef));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -865,7 +865,60 @@ public class DataManager {
         return allEvents;
     }
 
-    public List<Task> loadTasks(int menuId) {
-//todo
+    public List<Task> loadTasks(int evntId) {
+        List<Task> ret = new ArrayList<>();
+        PreparedStatement st = null;
+
+
+        String SQL = "select t.id task_id, t.recipe recipe_id, r.name recipe_name, r.type recipe_type, t.user cook, is_assigned, is_completed,t.difficulty, t.quantity, t.`index` position\n" +
+                "from task t join recipes r  on t.recipe=r.id\n" +
+                "WHERE event = ?";
+        try {
+            st = this.connection.prepareStatement(SQL);
+            st.setInt(1, evntId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int taskId = rs.getInt("task_id");
+                int recipeId = rs.getInt("recipe_id");
+                String recipeName = rs.getString("recipe_name");
+                int cookId = rs.getInt("cook");
+                boolean isAssigned = rs.getBoolean("is_assigned");
+                boolean isCompleted = rs.getBoolean("is_completed");
+                int difficulty = rs.getInt("difficulty");
+                int quantity = rs.getInt("quantity");
+                int index = rs.getInt("position");
+
+                String recipeType = rs.getString("recipe_type");
+
+                Recipe recipe;
+                if (Recipe.Type.Dish.toString().equals(recipeType)) {
+                    recipe = new Recipe(recipeName, Recipe.Type.Dish);
+                } else {
+                    recipe = new Recipe(recipeName, Recipe.Type.Preparation);
+                }
+
+                Task task = new Task(recipe,
+                        null,
+                        new User(String.valueOf(cookId)),
+                        quantity,
+                        difficulty,
+                        isCompleted,
+                        isAssigned,
+                        -1,
+                        index);
+
+                ret.add(task);
+
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return ret;
     }
 }

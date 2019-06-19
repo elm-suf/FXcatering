@@ -1,7 +1,7 @@
 package catering.businesslogic.grasp_controllers;
 
 public class Task {
-    private MenuItem menuItem;
+    private Recipe recipe;
     private Shift shift;
     private User cook;
     private int quantity;
@@ -11,8 +11,8 @@ public class Task {
     private int durationMinutes;
     private int index;
 
-    public Task(MenuItem menuItem, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
-        this.menuItem = menuItem;
+    public Task(Recipe recipe, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
+        this.recipe = recipe;
         this.shift = shift;
         this.cook = cook;
         this.quantity = quantity;
@@ -23,7 +23,7 @@ public class Task {
         this.index = index;
     }
 
-    public Task(MenuItem menuItem, User cook, Shift shift, boolean isCompleted, boolean isAssigned) {
+    public Task(Recipe recipe, User cook, Shift shift, boolean isCompleted, boolean isAssigned) {
         this.isCompleted = isCompleted;
         this.isAssigned = isAssigned;
     }
@@ -77,4 +77,16 @@ public class Task {
     }
 
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "recipe=" + recipe.getName() +
+                ", shift=" + shift +
+                ", cook=" + cook.getName() +
+                ", isCompleted=" + isCompleted +
+                ", isAssigned=" + isAssigned +
+                ", durationMinutes=" + durationMinutes +
+                ", index=" + index +
+                '}';
+    }
 }

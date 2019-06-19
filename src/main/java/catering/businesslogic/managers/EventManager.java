@@ -9,7 +9,6 @@ import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.receivers.CatEventReceiver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class EventManager {
@@ -55,6 +54,9 @@ public class EventManager {
         User currentUser = checkIfChef();
         if (!event.getChef().equals(currentUser))
             throw new AssignTaskException("Solo lo chef incaricato dell'evento puo assegnare cose");
+
+        System.out.println("check: " + event.getChef() + " current : " + currentUser);
+        System.out.println("ccc " + event.getChef().equals(currentUser));
         currentEvent = event;
         //todo forse dobbiamo tornare qualcosa dopo eventuale Notify
     }
@@ -106,22 +108,26 @@ public class EventManager {
     }
 
     public List<CatEvent> getAllEvents(User currentUser) {
-        return CateringAppManager.dataManager.loadEvents(currentUser.getName());
+        return CateringAppManager.dataManager.loadEvents(currentUser);
     }
 
 
     public List<Task> getAllTasks() {
 //                currentEvent
-        CateringAppManager.dataManager.loadMenus()
-        Recipe rec = new Recipe("rec", Recipe.Type.Dish);
-        Recipe rec1 = new Recipe("rec1", Recipe.Type.Dish);
-        Recipe rec2 = new Recipe("rec2", Recipe.Type.Dish);
-
-
-        return new ArrayList<>(Arrays.asList(
-                new Task(rec, null, null, false, false),
-                new Task(rec1, null, null, false, false),
-                new Task(rec2, null, null, false, true)
-        ));
+        List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent.getId());
+        return tasks;
+//        Recipe rec = new Recipe("rec", Recipe.Type.Dish);
+//        Recipe rec1 = new Recipe("rec1", Recipe.Type.Dish);
+//        Recipe rec2 = new Recipe("rec2", Recipe.Type.Dish);
+//
+//        MenuItem m1 = new MenuItem(rec, "Questo e' un menuItem isDisdh=" + rec.isDish());
+//        MenuItem m2 = new MenuItem(rec1, "Questo e' un menuItem isDisdh=" + rec.isDish());
+//        MenuItem m3 = new MenuItem(rec2, "Questo e' un menuItem isDisdh=" + rec.isDish());
+//
+//        return new ArrayList<>(Arrays.asList(
+//                new Task(rec, null, null, false, false),
+//                new Task(rec1, null, null, false, false),
+//                new Task(rec2, null, null, false, true)
+//        ));
     }
 }
