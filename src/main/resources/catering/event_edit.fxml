@@ -1,39 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: abc;"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" style="-fx-background-color: #2D3447;"
             xmlns="http://javafx.com/javafx/11.0.1" fx:controller="catering.EventEditController">
     <children>
-        <AnchorPane prefHeight="508.0" prefWidth="800.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <JFXListView fx:id="tasks_listview" prefHeight="508.0" prefWidth="800.0"
-                             style="-fx-background-color: dca;" AnchorPane.bottomAnchor="0.0"
-                             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-            </children>
-        </AnchorPane>
-        <AnchorPane layoutY="536.0" maxHeight="92.0" prefHeight="92.0" prefWidth="800.0"
-                    style="-fx-background-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0">
-            <children>
-                <HBox alignment="CENTER" prefHeight="64.0" spacing="92.0" style="-fx-background-color: fff;"
-                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                      AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.6124818577648766" layoutX="102.0" layoutY="56.0" minWidth="-Infinity"
+                   prefHeight="344.0" prefWidth="648.0" style="-fx-background-color: white;"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="56.0">
+            <items>
+                <AnchorPane prefHeight="342.0" prefWidth="354.0">
                     <children>
-                        <JFXButton fx:id="add_task_btn" buttonType="RAISED" text="Aggiungi Compito"/>
-                        <JFXButton fx:id="delete_task_btn" text="Elimina Compito"/>
-                        <JFXButton fx:id="assign_task_btn" buttonType="RAISED" text="Assegna Compito"/>
-                        <JFXButton fx:id="delete_assignment_btn" buttonType="RAISED" prefWidth="129.0"
-                                   text="Rimuovi Assegnamento"/>
+                        <TableView fx:id="tableView" layoutX="-3.0" prefHeight="342.0" prefWidth="340.0"
+                                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TableColumn fx:id="task_index" prefWidth="148.0" text="Indice"/>
+                                <TableColumn fx:id="task_recipe" prefWidth="116.0" text="Ricetta"/>
+                                <TableColumn fx:id="task_is_assigned" prefWidth="145.0" text="Assegnato"/>
+                                <TableColumn fx:id="task_is_completed" prefWidth="145.0" text="Completato"/>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
                     </children>
-                </HBox>
-            </children>
-            <padding>
-                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
-            </padding>
-        </AnchorPane>
+                </AnchorPane>
+                <AnchorPane prefHeight="342.0" prefWidth="289.0" style="-fx-background-color: #e7e7e7;"/>
+            </items>
+        </SplitPane>
+        <Button fx:id="cestino" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteMail"
+                prefHeight="30.0" prefWidth="34.0" style="-fx-background-color: white;" AnchorPane.rightAnchor="14.0">
+            <graphic>
+                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../images/cestino.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="event_edit_back_btn" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="79.0" style="-fx-background-color: #151928;" text="Indietro" textFill="WHITE">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Button>
     </children>
 </AnchorPane>
