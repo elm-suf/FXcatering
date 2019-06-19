@@ -4,14 +4,14 @@ import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.grasp_controllers.CatEvent;
 import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.managers.CateringAppManager;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.AnchorPane;
 
@@ -30,10 +30,10 @@ public class AssignTasksController implements Initializable {
     private AnchorPane root_pane;
 
     @FXML
-    private JFXButton assign_btn;
+    private Button assign_btn;
 
     @FXML
-    private JFXListView<CatEvent> events_listview;
+    private ListView<CatEvent> events_listview;
 
     private AnchorPane editEvent;
     private EventEditController eventEditController;

@@ -2,6 +2,7 @@ package catering;
 
 import catering.businesslogic.grasp_controllers.Task;
 import catering.businesslogic.managers.CateringAppManager;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,8 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @noinspection Duplicates
+ */
 public class EventEditController {
-
 
     AnchorPane newAnchorPane;
     @FXML
@@ -47,12 +50,13 @@ public class EventEditController {
 
     @FXML
     void initialize() {
+        initTaskList();
         event_edit_back_btn.setOnMouseClicked(e -> goBack());
-        task_is_assigned.setCellValueFactory(new PropertyValueFactory<>("isAssigned"));
-        task_is_completed.setCellValueFactory(new PropertyValueFactory<>("isCompleted"));
+        task_recipe.setCellValueFactory(new PropertyValueFactory<>("recipe"));
+        task_is_assigned.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isAssigned()));
+        task_is_completed.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isCompleted()));
         task_index.setCellValueFactory(new PropertyValueFactory<>("index"));
 
-        initTaskList();
         task_list.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedTask = task_list.getSelectionModel().getSelectedItem();
         });

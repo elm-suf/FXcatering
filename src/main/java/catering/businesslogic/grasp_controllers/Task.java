@@ -6,8 +6,8 @@ public class Task {
     private User cook;
     private int quantity;
     private int difficulty;
-    private boolean isCompleted;
-    private boolean isAssigned;
+    private Boolean isCompleted;
+    private Boolean isAssigned;
     private int durationMinutes;
     private int index;
 
@@ -68,7 +68,7 @@ public class Task {
         this.difficulty = difficulty;
     }
 
-    public boolean isCompleted() {
+    public Boolean isCompleted() {
         return isCompleted;
     }
 

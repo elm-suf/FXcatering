@@ -23,6 +23,7 @@ public class Main extends Application {
         Scene mainScene = new Scene(main);
 
 
+        primaryStage.setTitle("Assegna compiti");
         primaryStage.setScene(mainScene);
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
