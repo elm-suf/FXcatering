@@ -1,0 +1,132 @@
+-- we don't know how to generate root <with-no-name> (class Root) :(
+create table events
+(
+	id int auto_increment
+		primary key,
+	menu int null,
+	nome varchar(35) null
+)
+charset=utf8;
+
+create table menus
+(
+	id int auto_increment
+		primary key,
+	title tinytext not null,
+	menuowner int not null,
+	published tinyint(1) null,
+	fingerFood tinyint(1) null,
+	cookRequired tinyint(1) null,
+	hotDishes tinyint(1) null,
+	kitchenRequired tinyint(1) null,
+	buffet tinyint(1) null
+)
+charset=utf8;
+
+create table recipes
+(
+	id int auto_increment,
+	name varchar(128) null,
+	type varchar(1) null,
+	constraint id
+		unique (id)
+)
+charset=utf8;
+
+alter table recipes
+	add primary key (id);
+
+create table roles
+(
+	id varchar(1) not null,
+	role varchar(32) null,
+	constraint id
+		unique (id)
+)
+charset=utf8;
+
+alter table roles
+	add primary key (id);
+
+create table sections
+(
+	menu int not null,
+	id int auto_increment
+		primary key,
+	name tinytext null,
+	position int null,
+	constraint sections_menus_id_fk
+		foreign key (menu) references menus (id)
+)
+charset=utf8;
+
+create table menuitems
+(
+	id int auto_increment
+		primary key,
+	menu int null,
+	section int default 0 null,
+	description tinytext null,
+	recipe int not null,
+	position int null,
+	constraint menuitems_menus_id_fk
+		foreign key (menu) references menus (id),
+	constraint menuitems_recipes_id_fk
+		foreign key (recipe) references recipes (id),
+	constraint menuitems_sections_id_fk
+		foreign key (section) references sections (id)
+)
+charset=utf8;
+
+create index Sections_Menu_id_fk
+	on sections (menu);
+
+create table userroles
+(
+	user int not null,
+	role varchar(1) not null
+)
+charset=utf8;
+
+create table users
+(
+	id int auto_increment,
+	name varchar(128) null,
+	constraint id
+		unique (id)
+)
+charset=utf8;
+
+alter table users
+	add primary key (id);
+
+create table event_chef
+(
+	event int null,
+	chef int null,
+	constraint event_chef_events_id_fk
+		foreign key (event) references events (id),
+	constraint event_chef_users_id_fk
+		foreign key (chef) references users (id)
+);
+
+create table task
+(
+	id int auto_increment
+		primary key,
+	recipe int null,
+	event int null,
+	user int null,
+	is_assigned tinyint(1) null,
+	is_completed tinyint(1) null,
+	`index` int null,
+	quantity int default -1 null,
+	difficulty int default -1 null,
+	constraint task_events_id_fk
+		foreign key (event) references events (id),
+	constraint task_menuitems_id_fk
+		foreign key (recipe) references menuitems (id),
+	constraint task_users_id_fk
+		foreign key (user) references users (id)
+);
+
