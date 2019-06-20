@@ -31,12 +31,12 @@ public class Shift {
         this.type = type;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return date + " - " + type;
-    }
-
-    public int getId() {
-        return id;
     }
 }

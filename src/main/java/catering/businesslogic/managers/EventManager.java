@@ -2,10 +2,7 @@ package catering.businesslogic.managers;
 
 import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.exceptions.UseCaseLogicException;
-import catering.businesslogic.grasp_controllers.CatEvent;
-import catering.businesslogic.grasp_controllers.Recipe;
-import catering.businesslogic.grasp_controllers.Task;
-import catering.businesslogic.grasp_controllers.User;
+import catering.businesslogic.grasp_controllers.*;
 import catering.businesslogic.receivers.CatEventReceiver;
 
 import java.util.ArrayList;
@@ -117,18 +114,9 @@ public class EventManager {
         List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent);
         tasks.forEach(System.out::println);
         return tasks;
-//        Recipe rec = new Recipe("rec", Recipe.Type.Dish);
-//        Recipe rec1 = new Recipe("rec1", Recipe.Type.Dish);
-//        Recipe rec2 = new Recipe("rec2", Recipe.Type.Dish);
-//
-//        MenuItem m1 = new MenuItem(rec, "Questo e' un menuItem isDisdh=" + rec.isDish());
-//        MenuItem m2 = new MenuItem(rec1, "Questo e' un menuItem isDisdh=" + rec.isDish());
-//        MenuItem m3 = new MenuItem(rec2, "Questo e' un menuItem isDisdh=" + rec.isDish());
-//
-//        return new ArrayList<>(Arrays.asList(
-//                new Task(rec, null, null, false, false),
-//                new Task(rec1, null, null, false, false),
-//                new Task(rec2, null, null, false, true)
-//        ));
+    }
+
+    public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+        CateringAppManager.dataManager.assignTask(task, shift, cook, quantity, duration, difficulty);
     }
 }

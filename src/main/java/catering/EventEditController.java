@@ -16,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,6 +46,9 @@ public class EventEditController {
     private Button cestino;
 
     @FXML
+    Button assign_task_btn;
+
+    @FXML
     private Button event_edit_back_btn;
     @FXML
     private TableColumn<Task, Boolean> task_is_completed;
@@ -57,6 +62,7 @@ public class EventEditController {
 
     @FXML
     private ComboBox<Recipe> recipe_combo;
+    private ObservableList<Recipe> recipes;
 
     @FXML
     private ComboBox<Shift> shift_combo;
@@ -70,10 +76,10 @@ public class EventEditController {
     private TextField quantity_txf;
 
     @FXML
-    private ComboBox<?> duration_combo;
+    private TextField duration_txf; //difficulty_combo
 
     @FXML
-    private TextField difficulty_txf;
+    private ComboBox<String> difficulty_combo; //difficulty_combo
 
     @FXML
     private Button position_down_btn;
@@ -81,6 +87,8 @@ public class EventEditController {
     @FXML
     private Button position_up_btn;
 
+    @FXML
+    private Label position_lbl;
 
 
     @FXML
@@ -117,26 +125,54 @@ public class EventEditController {
         if (isNew) {
             recipe_combo.setVisible(true);
             recipe_txf.setVisible(false);
-            difficulty_txf.setText("");
+//            difficulty_combo.setText("");
+            duration_txf.setText("");
             quantity_txf.setText("");
+            loadRecipes();
 
         } else {
             recipe_combo.setVisible(false);
             recipe_txf.setVisible(true);
             System.out.println("Selectd : " + selectedTask);
             recipe_txf.setText(selectedTask.getRecipe().toString());
+            position_lbl.setText("Posizione :" + selectedTask.getIndex());
         }
+
+        difficulty_combo.setItems(FXCollections.observableList(new ArrayList<String>(Arrays.asList(
+                "Facile", "Medio", "Difficile"
+        ))));
 
         shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
         shift_combo.setItems(shifts);
-        users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shifts.get(0)));
-        System.out.println(users);
-        cook_combo.setItems(users);
 
-        //todo load cook in cook_combo
-        //todo load shifts in shift_combo
-        //todo setItems duration_combo
+        shift_combo.setOnAction(e -> {
+            users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shift_combo.getSelectionModel().getSelectedItem()));
+            System.out.println(users);
+            cook_combo.setItems(users);
+        });
+
+
         //todo wire the save button
+        Task task = selectedTask;//recipe_combo.getSelectionModel().getSelectedItem()
+        Shift shift = shift_combo.getSelectionModel().getSelectedItem();
+        User cook = cook_combo.getSelectionModel().getSelectedItem();
+
+        String quantity = quantity_txf.getText();
+        String difficulty = difficulty_combo.getSelectionModel().getSelectedItem();
+        String duration = duration_txf.getText();
+
+        assign_task_btn.setOnMouseClicked(e -> assignTask(task, shift, cook, quantity, duration, difficulty));
+    }
+
+    private void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+        CateringAppManager.eventManager.assignTask(task, shift, cook, quantity, duration, difficulty);
+    }
+
+    private void loadRecipes() {
+        List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
+//        allRec.removeIf(recipe -> !recipe.isDish());
+        recipes = FXCollections.observableList(allRec);
+        recipe_combo.setItems(recipes);
     }
 
     private void initTaskList() {

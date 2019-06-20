@@ -6,8 +6,8 @@ import catering.businesslogic.receivers.CatEventReceiver;
 import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
+import java.util.*;
 
 public class DataManager {
     private String userName = "root";
@@ -983,5 +983,10 @@ public class DataManager {
             }
         }
         return ret;
+    }
+
+    public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+        //todo
+
     }
 }
