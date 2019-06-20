@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class CateringAppManager {
     private static CateringAppManager singleInstance;
     public static UserManager userManager;
+    public static ShiftManager shiftManager;
     public static MenuManager menuManager;
     public static RecipeManager recipeManager;
     public static EventManager eventManager;
@@ -24,6 +25,7 @@ public class CateringAppManager {
     private CateringAppManager() {
         CateringAppManager.dataManager = new DataManager();
         CateringAppManager.userManager = new UserManager();
+        CateringAppManager.shiftManager = new ShiftManager();
         CateringAppManager.eventManager = new EventManager();
         CateringAppManager.menuManager = new MenuManager();
         CateringAppManager.recipeManager = new RecipeManager();

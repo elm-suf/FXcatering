@@ -1,6 +1,9 @@
 package catering;
 
+import catering.businesslogic.grasp_controllers.Recipe;
+import catering.businesslogic.grasp_controllers.Shift;
 import catering.businesslogic.grasp_controllers.Task;
+import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.managers.CateringAppManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -53,13 +56,14 @@ public class EventEditController {
     private TextField recipe_txf;
 
     @FXML
-    private ComboBox<String> recipe_combo;
+    private ComboBox<Recipe> recipe_combo;
 
     @FXML
-    private ComboBox<?> shift_combo;
+    private ComboBox<Shift> shift_combo;
+    private ObservableList<Shift> shifts;
 
     @FXML
-    private ComboBox<?> cook_combo;
+    private ComboBox<User> cook_combo;
 
     @FXML
     private TextField quantity_txf;
@@ -76,7 +80,6 @@ public class EventEditController {
     @FXML
     private Button position_up_btn;
 
-    private
 
 
     @FXML
@@ -123,6 +126,10 @@ public class EventEditController {
             recipe_txf.setText(selectedTask.getRecipe().toString());
 
         }
+
+        shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
+
+        shift_combo.setItems(shifts);
 
         //todo load cook in cook_combo
         //todo load shifts in shift_combo
