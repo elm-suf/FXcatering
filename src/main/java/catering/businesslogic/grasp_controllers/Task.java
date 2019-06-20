@@ -35,6 +35,9 @@ public class Task {
         this.cook = cook;
     }
 
+    public Task() {
+    }
+
     public Task(Recipe recipe, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
         this.recipe = recipe;
         this.shift = shift;

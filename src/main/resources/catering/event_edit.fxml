@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="edit_root_pane" maxHeight="-Infinity" maxWidth="-Infinity"
@@ -35,9 +34,9 @@
                 <AnchorPane fx:id="detail_task" prefHeight="342.0" prefWidth="289.0"
                             style="-fx-background-color: #e7e7e7;">
                     <children>
-                        <ComboBox editable="true" layoutX="237.0" layoutY="14.0" prefHeight="26.0" prefWidth="52.0"
-                                  AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="25.0"
-                                  AnchorPane.topAnchor="14.0"/>
+                        <ComboBox fx:id="recipe_combo" editable="true" layoutX="131.0" layoutY="14.0" prefHeight="26.0"
+                                  prefWidth="131.0" visible="false" AnchorPane.leftAnchor="131.0"
+                                  AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="14.0"/>
                         <Label layoutX="52.0" layoutY="15.0" prefHeight="17.0" prefWidth="52.0" text="Ricetta"
                                textAlignment="CENTER" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="183.0"
                                AnchorPane.topAnchor="15.0"/>
@@ -87,21 +86,19 @@
                                 <Font size="18.0"/>
                             </font>
                         </Button>
-                        <TextField fx:id="recipe_txf" editable="false" layoutX="122.0" layoutY="15.0" prefHeight="26.0"
-                                   prefWidth="94.0"/>
+                        <TextField fx:id="recipe_txf" editable="false" layoutX="128.0" layoutY="14.0" prefHeight="26.0"
+                                   prefWidth="131.0"/>
                         <Button layoutX="135.0" layoutY="372.0" mnemonicParsing="false" text="Save"/>
                     </children>
                 </AnchorPane>
             </items>
         </SplitPane>
         <Button fx:id="cestino" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
-                prefWidth="34.0" style="-fx-background-color: white;" AnchorPane.rightAnchor="14.0">
-            <graphic>
-                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                    </image>
-                </ImageView>
-            </graphic>
+                prefWidth="34.0" style="-fx-background-color: green;" text="+" textFill="#1c540e"
+                AnchorPane.rightAnchor="14.0">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
         </Button>
         <Button fx:id="event_edit_back_btn" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefHeight="30.0"
                 prefWidth="79.0" style="-fx-background-color: #151928;" text="Indietro" textFill="WHITE">

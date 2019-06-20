@@ -53,6 +53,9 @@ public class EventEditController {
     private TextField recipe_txf;
 
     @FXML
+    private ComboBox<String> recipe_combo;
+
+    @FXML
     private ComboBox<?> shift_combo;
 
     @FXML
@@ -79,6 +82,7 @@ public class EventEditController {
     @FXML
     void initialize() {
         initTaskList();
+        detail_task.setVisible(false);
         event_edit_back_btn.setOnMouseClicked(e -> goBack());
         task_is_assigned.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isAssigned()));
         task_is_completed.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isCompleted()));
@@ -89,14 +93,36 @@ public class EventEditController {
         task_list.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedTask = task_list.getSelectionModel().getSelectedItem();
             //todo
-            showDetailedView(selectedTask);
+            showDetailedView(selectedTask, false);
         });
+
+        cestino.setOnMouseClicked(e -> addTask());
     }
 
-    private void showDetailedView(Task selectedTask) {
+    private void addTask() {
+//        try {
+        this.showDetailedView(new Task(), true);
+//            CateringAppManager.eventManager.addTask(selectedTask.getRecipe());
+//        } catch (AssignTaskException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void showDetailedView(Task selectedTask, boolean isNew) {
         detail_task.setVisible(true);
-        System.out.println("Selectd : " + selectedTask);
-        recipe_txf.setText(selectedTask.getRecipe().toString());
+        if (isNew) {
+            recipe_combo.setVisible(true);
+            recipe_txf.setVisible(false);
+            difficulty_txf.setText("");
+            quantity_txf.setText("");
+
+        } else {
+            recipe_combo.setVisible(false);
+            recipe_txf.setVisible(true);
+            System.out.println("Selectd : " + selectedTask);
+            recipe_txf.setText(selectedTask.getRecipe().toString());
+
+        }
 
         //todo load cook in cook_combo
         //todo load shifts in shift_combo
