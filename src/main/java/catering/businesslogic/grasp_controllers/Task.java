@@ -1,6 +1,7 @@
 package catering.businesslogic.grasp_controllers;
 
 public class Task {
+    private int id;
     private Recipe recipe;
     private Shift shift;
     private User cook;
@@ -38,7 +39,8 @@ public class Task {
     public Task() {
     }
 
-    public Task(Recipe recipe, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
+    public Task(int id, Recipe recipe, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
+        this.id = id;
         this.recipe = recipe;
         this.shift = shift;
         this.cook = cook;
@@ -101,6 +103,10 @@ public class Task {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public int getId() {
+        return id;
     }
 
 

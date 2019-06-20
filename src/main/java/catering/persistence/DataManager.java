@@ -898,7 +898,7 @@ public class DataManager {
                     recipe = new Recipe(recipeName, Recipe.Type.Preparation);
                 }
 
-                Task task = new Task(recipe,
+                Task task = new Task(taskId, recipe,
                         null,
                         new User(String.valueOf(cookId)),
                         quantity,
@@ -933,12 +933,44 @@ public class DataManager {
             st = this.connection.prepareStatement(SQL);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
+                int id = rs.getInt("id");
                 Date date = rs.getDate("date");
                 String type = rs.getString("type");
 
-                Shift shift = new Shift(date, type);
+                Shift shift = new Shift(id, date, type);
 
                 ret.add(shift);
+
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return ret;
+    }
+
+    public List<User> loadUsersInShift(Shift shift) {
+        List<User> ret = new ArrayList<>();
+        PreparedStatement st = null;
+
+        String SQL = "select * FROM users u " +
+                "JOIN shift_user a ON u.id = a.user " +
+                "WHERE shift = ?";
+        try {
+            st = this.connection.prepareStatement(SQL);
+            st.setInt(1, shift.getId());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                User user = new User(id, name);
+
+                ret.add(user);
 
             }
         } catch (SQLException exc) {

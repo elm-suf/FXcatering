@@ -1,6 +1,9 @@
 package catering.businesslogic.managers;
 
+import catering.businesslogic.grasp_controllers.Shift;
 import catering.businesslogic.grasp_controllers.User;
+
+import java.util.List;
 
 public class UserManager {
 
@@ -13,8 +16,11 @@ public class UserManager {
         this.currentUser = CateringAppManager.dataManager.loadUser("Viola");
     }
 
-
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public List<User> getUsersInShift(Shift shift) {
+        return CateringAppManager.dataManager.loadUsersInShift(shift);
     }
 }

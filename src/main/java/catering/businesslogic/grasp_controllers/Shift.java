@@ -5,10 +5,12 @@ import java.util.Date;
 public class Shift {
     //public enum Type {service, kitchen};
     //private Type type;
+    private int id;
     private Date date;
     private String type;
 
-    public Shift(Date date, String type) {
+    public Shift(int id, Date date, String type) {
+        this.id = id;
         this.date = date;
         this.type = type;
     }
@@ -27,5 +29,14 @@ public class Shift {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return date + " - " + type;
+    }
+
+    public int getId() {
+        return id;
     }
 }

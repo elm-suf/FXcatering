@@ -64,6 +64,7 @@ public class EventEditController {
 
     @FXML
     private ComboBox<User> cook_combo;
+    private ObservableList<User> users;
 
     @FXML
     private TextField quantity_txf;
@@ -124,12 +125,13 @@ public class EventEditController {
             recipe_txf.setVisible(true);
             System.out.println("Selectd : " + selectedTask);
             recipe_txf.setText(selectedTask.getRecipe().toString());
-
         }
 
         shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
-
         shift_combo.setItems(shifts);
+        users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shifts.get(0)));
+        System.out.println(users);
+        cook_combo.setItems(users);
 
         //todo load cook in cook_combo
         //todo load shifts in shift_combo
