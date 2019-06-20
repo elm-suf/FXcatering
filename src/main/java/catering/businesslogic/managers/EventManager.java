@@ -114,7 +114,7 @@ public class EventManager {
 
     public List<Task> getAllTasks() {
 //                currentEvent
-        List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent.getId());
+        List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent);
         tasks.forEach(System.out::println);
         return tasks;
 //        Recipe rec = new Recipe("rec", Recipe.Type.Dish);

@@ -7,6 +7,7 @@ import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
@@ -865,7 +866,7 @@ public class DataManager {
         return allEvents;
     }
 
-    public List<Task> loadTasks(int evntId) {
+    public List<Task> loadTasks(CatEvent event) {
         List<Task> ret = new ArrayList<>();
         PreparedStatement st = null;
 
@@ -875,7 +876,7 @@ public class DataManager {
                 "WHERE event = ?";
         try {
             st = this.connection.prepareStatement(SQL);
-            st.setInt(1, evntId);
+            st.setInt(1, event.getId());
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int taskId = rs.getInt("task_id");
@@ -908,6 +909,36 @@ public class DataManager {
                         index);
 
                 ret.add(task);
+
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return ret;
+    }
+
+    public List<Shift> loadShifts() {
+        List<Shift> ret = new ArrayList<>();
+        PreparedStatement st = null;
+
+
+        String SQL = "select * FROM shift";
+        try {
+            st = this.connection.prepareStatement(SQL);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Date date = rs.getDate("date");
+                String type = rs.getString("type");
+
+                Shift shift = new Shift(date, type);
+
+                ret.add(shift);
 
             }
         } catch (SQLException exc) {
