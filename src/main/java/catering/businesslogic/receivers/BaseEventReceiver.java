@@ -1,10 +1,8 @@
 package catering.businesslogic.receivers;
 
-import catering.businesslogic.grasp_controllers.Menu;
-import catering.businesslogic.grasp_controllers.MenuItem;
-import catering.businesslogic.grasp_controllers.Section;
+import catering.businesslogic.grasp_controllers.*;
 
-public class BaseEventReceiver implements MenuEventReceiver {
+public class BaseEventReceiver implements MenuEventReceiver, CatEventReceiver {
     @Override
     public void notifyMenuCreated(Menu m) {
     }
@@ -71,6 +69,35 @@ public class BaseEventReceiver implements MenuEventReceiver {
 
     @Override
     public void notifyMenuTitleChanged(Menu m) {
+
+    }
+
+
+    /////////////////////////////////////////////////CAT EVENT RECEIVERS
+
+
+    @Override
+    public void notifyTaskAdded(Task task) {
+
+    }
+
+    @Override
+    public void notifyTaskRemoved(Task task) {
+
+    }
+
+    @Override
+    public void notifyTaskSorted(Task task) {
+
+    }
+
+    @Override
+    public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+
+    }
+
+    @Override
+    public void notifyTaskAssignmentDeleted(Task task, User cook) {
 
     }
 }

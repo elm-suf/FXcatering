@@ -40,6 +40,8 @@ public class EventEditController {
     @FXML
     private TableColumn<Task, Boolean> task_is_assigned;
     List<Task> allTasks;
+    String shift;
+    String user;
     Task selectedTask;
 
     @FXML
@@ -90,10 +92,16 @@ public class EventEditController {
     @FXML
     private Label position_lbl;
 
+    private Shift currentShift;
+    private User currentCook;
+    private String currentQuantity;
+    private String currentDuration;
+    private String currentDifficulty;
 
     @FXML
     void initialize() {
         initTaskList();
+        loadRecipes();
         detail_task.setVisible(false);
         event_edit_back_btn.setOnMouseClicked(e -> goBack());
         task_is_assigned.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isAssigned()));
@@ -106,6 +114,7 @@ public class EventEditController {
             selectedTask = task_list.getSelectionModel().getSelectedItem();
             //todo
             showDetailedView(selectedTask, false);
+
         });
 
         cestino.setOnMouseClicked(e -> addTask());
@@ -122,46 +131,52 @@ public class EventEditController {
 
     private void showDetailedView(Task selectedTask, boolean isNew) {
         detail_task.setVisible(true);
+        difficulty_combo.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(
+                "Facile", "Medio", "Difficile"
+        ))));
+        shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
+        shift_combo.setItems(shifts);
         if (isNew) {
             recipe_combo.setVisible(true);
             recipe_txf.setVisible(false);
 //            difficulty_combo.setText("");
             duration_txf.setText("");
             quantity_txf.setText("");
-            loadRecipes();
 
         } else {
             recipe_combo.setVisible(false);
             recipe_txf.setVisible(true);
-            System.out.println("Selectd : " + selectedTask);
+            if (selectedTask.isAssigned()) {
+                shift_combo.getSelectionModel().select(selectedTask.getShift());
+                cook_combo.getSelectionModel().select(selectedTask.getCook());
+            } else {
+                shift_combo.getSelectionModel().select(null);
+                cook_combo.getSelectionModel().select(null);
+            }
             recipe_txf.setText(selectedTask.getRecipe().toString());
-            position_lbl.setText("Posizione :" + selectedTask.getIndex());
+            difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
+            duration_txf.setText(String.valueOf(selectedTask.getDurationMinutes()));
+            quantity_txf.setText(String.valueOf(selectedTask.getQuantity()));
         }
 
-        difficulty_combo.setItems(FXCollections.observableList(new ArrayList<String>(Arrays.asList(
-                "Facile", "Medio", "Difficile"
-        ))));
-
-        shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
-        shift_combo.setItems(shifts);
-
         shift_combo.setOnAction(e -> {
-            users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shift_combo.getSelectionModel().getSelectedItem()));
-            System.out.println(users);
-            cook_combo.setItems(users);
+            if (shift_combo.getSelectionModel().getSelectedItem() != null) {
+                users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shift_combo.getSelectionModel().getSelectedItem()));
+                cook_combo.setItems(users);
+            }
         });
 
-
         //todo wire the save button
-        Task task = selectedTask;//recipe_combo.getSelectionModel().getSelectedItem()
+
         Shift shift = shift_combo.getSelectionModel().getSelectedItem();
         User cook = cook_combo.getSelectionModel().getSelectedItem();
 
         String quantity = quantity_txf.getText();
-        String difficulty = difficulty_combo.getSelectionModel().getSelectedItem();
         String duration = duration_txf.getText();
+        String difficulty = difficulty_combo.getSelectionModel().getSelectedItem();
+        System.out.println("quantità: " + quantity + " diff: " + difficulty + " duration: " + duration);
 
-        assign_task_btn.setOnMouseClicked(e -> assignTask(task, shift, cook, quantity, duration, difficulty));
+        assign_task_btn.setOnMouseClicked(e -> assignTask(selectedTask, shift, cook, quantity, duration, difficulty));
     }
 
     private void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {

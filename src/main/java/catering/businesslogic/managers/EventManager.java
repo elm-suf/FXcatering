@@ -3,6 +3,7 @@ package catering.businesslogic.managers;
 import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.exceptions.UseCaseLogicException;
 import catering.businesslogic.grasp_controllers.*;
+import catering.businesslogic.receivers.BaseEventReceiver;
 import catering.businesslogic.receivers.CatEventReceiver;
 
 import java.util.ArrayList;
@@ -16,15 +17,15 @@ public class EventManager {
     public EventManager() {
         receivers = new ArrayList<>();
 
-        receivers.add(new CatEventReceiver() {
+        receivers.add(new BaseEventReceiver() {
             @Override
             public void notifyTaskAdded(Task task) {
-                //todo
+                currentEvent.addTask(task);
             }
 
             @Override
             public void notifyTaskRemoved(Task task) {
-                //todo
+                currentEvent.deleteTask(task);
             }
 
             @Override
@@ -33,8 +34,8 @@ public class EventManager {
             }
 
             @Override
-            public void notifyTaskAssigned(Task task, User cook) {
-                //todo
+            public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+
             }
 
             @Override
@@ -112,11 +113,13 @@ public class EventManager {
     public List<Task> getAllTasks() {
 //                currentEvent
         List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent);
-        tasks.forEach(System.out::println);
+//        tasks.forEach(System.out::println);
         return tasks;
     }
 
     public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-        CateringAppManager.dataManager.assignTask(task, shift, cook, quantity, duration, difficulty);
+        for (CatEventReceiver r : receivers) {
+            r.notifyTaskAssigned(task, shift, cook, quantity, duration, difficulty);
+        }
     }
 }

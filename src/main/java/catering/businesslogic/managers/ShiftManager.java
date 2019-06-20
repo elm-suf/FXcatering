@@ -15,7 +15,7 @@ public class ShiftManager {
     public List<Shift> getShifts() {
         if (shifts == null) {
             shifts = new ArrayList<>();
-            this.shifts.addAll(CateringAppManager.dataManager.loadShifts());
+            this.shifts.addAll(CateringAppManager.dataManager.getShifts());
         }
 
         // Restituisce una copia della propria lista per impedire ad altri oggetti di modificarne

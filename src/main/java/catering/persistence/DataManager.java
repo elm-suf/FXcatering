@@ -6,8 +6,8 @@ import catering.businesslogic.receivers.CatEventReceiver;
 import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
+import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
@@ -23,6 +23,9 @@ public class DataManager {
     // mappa per ciascun tipo di oggetto caricato
     private Map<User, Integer> userObjects;
     private Map<Integer, User> idToUserObject;
+
+    private Map<Shift, Integer> shiftObjects;
+    private Map<Integer, Shift> idToShiftObject;
 
     private Map<Recipe, Integer> recipeObjects;
     private Map<Integer, Recipe> idToRecipeObject;
@@ -40,6 +43,8 @@ public class DataManager {
 
         this.userObjects = new HashMap<>();
         this.idToUserObject = new HashMap<>();
+        this.shiftObjects = new HashMap<>();
+        this.idToShiftObject = new HashMap<>();
         this.recipeObjects = new HashMap<>();
         this.idToRecipeObject = new HashMap<>();
         this.menuObjects = new HashMap<>();
@@ -236,8 +241,9 @@ public class DataManager {
             }
 
             @Override
-            public void notifyTaskAssigned(Task task, User cook) {
-
+            public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+                updateTask(task, quantity, duration, difficulty);
+//                assignTask(task, shift, cook);
             }
 
             @Override
@@ -867,50 +873,73 @@ public class DataManager {
     }
 
     public List<Task> loadTasks(CatEvent event) {
+        loadShifts();
+        loadUsers();
+        List<Recipe> recipes = loadRecipes();
         List<Task> ret = new ArrayList<>();
         PreparedStatement st = null;
+        PreparedStatement st1 = null;
 
+        String not_assigned = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
+                "r.id recipe_id FROM task t JOIN recipes r ON t.recipe = r.id " +
+                "WHERE is_assigned = 0 AND t.event = ?";
 
-        String SQL = "select t.id task_id, t.recipe recipe_id, r.name recipe_name, r.type recipe_type, t.user cook, is_assigned, is_completed,t.difficulty, t.quantity, t.`index` position\n" +
-                "from task t join recipes r  on t.recipe=r.id\n" +
-                "WHERE event = ?";
+        String assigned = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
+                "r.id recipe_id, a.shift shift, a.user cook " +
+                "FROM task t JOIN recipes r ON t.recipe=r.id JOIN assignment a " +
+                "ON t.id = a.task WHERE t.event = ?";
         try {
-            st = this.connection.prepareStatement(SQL);
+            st = this.connection.prepareStatement(assigned);
             st.setInt(1, event.getId());
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int taskId = rs.getInt("task_id");
-                int recipeId = rs.getInt("recipe_id");
-                String recipeName = rs.getString("recipe_name");
+                int shiftId = rs.getInt("shift");
                 int cookId = rs.getInt("cook");
                 boolean isAssigned = rs.getBoolean("is_assigned");
                 boolean isCompleted = rs.getBoolean("is_completed");
                 int difficulty = rs.getInt("difficulty");
+                int duration = rs.getInt("duration");
                 int quantity = rs.getInt("quantity");
                 int index = rs.getInt("position");
+                int recipeId = rs.getInt("recipe_id");
 
-                String recipeType = rs.getString("recipe_type");
-
-                Recipe recipe;
-                if (Recipe.Type.Dish.toString().equals(recipeType)) {
-                    recipe = new Recipe(recipeName, Recipe.Type.Dish);
-                } else {
-                    recipe = new Recipe(recipeName, Recipe.Type.Preparation);
-                }
-
-                Task task = new Task(taskId, recipe,
-                        null,
-                        new User(String.valueOf(cookId)),
+                Task task = new Task(taskId,
+                        this.idToRecipeObject.get(recipeId),
+                        this.idToShiftObject.get(shiftId),
+                        this.idToUserObject.get(cookId),
                         quantity,
                         difficulty,
                         isCompleted,
                         isAssigned,
-                        -1,
+                        duration,
                         index);
-
                 ret.add(task);
-
             }
+            st1 = this.connection.prepareStatement(not_assigned);
+            st1.setInt(1, event.getId());
+            rs = st1.executeQuery();
+            while (rs.next()) {
+                int taskId = rs.getInt("task_id");
+                boolean isAssigned = rs.getBoolean("is_assigned");
+                boolean isCompleted = rs.getBoolean("is_completed");
+                int difficulty = rs.getInt("difficulty");
+                int duration = rs.getInt("duration");
+                int quantity = rs.getInt("quantity");
+                int index = rs.getInt("position");
+                int recipeId = rs.getInt("recipe_id");
+
+                Task task = new Task(taskId,
+                        this.idToRecipeObject.get(recipeId),
+                        quantity,
+                        difficulty,
+                        isCompleted,
+                        isAssigned,
+                        duration,
+                        index);
+                ret.add(task);
+            }
+
         } catch (SQLException exc) {
             exc.printStackTrace();
         } finally {
@@ -923,7 +952,7 @@ public class DataManager {
         return ret;
     }
 
-    public List<Shift> loadShifts() {
+    public List<Shift> getShifts() {
         List<Shift> ret = new ArrayList<>();
         PreparedStatement st = null;
 
@@ -940,6 +969,8 @@ public class DataManager {
                 Shift shift = new Shift(id, date, type);
 
                 ret.add(shift);
+                shiftObjects.put(shift, id);
+                idToShiftObject.put(id, shift);
 
             }
         } catch (SQLException exc) {
@@ -952,6 +983,65 @@ public class DataManager {
             }
         }
         return ret;
+    }
+
+    public void loadShifts() {
+        PreparedStatement st = null;
+
+
+        String SQL = "select * FROM shift";
+        try {
+            st = this.connection.prepareStatement(SQL);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                Date date = rs.getDate("date");
+                String type = rs.getString("type");
+
+                Shift shift = new Shift(id, date, type);
+
+                shiftObjects.put(shift, id);
+                idToShiftObject.put(id, shift);
+
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+    }
+
+    public void loadUsers() {
+        PreparedStatement st = null;
+
+
+        String SQL = "select * FROM users";
+        try {
+            st = this.connection.prepareStatement(SQL);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+
+                User cook = new User(id, name);
+
+                userObjects.put(cook, id);
+                idToUserObject.put(id, cook);
+
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
     }
 
     public List<User> loadUsersInShift(Shift shift) {
@@ -985,8 +1075,57 @@ public class DataManager {
         return ret;
     }
 
-    public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-        //todo
+    private void updateTask(Task task, String quantity, String duration, String difficulty) {
+        PreparedStatement st = null;
 
+        String SQL = "UPDATE task SET quantity = ?, duration = ? AND difficulty = ? WHERE id = ?";
+        try {
+            st = this.connection.prepareStatement(SQL);
+            st.setInt(1, Integer.valueOf(quantity));
+            st.setInt(2, Integer.valueOf(duration));
+            switch (difficulty) {
+                case "Facile":
+                    st.setInt(3, 0);
+                    break;
+                case "Medio":
+                    st.setInt(3, 1);
+                    break;
+                default:
+                    st.setInt(3, 2);
+                    break;
+            }
+            st.setInt(4, task.getId());
+            System.out.println(st.executeUpdate());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+    }
+
+    private void assignTask(Task task, Shift shift, User cook) {
+        PreparedStatement st = null;
+
+        String update = "UPDATE assignment SET shift = ?, user = ? WHERE task = ?";
+
+        try {
+            st = this.connection.prepareStatement(update);
+            st.setInt(1, shift.getId());
+            st.setInt(2, cook.getId());
+            st.setInt(3, task.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
     }
 }

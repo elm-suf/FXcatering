@@ -52,6 +52,19 @@ public class Task {
         this.index = index;
     }
 
+    public Task(int id, Recipe recipe, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
+        this.id = id;
+        this.recipe = recipe;
+        this.shift = null;
+        this.cook = null;
+        this.quantity = quantity;
+        this.difficulty = difficulty;
+        this.isCompleted = isCompleted;
+        this.isAssigned = isAssigned;
+        this.durationMinutes = durationMinutes;
+        this.index = index;
+    }
+
     public Task(Recipe recipe, User cook, Shift shift, boolean isCompleted, boolean isAssigned) {
         this.isCompleted = isCompleted;
         this.isAssigned = isAssigned;
