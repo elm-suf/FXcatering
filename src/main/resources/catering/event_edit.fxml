@@ -44,30 +44,30 @@
                                textAlignment="CENTER" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="183.0"
                                AnchorPane.topAnchor="65.0"/>
                         <ComboBox fx:id="shift_combo" layoutX="130.0" layoutY="65.0" prefHeight="25.0" prefWidth="106.0"
-                                  AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="51.0"
+                                  AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"
                                   AnchorPane.topAnchor="65.0"/>
                         <Label layoutX="52.0" layoutY="111.0" prefHeight="17.0" prefWidth="52.0" text="Cuoco"
                                textAlignment="CENTER" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="183.0"
                                AnchorPane.topAnchor="111.0"/>
                         <ComboBox fx:id="cook_combo" layoutX="130.0" layoutY="111.0" prefHeight="25.0" prefWidth="106.0"
-                                  AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="51.0"
+                                  AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"
                                   AnchorPane.topAnchor="111.0"/>
                         <Label layoutX="52.0" layoutY="161.0" prefHeight="17.0" prefWidth="52.0" text="Quantità"
                                textAlignment="CENTER" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="183.0"
                                AnchorPane.topAnchor="161.0"/>
                         <TextField fx:id="quantity_txf" layoutX="130.0" layoutY="161.0" prefHeight="25.0"
-                                   prefWidth="106.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="51.0"
+                                   prefWidth="106.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"
                                    AnchorPane.topAnchor="161.0"/>
                         <Label fx:id="position_lbl" layoutX="52.0" layoutY="311.0" prefHeight="18.0" prefWidth="105.0"
                                text="Posizione" textAlignment="CENTER"/>
                         <ComboBox fx:id="difficulty_combo" layoutX="131.0" layoutY="257.0" prefHeight="25.0"
-                                  prefWidth="106.0" AnchorPane.leftAnchor="131.0" AnchorPane.rightAnchor="50.0"
+                                  prefWidth="106.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"
                                   AnchorPane.topAnchor="257.0"/>
                         <Label layoutX="52.0" layoutY="211.0" prefHeight="17.0" prefWidth="52.0" text="Durata"
                                textAlignment="CENTER" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="183.0"
                                AnchorPane.topAnchor="211.0"/>
                         <TextField fx:id="duration_txf" layoutX="131.0" layoutY="207.0" prefHeight="25.0"
-                                   prefWidth="106.0" AnchorPane.leftAnchor="131.0" AnchorPane.rightAnchor="50.0"
+                                   prefWidth="106.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"
                                    AnchorPane.topAnchor="207.0"/>
                         <Label layoutX="52.0" layoutY="261.0" prefHeight="17.0" prefWidth="52.0" text="Difficoltà"
                                textAlignment="CENTER" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="183.0"
@@ -87,7 +87,7 @@
                             </font>
                         </Button>
                         <TextField fx:id="recipe_txf" editable="false" layoutX="128.0" layoutY="14.0" prefHeight="26.0"
-                                   prefWidth="131.0"/>
+                                   prefWidth="131.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"/>
                         <Button fx:id="assign_task_btn" layoutX="135.0" layoutY="372.0" mnemonicParsing="false"
                                 text="Save"/>
                     </children>
