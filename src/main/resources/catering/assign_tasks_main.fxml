@@ -6,20 +6,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane fx:controller="catering.AssignTasksController" fx:id="root_pane"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0"
-            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="800.0" style="-fx-background-color: #BDC2C2;" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root_pane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: #BDC2C2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="catering.AssignTasksController">
     <children>
         <AnchorPane prefHeight="92.0" prefWidth="640.0" style="-fx-background-color: #4c3f4c;"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Label fx:id="title_label" alignment="CENTER" contentDisplay="CENTER" layoutX="145.0" layoutY="19.0"
-                       prefHeight="204.0" prefWidth="640.0" text="Bentornato {{user.username}}" textAlignment="CENTER"
-                       textFill="#ce9200" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                       prefHeight="204.0" prefWidth="640.0" style="-fx-background-color: #2D3447;"
+                       text="Bentornato {{user.username}}" textAlignment="CENTER" textFill="#ce9200" wrapText="true"
+                       AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="0.0">
                     <font>
                         <Font name="System Bold" size="36.0"/>
                     </font>
@@ -33,10 +33,9 @@
                 <Font name="Microsoft YaHei Light" size="14.0"/>
             </font>
         </Text>
-        <Button fx:id="assign_btn" alignment="CENTER" disable="true" layoutX="264.0"
-                layoutY="440.0" style="-fx-background-color: #CE9200;" text="Assegna Compiti" textAlignment="CENTER"
-                wrapText="true" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="264.0"
-                AnchorPane.rightAnchor="264.6666666666667">
+        <Button fx:id="assign_btn" alignment="CENTER" disable="true" layoutX="264.0" layoutY="440.0"
+                style="-fx-background-color: #CE9200;" text="Assegna Compiti" textAlignment="CENTER" wrapText="true"
+                AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="264.0" AnchorPane.rightAnchor="264.6666666666667">
             <font>
                 <Font name="System Bold" size="12.0"/>
             </font>

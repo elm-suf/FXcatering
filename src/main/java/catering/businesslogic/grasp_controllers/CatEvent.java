@@ -55,12 +55,7 @@ public class CatEvent {
 
     @Override
     public String toString() {
-        return "CatEvent{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", chef=" + chef +
-                ", tasks=" + tasks +
-                '}';
+        return "Evento " + id + ": " + name;
     }
 
     public void deleteTask(Task task) {

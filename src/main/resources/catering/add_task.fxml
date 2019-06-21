@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="add_task_root" prefHeight="574.0" prefWidth="310.0"
-            style="-fx-background-color: caa;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            style="-fx-background-color: #2D3447;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="catering.AddTaskController">
     <children>
         <Label alignment="CENTER" layoutX="19.0" layoutY="61.0" prefHeight="38.0" prefWidth="270.0"
-               text="Aggiungi un Compito" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+               text="Aggiungi un Compito" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                AnchorPane.topAnchor="61.0">
             <font>
                 <Font name="System Bold" size="26.0"/>
             </font>
         </Label>
         <Label alignment="CENTER" layoutX="81.0" layoutY="159.0" prefHeight="27.0" prefWidth="146.0"
-               text="Scegli una Ricetta" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+               text="Scegli una Ricetta" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                AnchorPane.topAnchor="159.0">
             <font>
                 <Font size="18.0"/>
@@ -29,7 +29,7 @@
                   AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="240.0"/>
         <Button fx:id="commit_addtask_btn" layoutX="97.0" layoutY="319.0" maxWidth="1.7976931348623157E308"
                 minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0"
-                text="Button" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="92.0" AnchorPane.topAnchor="320.0"/>
+                text="OK" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="92.0" AnchorPane.topAnchor="320.0"/>
     </children>
     <padding>
         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>

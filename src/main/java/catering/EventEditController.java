@@ -98,6 +98,9 @@ public class EventEditController {
     private Label position_lbl;
 
     @FXML
+    private Button delete_task_btn;
+
+    @FXML
     private Label error_label;
 
     private Recipe selectedRecipe;

@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="edit_root_pane" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: #2D3447;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
@@ -88,28 +88,37 @@
                         </Button>
                         <TextField fx:id="recipe_txf" editable="false" layoutX="128.0" layoutY="14.0" prefHeight="26.0"
                                    prefWidth="131.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"/>
+                        <Button fx:id="assign_task_btn" layoutX="135.0" layoutY="400.0" mnemonicParsing="false"
+                                style="-fx-background-color: #23395b;" text="Salva" textFill="WHITE"
+                                AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Button>
+                        <Label fx:id="error_label" alignment="CENTER" contentDisplay="CENTER" layoutX="52.0"
+                               layoutY="362.0" prefHeight="17.0" prefWidth="237.0" textAlignment="CENTER"
+                               AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"/>
                         <AnchorPane fx:id="add_task_here" prefHeight="542.4" prefWidth="306.4"
                                     AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-                        <Button fx:id="assign_task_btn" layoutX="137.0" layoutY="412.0" mnemonicParsing="false"
-                                text="Salva"/>
-                        <Label fx:id="error_label" alignment="CENTER" contentDisplay="CENTER" layoutX="52.0"
-                               layoutY="362.0" prefHeight="17.0" prefWidth="237.0" textAlignment="CENTER"/>
                     </children>
                 </AnchorPane>
             </items>
         </SplitPane>
         <Button fx:id="add_task_btn" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
-                prefWidth="34.0" style="-fx-background-color: green;" text="+" textFill="#1c540e"
-                AnchorPane.rightAnchor="14.0">
+                prefWidth="71.0" style="-fx-background-color: #3da35d;" text="Aggiungi" textFill="WHITE"
+                AnchorPane.rightAnchor="16.0">
             <font>
                 <Font name="System Bold" size="12.0"/>
             </font>
         </Button>
-        <Button fx:id="event_edit_back_btn" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefHeight="30.0"
-                prefWidth="79.0" style="-fx-background-color: #151928;" text="Indietro" textFill="WHITE">
+        <Button fx:id="event_edit_back_btn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="71.0" style="-fx-background-color: black;" text="Indietro" textFill="WHITE"/>
+        <Button fx:id="delete_task_btn" layoutX="631.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="71.0" style="-fx-background-color: #d91e36;" text="Elimina" textFill="WHITE"
+                AnchorPane.rightAnchor="98.0">
             <font>
-                <Font size="14.0"/>
+                <Font name="System Bold" size="12.0"/>
             </font>
         </Button>
     </children>
