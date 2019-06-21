@@ -131,17 +131,18 @@ public class EventEditController {
 
         } else {
             assign_task_btn.setOnMouseClicked(e -> {
-                if (quantity_txf.getText() != null && Integer.valueOf(quantity_txf.getText()) < 0) {
+                if (!quantity_txf.getText().equals("") && Integer.valueOf(quantity_txf.getText()) < 0) {
                     error_label.setTextFill(Paint.valueOf("#FF0000"));
                     error_label.setText("Quantità assegnata non valida");
-                } else if (duration_txf.getText() != null && Integer.valueOf(duration_txf.getText()) < 0) {
+                } else if (!duration_txf.getText().equals("") && Integer.valueOf(duration_txf.getText()) < 0) {
                     error_label.setTextFill(Paint.valueOf("#FF0000"));
                     error_label.setText("Durata assegnata non valida");
                 } else {
                     error_label.setTextFill(Paint.valueOf("green"));
                     error_label.setText("Salvato");
                     assignTask(selectedTask, shift_combo.getSelectionModel().getSelectedItem(),
-                            cook_combo.getSelectionModel().getSelectedItem(), quantity_txf.getText(), duration_txf.getText(),
+                            cook_combo.getSelectionModel().getSelectedItem(),
+                            quantity_txf.getText(), duration_txf.getText(),
                             difficulty_combo.getSelectionModel().getSelectedItem());
                 }
             });
