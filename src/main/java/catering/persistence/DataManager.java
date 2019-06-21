@@ -6,8 +6,8 @@ import catering.businesslogic.receivers.CatEventReceiver;
 import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
+import java.util.*;
 
 public class DataManager {
     private String userName = "root";
@@ -592,7 +592,7 @@ public class DataManager {
                 Recipe rec = this.idToRecipeObject.get(id);
 
                 if (rec == null) {
-                    rec = createRecipeWithType(name, type);
+                    rec = createRecipeWithType(id, name, type);
 
                     if (rec != null) {
                         ret.add(rec);
@@ -724,8 +724,9 @@ public class DataManager {
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
                 String name = rs.getString("name");
+                int id = rs.getInt("id");
                 char type = rs.getString("type").charAt(0);
-                rec = createRecipeWithType(name, type);
+                rec = createRecipeWithType(id, name, type);
                 this.recipeObjects.put(rec, idRec);
                 this.idToRecipeObject.put(idRec, rec);
             }
@@ -742,12 +743,12 @@ public class DataManager {
         return rec;
     }
 
-    private Recipe createRecipeWithType(String name, char type) {
+    private Recipe createRecipeWithType(int id, String name, char type) {
         switch (type) {
             case 'r':
-                return new Recipe(name, Recipe.Type.Dish);
+                return new Recipe(id, name, Recipe.Type.Dish);
             case 'p':
-                return new Recipe(name, Recipe.Type.Preparation);
+                return new Recipe(id, name, Recipe.Type.Preparation);
 
         }
         return null;
@@ -859,6 +860,8 @@ public class DataManager {
                 String nome = rs.getString("nome");
                 int menu = rs.getInt("menu");
                 allEvents.add(new CatEvent(id, nome, menu, chef));
+                //todo caricare tutte le task di currentEvent
+                //SELECT * from
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -882,12 +885,18 @@ public class DataManager {
 
         String not_assigned = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
                 "r.id recipe_id FROM task t JOIN recipes r ON t.recipe = r.id " +
-                "WHERE is_assigned = 0 AND t.event = ?";
+                "WHERE is_assigned = 0 AND t.event = ?;";
 
         String assigned = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
                 "r.id recipe_id, a.shift shift, a.user cook " +
                 "FROM task t JOIN recipes r ON t.recipe=r.id JOIN assignment a " +
-                "ON t.id = a.task WHERE t.event = ?";
+                "ON t.id = a.task WHERE t.event = ?;";
+
+//        try (PreparedStatement st = connection.prepareStatement(assigned)){
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         try {
             st = this.connection.prepareStatement(assigned);
             st.setInt(1, event.getId());
@@ -949,6 +958,8 @@ public class DataManager {
                 exc2.printStackTrace();
             }
         }
+
+        ret.sort(Comparator.comparing(Task::getIndex).reversed());
         return ret;
     }
 
@@ -1107,6 +1118,41 @@ public class DataManager {
         }
     }
 
+    public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+        //todo
+    }
+
+    public void addTask(Task task) {
+        String SQL = "INSERT into task (recipe, event, user, is_assigned, is_completed, `index`, quantity, difficulty, duration)\n" +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        PreparedStatement st = null;
+        try {
+            st = this.connection.prepareStatement(SQL);
+            st.setInt(1, task.getRecipe().getId());
+//            st.setInt("event", task.getId());
+            int eventId = CateringAppManager.eventManager.getCurrentEvent().getId();
+            st.setInt(2, eventId);
+            st.setInt(3, task.getCook().getId());
+            st.setBoolean(4, task.isAssigned());
+            st.setBoolean(5, task.isCompleted());
+            st.setInt(6, task.getIndex());
+            st.setInt(7, task.getQuantity());
+            st.setInt(8, task.getDifficulty());
+            st.setInt(9, task.getDurationMinutes());
+            int rs = st.executeUpdate();
+            System.out.println("Exec query :\n" + st.toString());
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+    }
+
     private void assignTask(Task task, Shift shift, User cook) {
         PreparedStatement st = null;
 
@@ -1126,6 +1172,21 @@ public class DataManager {
             } catch (SQLException exc2) {
                 exc2.printStackTrace();
             }
+        }
+    }
+
+    public void sortTask(Task task, int index) {
+        String SQL = "UPDATE task\n" +
+                "SET `index` = ?\n" +
+                "WHERE id = ?";
+        PreparedStatement st;
+        try {
+            st = connection.prepareStatement(SQL);
+            st.setInt(1, index);
+            st.setInt(2, task.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

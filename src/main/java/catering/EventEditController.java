@@ -1,10 +1,12 @@
 package catering;
 
+import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.grasp_controllers.Recipe;
 import catering.businesslogic.grasp_controllers.Shift;
 import catering.businesslogic.grasp_controllers.Task;
 import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.managers.CateringAppManager;
+import catering.businesslogic.receivers.BaseEventReceiver;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -32,20 +34,22 @@ public class EventEditController {
     private AnchorPane all_tasks_pane;
     @FXML
     private TableView<Task> task_list;
+    ObservableList<Task> tasks;
 
     @FXML
     private TableColumn<Task, Integer> task_index;
     @FXML
     private TableColumn<Task, String> task_recipe;
-    @FXML
-    private TableColumn<Task, Boolean> task_is_assigned;
+    SimpleObjectProperty<Task> obsSelectedTas;
+
     List<Task> allTasks;
     String shift;
     String user;
     Task selectedTask;
-
     @FXML
-    private Button cestino;
+    private TableColumn<Task, String> task_is_assigned;
+    @FXML
+    private Button add_task_btn;
 
     @FXML
     Button assign_task_btn;
@@ -97,36 +101,15 @@ public class EventEditController {
     private String currentQuantity;
     private String currentDuration;
     private String currentDifficulty;
+    private Recipe selectedRecipe;
+
 
     @FXML
     void initialize() {
         initTaskList();
         loadRecipes();
-        detail_task.setVisible(false);
-        event_edit_back_btn.setOnMouseClicked(e -> goBack());
-        task_is_assigned.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isAssigned()));
-        task_is_completed.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isCompleted()));
-        task_index.setCellValueFactory(tc -> new SimpleIntegerProperty(tc.getValue().getIndex()).asObject());
-        task_recipe.setCellValueFactory(tc -> new SimpleObjectProperty<>(tc.getValue().getRecipe().toString()));
-
-        task_list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        task_list.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
-            selectedTask = task_list.getSelectionModel().getSelectedItem();
-            //todo
-            showDetailedView(selectedTask, false);
-
-        });
-
-        cestino.setOnMouseClicked(e -> addTask());
-    }
-
-    private void addTask() {
-//        try {
-        this.showDetailedView(new Task(), true);
-//            CateringAppManager.eventManager.addTask(selectedTask.getRecipe());
-//        } catch (AssignTaskException e) {
-//            e.printStackTrace();
-//        }
+        initView();
+        initData();
     }
 
     private void showDetailedView(Task selectedTask, boolean isNew) {
@@ -137,6 +120,12 @@ public class EventEditController {
         shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
         shift_combo.setItems(shifts);
         if (isNew) {
+//            loadRecipes();
+
+            List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
+            recipes = FXCollections.observableList(allRec);
+            recipe_combo.setItems(recipes);
+
             recipe_combo.setVisible(true);
             recipe_txf.setVisible(false);
 //            difficulty_combo.setText("");
@@ -166,20 +155,41 @@ public class EventEditController {
             }
         });
 
+        recipe_combo.setOnAction(e -> {
+            int selected = recipe_combo.getSelectionModel().getSelectedIndex();
+            System.out.println(recipe_combo.getSelectionModel().getSelectedIndex());
+            this.selectedRecipe = recipes.get(selected);
+        });
+
+
         //todo wire the save button
 
         Shift shift = shift_combo.getSelectionModel().getSelectedItem();
         User cook = cook_combo.getSelectionModel().getSelectedItem();
-
+        Recipe recipe = recipe_combo.getSelectionModel().getSelectedItem();
         String quantity = quantity_txf.getText();
         String duration = duration_txf.getText();
         String difficulty = difficulty_combo.getSelectionModel().getSelectedItem();
         System.out.println("quantità: " + quantity + " diff: " + difficulty + " duration: " + duration);
 
-        assign_task_btn.setOnMouseClicked(e -> assignTask(selectedTask, shift, cook, quantity, duration, difficulty));
+        if (isNew)
+            assign_task_btn.setOnAction(e -> addTask());
+        else
+            assign_task_btn.setOnMouseClicked(e -> assignTask(selectedTask, shift, cook, quantity, duration, difficulty));
+    }
+
+    private void addTask() {
+        System.out.println("Adding Task : " + selectedRecipe.getName());
+        try {
+            CateringAppManager.eventManager.addTask(selectedRecipe);
+        } catch (AssignTaskException e) {
+            //todo catch
+            e.printStackTrace();
+        }
     }
 
     private void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+        System.out.println("Assign task");
         CateringAppManager.eventManager.assignTask(task, shift, cook, quantity, duration, difficulty);
     }
 
@@ -192,7 +202,7 @@ public class EventEditController {
 
     private void initTaskList() {
         this.allTasks = CateringAppManager.eventManager.getAllTasks();
-        ObservableList<Task> tasks = FXCollections.observableList(allTasks);
+        tasks = FXCollections.observableList(allTasks);
         task_list.setItems(tasks);
     }
 
@@ -206,5 +216,85 @@ public class EventEditController {
         edit_root_pane.getChildren().setAll(newAnchorPane);
     }
 
+    private void increasePosition() {
+        if (selectedTask != null) {
+            int currentIndex = selectedTask.getIndex();
+            CateringAppManager.eventManager.sortTask(selectedTask, ++currentIndex);
+        }
+    }
 
+    private void decreasePositionIfNotZero() {
+        if (selectedTask != null) {
+            int currentIndex = selectedTask.getIndex();
+            CateringAppManager.eventManager.sortTask(selectedTask, --currentIndex);
+        }
+    }
+
+    void refreshTable() {
+        tasks.clear();
+        tasks = FXCollections.observableList(CateringAppManager.eventManager.getAllTasks());
+        task_list.setItems(tasks);
+    }
+
+    private void initView() {
+        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
+        add_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
+        position_up_btn.setOnAction(e -> increasePosition());
+        position_down_btn.setOnAction(e -> decreasePositionIfNotZero());
+        detail_task.setVisible(false);
+
+        //todo check set selected task
+
+
+        event_edit_back_btn.setOnMouseClicked(e -> goBack());
+//        task_is_assigned.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isAssigned()));
+        task_is_completed.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isCompleted()));
+        task_index.setCellValueFactory(tc -> new SimpleIntegerProperty(tc.getValue().getIndex()).asObject());
+        task_recipe.setCellValueFactory(tc -> new SimpleObjectProperty<>(tc.getValue().getRecipe().toString()));
+
+        task_is_assigned.setCellValueFactory(tc -> {
+            if (tc.getValue().getCook() != null)
+                return new SimpleObjectProperty<>(tc.getValue().getCook().getName());
+            else
+                return new SimpleObjectProperty<>("Unassigned");
+        });
+
+        task_list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        task_list.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+            selectedTask = task_list.getSelectionModel().getSelectedItem();
+            if (selectedTask != null)
+                showDetailedView(selectedTask, false);
+        });
+    }
+
+    private void initData() {
+        CateringAppManager.eventManager.addReceiver(new BaseEventReceiver() {
+            @Override
+            public void notifyTaskAdded(Task task) {
+
+            }
+
+            @Override
+            public void notifyTaskRemoved(Task task) {
+
+            }
+
+            @Override
+            public void notifyTaskSorted(Task task) {
+                selectedTask = task;
+                refreshTable();
+                task_list.getSelectionModel().select(task);
+            }
+
+//            @Override
+//            public void notifyTaskAssigned(Task task, User cook) {
+//
+//            }
+
+            @Override
+            public void notifyTaskAssignmentDeleted(Task task, User cook) {
+
+            }
+        });
+    }
 }

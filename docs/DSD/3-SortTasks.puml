@@ -10,27 +10,51 @@ participant "AppM.userManager:\nUserManager" as UserManager
 
 ch ->  EventManager: sortTask(task: Task, index: int)
 activate EventManager
-  EventManager -> UserManager: getCurrentUser()
-  activate UserManager
-      UserManager --> EventManager: user
-  deactivate UserManager
+ EventManager -> UserManager: getCurrentUser()
+ activate UserManager
+ 	UserManager --> EventManager: user
+ deactivate UserManager
 
-   alt !user.isChef()
-          ch <--x EventManager: UseCaseLogicException
-       else
-           participant "AppM.eventManager.\ncurrentEvent.tasks:\n List<Task>" as task
-           EventManager -> task: remove(task)
-           activate task
-           EventManager -> task: add(task, index)
-           deactivate task
+    alt !user.isChef()
+    	ch <--x EventManager: UseCaseLogicException
+	else !(currentEvent == null ||\n currentEvent.chef != user)
+  		 ch <--x EventManager: AssignTaskException
+  	 else
 
-       loop for r in receivers
-           participant "receiver:\n CATEventReceiver" as r
-          EventManager -> r : notifyTaskSorted(task)
-          activate r
-          deactivate r
-       end
-   end
+
+    	participant "task: \n Task" as tmp
+  		 participant "AppM.eventManager.\ncurrentEvent : CATEvent" as event
+    	EventManager -> event : deleteTask(task)
+            	activate event
+
+            	participant "AppM.eventManager.\ncurrentEvent.tasks:\n List<Task>" as task
+            	event -> task: remove(task)
+            	activate task
+            	deactivate task
+
+
+        tmp <- EventManager : setIndex(index)
+        activate tmp
+        tmp --> EventManager : task
+        deactivate tmp
+        EventManager -> event : addTask(task)
+    	event -> task: add(task)
+    	activate task
+    	deactivate task
+   	 deactivate event
+
+  	loop for r in receivers
+     	participant "receiver:\n CATEventReceiver" as r
+     	EventManager -> r : notifyTaskSorted(task)
+     	activate r
+     	deactivate r
+  	end
+  end
 deactivate EventManager
 
 @enduml
+
+
+
+
+

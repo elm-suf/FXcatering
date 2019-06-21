@@ -94,7 +94,7 @@
                 </AnchorPane>
             </items>
         </SplitPane>
-        <Button fx:id="cestino" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
+        <Button fx:id="add_task_btn" layoutX="702.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
                 prefWidth="34.0" style="-fx-background-color: green;" text="+" textFill="#1c540e"
                 AnchorPane.rightAnchor="14.0">
             <font>

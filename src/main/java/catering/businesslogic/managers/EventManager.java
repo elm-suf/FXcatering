@@ -30,12 +30,11 @@ public class EventManager {
 
             @Override
             public void notifyTaskSorted(Task task) {
-                //todo
+
             }
 
             @Override
             public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-
             }
 
             @Override
@@ -61,6 +60,8 @@ public class EventManager {
 
 
     public void addTask(Recipe recipe) throws AssignTaskException {
+        System.out.println("eventManager " + recipe);
+        System.out.println("eventManager  currentEvnt " + currentEvent);
         User currentUser = checkIfChef();
         if (currentEvent == null) {
             throw new AssignTaskException("Evento non puo essere null");
@@ -111,7 +112,6 @@ public class EventManager {
 
 
     public List<Task> getAllTasks() {
-//                currentEvent
         List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent);
 //        tasks.forEach(System.out::println);
         return tasks;
@@ -121,5 +121,18 @@ public class EventManager {
         for (CatEventReceiver r : receivers) {
             r.notifyTaskAssigned(task, shift, cook, quantity, duration, difficulty);
         }
+    }
+
+    public CatEvent getCurrentEvent() {
+        return currentEvent;
+    }
+
+    public void sortTask(Task task, int newIndex) {
+        //todo check user
+        CateringAppManager.dataManager.sortTask(task, newIndex);
+        currentEvent.deleteTask(task);
+        task.setIndex(newIndex);
+        currentEvent.addTask(task);
+        receivers.forEach(rec -> rec.notifyTaskSorted(task));
     }
 }

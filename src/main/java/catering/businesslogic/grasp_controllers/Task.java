@@ -1,5 +1,7 @@
 package catering.businesslogic.grasp_controllers;
 
+import java.util.Objects;
+
 public class Task {
     private int id;
     private Recipe recipe;
@@ -134,5 +136,19 @@ public class Task {
                 ", durationMinutes=" + durationMinutes +
                 ", index=" + index +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return getId() == task.getId() &&
+                Objects.equals(getRecipe(), task.getRecipe());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getRecipe());
     }
 }
