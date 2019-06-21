@@ -92,7 +92,7 @@ public class BaseEventReceiver implements MenuEventReceiver, CatEventReceiver {
     }
 
     @Override
-    public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+    public void notifyTaskAssigned(Task task) {
 
     }
 

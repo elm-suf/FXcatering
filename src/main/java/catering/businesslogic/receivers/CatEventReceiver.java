@@ -1,6 +1,5 @@
 package catering.businesslogic.receivers;
 
-import catering.businesslogic.grasp_controllers.Shift;
 import catering.businesslogic.grasp_controllers.Task;
 import catering.businesslogic.grasp_controllers.User;
 
@@ -11,7 +10,7 @@ public interface CatEventReceiver {
 
     void notifyTaskSorted(Task task);
 
-    void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty);
+    void notifyTaskAssigned(Task task);
 
     void notifyTaskAssignmentDeleted(Task task, User cook);
 }

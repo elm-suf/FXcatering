@@ -6,7 +6,7 @@ import catering.businesslogic.grasp_controllers.Shift;
 import catering.businesslogic.grasp_controllers.Task;
 import catering.businesslogic.grasp_controllers.User;
 import catering.businesslogic.managers.CateringAppManager;
-import catering.businesslogic.receivers.BaseEventReceiver;
+import catering.businesslogic.receivers.CatEventReceiver;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -96,11 +96,6 @@ public class EventEditController {
     @FXML
     private Label position_lbl;
 
-    private Shift currentShift;
-    private User currentCook;
-    private String currentQuantity;
-    private String currentDuration;
-    private String currentDifficulty;
     private Recipe selectedRecipe;
 
 
@@ -120,8 +115,7 @@ public class EventEditController {
         shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
         shift_combo.setItems(shifts);
         if (isNew) {
-//            loadRecipes();
-
+            assign_task_btn.setOnAction(e -> addTask());
             List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
             recipes = FXCollections.observableList(allRec);
             recipe_combo.setItems(recipes);
@@ -130,9 +124,17 @@ public class EventEditController {
             recipe_txf.setVisible(false);
 //            difficulty_combo.setText("");
             duration_txf.setText("");
-            quantity_txf.setText("");
 
+            quantity_txf.setText("");
         } else {
+            assign_task_btn.setOnMouseClicked(e -> {
+//            selectedTask.setShift();
+                        assignTask(selectedTask, shift_combo.getSelectionModel().getSelectedItem(),
+                                cook_combo.getSelectionModel().getSelectedItem(), quantity_txf.getText(), duration_txf.getText(),
+                                difficulty_combo.getSelectionModel().getSelectedItem());
+                    }
+            );
+
             recipe_combo.setVisible(false);
             recipe_txf.setVisible(true);
             if (selectedTask.isAssigned()) {
@@ -163,19 +165,6 @@ public class EventEditController {
 
 
         //todo wire the save button
-
-        Shift shift = shift_combo.getSelectionModel().getSelectedItem();
-        User cook = cook_combo.getSelectionModel().getSelectedItem();
-        Recipe recipe = recipe_combo.getSelectionModel().getSelectedItem();
-        String quantity = quantity_txf.getText();
-        String duration = duration_txf.getText();
-        String difficulty = difficulty_combo.getSelectionModel().getSelectedItem();
-        System.out.println("quantità: " + quantity + " diff: " + difficulty + " duration: " + duration);
-
-        if (isNew)
-            assign_task_btn.setOnAction(e -> addTask());
-        else
-            assign_task_btn.setOnMouseClicked(e -> assignTask(selectedTask, shift, cook, quantity, duration, difficulty));
     }
 
     private void addTask() {
@@ -189,7 +178,7 @@ public class EventEditController {
     }
 
     private void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-        System.out.println("Assign task");
+        System.out.println(task + " shift: " + shift + " cook: " + cook + " quantity: " + quantity + "dur: " + duration + " diff: " + difficulty);
         CateringAppManager.eventManager.assignTask(task, shift, cook, quantity, duration, difficulty);
     }
 
@@ -237,7 +226,7 @@ public class EventEditController {
     }
 
     private void initView() {
-        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
+//        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
         add_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
         position_up_btn.setOnAction(e -> increasePosition());
         position_down_btn.setOnAction(e -> decreasePositionIfNotZero());
@@ -268,7 +257,7 @@ public class EventEditController {
     }
 
     private void initData() {
-        CateringAppManager.eventManager.addReceiver(new BaseEventReceiver() {
+        CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
             @Override
             public void notifyTaskAdded(Task task) {
 
@@ -286,10 +275,15 @@ public class EventEditController {
                 task_list.getSelectionModel().select(task);
             }
 
-//            @Override
-//            public void notifyTaskAssigned(Task task, User cook) {
-//
-//            }
+            @Override
+            public void notifyTaskAssigned(Task task) {
+                selectedTask = task;
+                refreshTable();
+                showDetailedView(task, false);
+                task_list.getSelectionModel().select(task);
+            }
+
+
 
             @Override
             public void notifyTaskAssignmentDeleted(Task task, User cook) {

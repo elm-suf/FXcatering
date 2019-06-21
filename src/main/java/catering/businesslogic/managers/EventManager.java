@@ -27,20 +27,6 @@ public class EventManager {
             public void notifyTaskRemoved(Task task) {
                 currentEvent.deleteTask(task);
             }
-
-            @Override
-            public void notifyTaskSorted(Task task) {
-
-            }
-
-            @Override
-            public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-            }
-
-            @Override
-            public void notifyTaskAssignmentDeleted(Task task, User cook) {
-                //todo
-            }
         });
     }
 
@@ -112,14 +98,28 @@ public class EventManager {
 
 
     public List<Task> getAllTasks() {
-        List<Task> tasks = CateringAppManager.dataManager.loadTasks(currentEvent);
-//        tasks.forEach(System.out::println);
-        return tasks;
+        return CateringAppManager.dataManager.loadTasks(currentEvent);
     }
 
     public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
+        task.setShift(shift);
+        task.setCook(cook);
+        task.setQuantity(Integer.valueOf(quantity));
+        task.setDurationMinutes(Integer.valueOf(duration));
+        switch (difficulty) {
+            case "Facile":
+                task.setDifficulty(0);
+                break;
+            case "Medio":
+                task.setDifficulty(1);
+                break;
+            default:
+                task.setDifficulty(2);
+                break;
+        }
+
         for (CatEventReceiver r : receivers) {
-            r.notifyTaskAssigned(task, shift, cook, quantity, duration, difficulty);
+            r.notifyTaskAssigned(task);
         }
     }
 

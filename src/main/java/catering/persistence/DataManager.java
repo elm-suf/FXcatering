@@ -6,8 +6,8 @@ import catering.businesslogic.receivers.CatEventReceiver;
 import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
+import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
@@ -241,9 +241,9 @@ public class DataManager {
             }
 
             @Override
-            public void notifyTaskAssigned(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-                updateTask(task, quantity, duration, difficulty);
-//                assignTask(task, shift, cook);
+            public void notifyTaskAssigned(Task task) {
+                updateTask(task);
+                assignTask(task);
             }
 
             @Override
@@ -878,7 +878,7 @@ public class DataManager {
     public List<Task> loadTasks(CatEvent event) {
         loadShifts();
         loadUsers();
-        List<Recipe> recipes = loadRecipes();
+        List<Recipe> recipes = loadRecipes(); //non rimuovere
         List<Task> ret = new ArrayList<>();
         PreparedStatement st = null;
         PreparedStatement st1 = null;
@@ -954,6 +954,7 @@ public class DataManager {
         } finally {
             try {
                 if (st != null) st.close();
+                if (st1 != null) st1.close();
             } catch (SQLException exc2) {
                 exc2.printStackTrace();
             }
@@ -1086,25 +1087,15 @@ public class DataManager {
         return ret;
     }
 
-    private void updateTask(Task task, String quantity, String duration, String difficulty) {
+    private void updateTask(Task task) {
         PreparedStatement st = null;
 
-        String SQL = "UPDATE task SET quantity = ?, duration = ? AND difficulty = ? WHERE id = ?";
+        String SQL = "UPDATE task SET quantity = ?, duration = ?, difficulty = ?, is_assigned = 1 WHERE id = ?";
         try {
             st = this.connection.prepareStatement(SQL);
-            st.setInt(1, Integer.valueOf(quantity));
-            st.setInt(2, Integer.valueOf(duration));
-            switch (difficulty) {
-                case "Facile":
-                    st.setInt(3, 0);
-                    break;
-                case "Medio":
-                    st.setInt(3, 1);
-                    break;
-                default:
-                    st.setInt(3, 2);
-                    break;
-            }
+            st.setInt(1, task.getQuantity());
+            st.setInt(2, task.getDurationMinutes());
+            st.setInt(3, task.getDifficulty());
             st.setInt(4, task.getId());
             System.out.println(st.executeUpdate());
         } catch (SQLException e) {
@@ -1116,10 +1107,6 @@ public class DataManager {
                 exc2.printStackTrace();
             }
         }
-    }
-
-    public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
-        //todo
     }
 
     public void addTask(Task task) {
@@ -1153,22 +1140,39 @@ public class DataManager {
         }
     }
 
-    private void assignTask(Task task, Shift shift, User cook) {
-        PreparedStatement st = null;
+    private void assignTask(Task task) {
+        PreparedStatement st_check = null;
+        PreparedStatement st_update = null;
+        PreparedStatement st_insert = null;
 
+        String check = "SELECT id FROM assignment WHERE task = ?";
         String update = "UPDATE assignment SET shift = ?, user = ? WHERE task = ?";
+        String insert = "INSERT INTO assignment(shift, user, task) VALUES(?, ?, ?)";
 
         try {
-            st = this.connection.prepareStatement(update);
-            st.setInt(1, shift.getId());
-            st.setInt(2, cook.getId());
-            st.setInt(3, task.getId());
-            st.executeUpdate();
+            st_check = this.connection.prepareStatement(check);
+            st_check.setInt(1, task.getId());
+            ResultSet rs = st_check.executeQuery();
+            if (rs.next()) { //assegnamento della task esiste già, lo modifico
+                st_update = this.connection.prepareStatement(update);
+                st_update.setInt(1, task.getShift().getId());
+                st_update.setInt(2, task.getCook().getId());
+                st_update.setInt(3, task.getId());
+                st_update.executeUpdate();
+            } else { //assegnamento della task non esisteva, inserisco nuova tupla
+                st_insert = this.connection.prepareStatement(insert);
+                st_insert.setInt(1, task.getShift().getId());
+                st_insert.setInt(2, task.getCook().getId());
+                st_insert.setInt(3, task.getId());
+                st_insert.execute();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (st != null) st.close();
+                if (st_update != null) st_update.close();
+                if (st_check != null) st_check.close();
+                if (st_insert != null) st_insert.close();
             } catch (SQLException exc2) {
                 exc2.printStackTrace();
             }
