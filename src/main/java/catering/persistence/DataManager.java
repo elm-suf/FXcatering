@@ -881,24 +881,14 @@ public class DataManager {
         List<Recipe> recipes = loadRecipes(); //non rimuovere
         List<Task> ret = new ArrayList<>();
         PreparedStatement st = null;
-        PreparedStatement st1 = null;
 
-        String not_assigned = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
-                "r.id recipe_id FROM task t JOIN recipes r ON t.recipe = r.id " +
-                "WHERE is_assigned = 0 AND t.event = ?;";
-
-        String assigned = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
+        String SQL = "SELECT t.id task_id, t.index position, duration, is_assigned, is_completed, difficulty, quantity, " +
                 "r.id recipe_id, a.shift shift, a.user cook " +
-                "FROM task t JOIN recipes r ON t.recipe=r.id JOIN assignment a " +
+                "FROM task t JOIN recipes r ON t.recipe=r.id LEFT JOIN assignment a " +
                 "ON t.id = a.task WHERE t.event = ?;";
 
-//        try (PreparedStatement st = connection.prepareStatement(assigned)){
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
         try {
-            st = this.connection.prepareStatement(assigned);
+            st = this.connection.prepareStatement(SQL);
             st.setInt(1, event.getId());
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -925,36 +915,12 @@ public class DataManager {
                         index);
                 ret.add(task);
             }
-            st1 = this.connection.prepareStatement(not_assigned);
-            st1.setInt(1, event.getId());
-            rs = st1.executeQuery();
-            while (rs.next()) {
-                int taskId = rs.getInt("task_id");
-                boolean isAssigned = rs.getBoolean("is_assigned");
-                boolean isCompleted = rs.getBoolean("is_completed");
-                int difficulty = rs.getInt("difficulty");
-                int duration = rs.getInt("duration");
-                int quantity = rs.getInt("quantity");
-                int index = rs.getInt("position");
-                int recipeId = rs.getInt("recipe_id");
-
-                Task task = new Task(taskId,
-                        this.idToRecipeObject.get(recipeId),
-                        quantity,
-                        difficulty,
-                        isCompleted,
-                        isAssigned,
-                        duration,
-                        index);
-                ret.add(task);
-            }
 
         } catch (SQLException exc) {
             exc.printStackTrace();
         } finally {
             try {
                 if (st != null) st.close();
-                if (st1 != null) st1.close();
             } catch (SQLException exc2) {
                 exc2.printStackTrace();
             }
