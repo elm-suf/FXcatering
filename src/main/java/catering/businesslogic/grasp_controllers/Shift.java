@@ -16,6 +16,10 @@ public class Shift {
         this.type = type;
     }
 
+    public Shift() {
+
+    }
+
     public Date getDate() {
         return date;
     }

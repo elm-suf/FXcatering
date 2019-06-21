@@ -20,6 +20,7 @@ activate EventManager
     else
     EventManager -> EventManager : setCurrentEvent(event)
 end
+'//todo notifyEventSelected()
 deactivate EventManager
 @enduml
 

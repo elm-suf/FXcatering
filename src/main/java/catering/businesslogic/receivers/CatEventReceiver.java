@@ -1,5 +1,6 @@
 package catering.businesslogic.receivers;
 
+import catering.businesslogic.grasp_controllers.CatEvent;
 import catering.businesslogic.grasp_controllers.Task;
 import catering.businesslogic.grasp_controllers.User;
 
@@ -13,4 +14,6 @@ public interface CatEventReceiver {
     void notifyTaskAssigned(Task task);
 
     void notifyTaskAssignmentDeleted(Task task, User cook);
+
+    void notifyEventSelected(CatEvent event);
 }

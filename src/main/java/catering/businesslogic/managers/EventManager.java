@@ -40,14 +40,16 @@ public class EventManager {
 
         System.out.println("check: " + event.getChef() + " current : " + currentUser);
         System.out.println("ccc " + event.getChef().equals(currentUser));
-        currentEvent = event;
+        this.currentEvent = event;
         //todo forse dobbiamo tornare qualcosa dopo eventuale Notify
+
+        receivers.forEach(rec -> rec.notifyEventSelected(currentEvent));
     }
 
 
     public void addTask(Recipe recipe) throws AssignTaskException {
-        System.out.println("eventManager " + recipe);
-        System.out.println("eventManager  currentEvnt " + currentEvent);
+        System.out.println("eventManager " + recipe.getId());
+        System.out.println("eventManager  currentEvnt " + this.currentEvent);
         User currentUser = checkIfChef();
         if (currentEvent == null) {
             throw new AssignTaskException("Evento non puo essere null");
@@ -56,9 +58,15 @@ public class EventManager {
             throw new AssignTaskException("Solo lo chef incaricato dell'evento puo assegnare cose");
         }
 
-        Task task = new Task(recipe, null, null, false, false);
+        Task task = new Task();
+        task.setRecipe(recipe);
+        task.setAssigned(false);
+        task.setCompleted(false);
         currentEvent.addTask(task);
+        CateringAppManager.dataManager.addTask(recipe);
 
+        System.out.println("sending " + task.getRecipe());
+        System.out.println("sen " + recipe);
         receivers.forEach(rec -> rec.notifyTaskAdded(task));
     }
 

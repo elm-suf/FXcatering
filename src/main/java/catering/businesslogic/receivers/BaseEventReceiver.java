@@ -100,4 +100,9 @@ public class BaseEventReceiver implements MenuEventReceiver, CatEventReceiver {
     public void notifyTaskAssignmentDeleted(Task task, User cook) {
 
     }
+
+    @Override
+    public void notifyEventSelected(CatEvent event) {
+
+    }
 }

@@ -90,6 +90,9 @@
                                    prefWidth="131.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="16.0"/>
                         <Button fx:id="assign_task_btn" layoutX="135.0" layoutY="372.0" mnemonicParsing="false"
                                 text="Save"/>
+                        <AnchorPane fx:id="add_task_here" prefHeight="542.4" prefWidth="306.4"
+                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                     </children>
                 </AnchorPane>
             </items>

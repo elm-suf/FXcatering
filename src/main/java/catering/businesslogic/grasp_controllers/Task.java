@@ -125,15 +125,9 @@ public class Task {
     }
 
 
-    @Override
     public String toString() {
         return "Task{" +
-                "recipe=" + recipe.getName() +
-                ", shift=" + (shift != null ? shift.toString() : "") +
-                ", cook=" + (cook != null ? cook.getName() : "") +
-                ", isCompleted=" + isCompleted +
-                ", isAssigned=" + isAssigned +
-                ", durationMinutes=" + durationMinutes +
+                "id=" + id +
                 ", index=" + index +
                 '}';
     }

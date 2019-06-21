@@ -6,8 +6,8 @@ import catering.businesslogic.receivers.CatEventReceiver;
 import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
+import java.util.*;
 
 public class DataManager {
     private String userName = "root";
@@ -227,7 +227,7 @@ public class DataManager {
         CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
             @Override
             public void notifyTaskAdded(Task task) {
-
+//                System.out.println("DataManager() Notify" + task.getRecipe());
             }
 
             @Override
@@ -248,6 +248,11 @@ public class DataManager {
 
             @Override
             public void notifyTaskAssignmentDeleted(Task task, User cook) {
+
+            }
+
+            @Override
+            public void notifyEventSelected(CatEvent event) {
 
             }
         });
@@ -1075,24 +1080,17 @@ public class DataManager {
         }
     }
 
-    public void addTask(Task task) {
-        String SQL = "INSERT into task (recipe, event, user, is_assigned, is_completed, `index`, quantity, difficulty, duration)\n" +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    public void addTask(Recipe recipe) {
+        String SQL = "INSERT into task (recipe, event, is_assigned, is_completed, `index`, quantity, difficulty, duration)\n" +
+                "values (?, ?, 0, 0, 0, 0, 0, 0);";
 
         PreparedStatement st = null;
         try {
             st = this.connection.prepareStatement(SQL);
-            st.setInt(1, task.getRecipe().getId());
+            st.setInt(1, recipe.getId());
 //            st.setInt("event", task.getId());
             int eventId = CateringAppManager.eventManager.getCurrentEvent().getId();
             st.setInt(2, eventId);
-            st.setInt(3, task.getCook().getId());
-            st.setBoolean(4, task.isAssigned());
-            st.setBoolean(5, task.isCompleted());
-            st.setInt(6, task.getIndex());
-            st.setInt(7, task.getQuantity());
-            st.setInt(8, task.getDifficulty());
-            st.setInt(9, task.getDurationMinutes());
             int rs = st.executeUpdate();
             System.out.println("Exec query :\n" + st.toString());
         } catch (SQLException exc) {

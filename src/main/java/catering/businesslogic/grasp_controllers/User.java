@@ -20,6 +20,10 @@ public class User {
         this.roles = new HashSet<>();
     }
 
+    public User() {
+
+    }
+
     public String getName() {
         return name;
     }

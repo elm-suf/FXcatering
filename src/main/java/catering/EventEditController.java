@@ -1,10 +1,7 @@
 package catering;
 
 import catering.businesslogic.exceptions.AssignTaskException;
-import catering.businesslogic.grasp_controllers.Recipe;
-import catering.businesslogic.grasp_controllers.Shift;
-import catering.businesslogic.grasp_controllers.Task;
-import catering.businesslogic.grasp_controllers.User;
+import catering.businesslogic.grasp_controllers.*;
 import catering.businesslogic.managers.CateringAppManager;
 import catering.businesslogic.receivers.CatEventReceiver;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,6 +25,9 @@ import java.util.List;
 public class EventEditController {
 
     AnchorPane newAnchorPane;
+
+    @FXML
+    AnchorPane add_task_here;
     @FXML
     private AnchorPane edit_root_pane;
     @FXML
@@ -108,6 +108,7 @@ public class EventEditController {
     }
 
     private void showDetailedView(Task selectedTask, boolean isNew) {
+        add_task_here.setVisible(false);
         detail_task.setVisible(true);
         recipe_combo.setVisible(isNew);
         recipe_txf.setVisible(!isNew);
@@ -202,6 +203,7 @@ public class EventEditController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        edit_root_pane.getChildren().removeAll();
         edit_root_pane.getChildren().setAll(newAnchorPane);
     }
 
@@ -227,7 +229,18 @@ public class EventEditController {
 
     private void initView() {
 //        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
-        add_task_btn.setOnAction(e -> showAddTaskView(new Task()));
+        newAnchorPane = new AnchorPane();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("add_task.fxml"));
+        try {
+            newAnchorPane = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        add_task_here.getChildren().setAll(newAnchorPane);
+
+
+        add_task_btn.setOnAction(e -> showAddTaskView());
 
         position_up_btn.setOnAction(e -> increasePosition());
         position_down_btn.setOnAction(e -> decreasePositionIfNotZero());
@@ -257,12 +270,12 @@ public class EventEditController {
         });
     }
 
-    private void showAddTaskView(Task task) {
-//        detail_task.setVisible(true);
+    private void showAddTaskView() {
 
         System.out.println("showAddTaskView();");
-        showDetailedView(task, true);
-
+        detail_task.setVisible(true);
+        add_task_here.setVisible(true);
+//        add_task_here.setVisible(true);
     }
 
     private void initData() {
@@ -280,7 +293,8 @@ public class EventEditController {
         CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
             @Override
             public void notifyTaskAdded(Task task) {
-
+                tasks.add(task);
+//                refreshTable();
             }
 
             @Override
@@ -306,6 +320,11 @@ public class EventEditController {
 
             @Override
             public void notifyTaskAssignmentDeleted(Task task, User cook) {
+
+            }
+
+            @Override
+            public void notifyEventSelected(CatEvent event) {
 
             }
         });
