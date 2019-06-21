@@ -243,7 +243,8 @@ public class DataManager {
             @Override
             public void notifyTaskAssigned(Task task) {
                 updateTask(task);
-                assignTask(task);
+                if (task.getShift() != null || task.getCook() != null)
+                    assignTask(task);
             }
 
             @Override
@@ -1055,8 +1056,12 @@ public class DataManager {
 
     private void updateTask(Task task) {
         PreparedStatement st = null;
+        String SQL;
+        if (task.getShift() != null && task.getCook() != null)
+            SQL = "UPDATE task SET quantity = ?, duration = ?, difficulty = ?, is_assigned = 1 WHERE id = ?";
+        else
+            SQL = "UPDATE task SET quantity = ?, duration = ?, difficulty = ? WHERE id = ?";
 
-        String SQL = "UPDATE task SET quantity = ?, duration = ?, difficulty = ?, is_assigned = 1 WHERE id = ?";
         try {
             st = this.connection.prepareStatement(SQL);
             st.setInt(1, task.getQuantity());
@@ -1112,25 +1117,53 @@ public class DataManager {
         PreparedStatement st_insert = null;
 
         String check = "SELECT id FROM assignment WHERE task = ?";
-        String update = "UPDATE assignment SET shift = ?, user = ? WHERE task = ?";
-        String insert = "INSERT INTO assignment(shift, user, task) VALUES(?, ?, ?)";
+        String update_all = "UPDATE assignment SET shift = ?, user = ? WHERE task = ?";
+        String update_cook = "UPDATE assignment SET user = ? WHERE task = ?";
+        String update_shift = "UPDATE assignment SET shift = ? WHERE task = ?";
+        String insert_all = "INSERT INTO assignment(shift, user, task) VALUES(?, ?, ?)";
+        String insert_cook = "INSERT INTO assignment(user, task) VALUES(?, ?)";
+        String insert_shift = "INSERT INTO assignment(shift, task) VALUES(?, ?)";
 
         try {
             st_check = this.connection.prepareStatement(check);
             st_check.setInt(1, task.getId());
             ResultSet rs = st_check.executeQuery();
             if (rs.next()) { //assegnamento della task esiste già, lo modifico
-                st_update = this.connection.prepareStatement(update);
-                st_update.setInt(1, task.getShift().getId());
-                st_update.setInt(2, task.getCook().getId());
-                st_update.setInt(3, task.getId());
-                st_update.executeUpdate();
+                if (task.getShift() != null && task.getCook() != null) {
+                    st_update = this.connection.prepareStatement(update_all);
+                    st_update.setInt(1, task.getShift().getId());
+                    st_update.setInt(2, task.getCook().getId());
+                    st_update.setInt(3, task.getId());
+                    st_update.executeUpdate();
+                } else if (task.getShift() != null) {
+                    st_update = this.connection.prepareStatement(update_shift);
+                    st_update.setInt(1, task.getShift().getId());
+                    st_update.setInt(3, task.getId());
+                    st_update.executeUpdate();
+                } else {
+                    st_update = this.connection.prepareStatement(update_cook);
+                    st_update.setInt(1, task.getCook().getId());
+                    st_update.setInt(3, task.getId());
+                    st_update.executeUpdate();
+                }
             } else { //assegnamento della task non esisteva, inserisco nuova tupla
-                st_insert = this.connection.prepareStatement(insert);
-                st_insert.setInt(1, task.getShift().getId());
-                st_insert.setInt(2, task.getCook().getId());
-                st_insert.setInt(3, task.getId());
-                st_insert.execute();
+                if (task.getShift() != null && task.getCook() != null) {
+                    st_insert = this.connection.prepareStatement(insert_all);
+                    st_insert.setInt(1, task.getShift().getId());
+                    st_insert.setInt(2, task.getCook().getId());
+                    st_insert.setInt(3, task.getId());
+                    st_insert.execute();
+                } else if (task.getShift() != null) {
+                    st_insert = this.connection.prepareStatement(insert_shift);
+                    st_insert.setInt(1, task.getShift().getId());
+                    st_insert.setInt(2, task.getId());
+                    st_insert.execute();
+                } else {
+                    st_insert = this.connection.prepareStatement(insert_cook);
+                    st_insert.setInt(1, task.getCook().getId());
+                    st_insert.setInt(2, task.getId());
+                    st_insert.execute();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

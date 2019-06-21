@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +97,9 @@ public class EventEditController {
     @FXML
     private Label position_lbl;
 
+    @FXML
+    private Label error_label;
+
     private Recipe selectedRecipe;
 
 
@@ -118,8 +122,7 @@ public class EventEditController {
             recipe_combo.setOnAction(e -> {
                 int selected = recipe_combo.getSelectionModel().getSelectedIndex();
                 System.out.println(recipe_combo.getSelectionModel().getSelectedIndex());
-                if (selected > 0
-                ) {
+                if (selected > 0) {
                     this.selectedRecipe = recipes.get(selected);
                 }
             });
@@ -127,10 +130,21 @@ public class EventEditController {
             assign_task_btn.setOnAction(e -> addTask());
 
         } else {
-            assign_task_btn.setOnMouseClicked(e -> assignTask(selectedTask, shift_combo.getSelectionModel().getSelectedItem(),
-                    cook_combo.getSelectionModel().getSelectedItem(), quantity_txf.getText(), duration_txf.getText(),
-                    difficulty_combo.getSelectionModel().getSelectedItem())
-            );
+            assign_task_btn.setOnMouseClicked(e -> {
+                if (quantity_txf.getText() != null && Integer.valueOf(quantity_txf.getText()) < 0) {
+                    error_label.setTextFill(Paint.valueOf("#FF0000"));
+                    error_label.setText("Quantità assegnata non valida");
+                } else if (duration_txf.getText() != null && Integer.valueOf(duration_txf.getText()) < 0) {
+                    error_label.setTextFill(Paint.valueOf("#FF0000"));
+                    error_label.setText("Durata assegnata non valida");
+                } else {
+                    error_label.setTextFill(Paint.valueOf("green"));
+                    error_label.setText("Salvato");
+                    assignTask(selectedTask, shift_combo.getSelectionModel().getSelectedItem(),
+                            cook_combo.getSelectionModel().getSelectedItem(), quantity_txf.getText(), duration_txf.getText(),
+                            difficulty_combo.getSelectionModel().getSelectedItem());
+                }
+            });
 
             //================================================================\\
             int shiftindex = shifts.indexOf(selectedTask.getShift());
@@ -138,19 +152,15 @@ public class EventEditController {
             if (selectedTask.getShift() != null) {
                 users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(selectedTask.getShift()));
                 cook_combo.setItems(users);
-                System.out.println("users not null");
                 cookIndex = users.indexOf(selectedTask.getCook());
-                System.out.println("index " + cookIndex);
                 cook_combo.getSelectionModel().select(cookIndex);
             } else {
-                System.out.println("else");
                 cook_combo.getSelectionModel().select(selectedTask.getCook());
-
-                recipe_txf.setText(selectedTask.getRecipe().toString());
-                difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
-                duration_txf.setText(String.valueOf(selectedTask.getDurationMinutes()));
-                quantity_txf.setText(String.valueOf(selectedTask.getQuantity()));
             }
+            recipe_txf.setText(selectedTask.getRecipe().toString());
+            difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
+            duration_txf.setText(String.valueOf(selectedTask.getDurationMinutes()));
+            quantity_txf.setText(String.valueOf(selectedTask.getQuantity()));
             shift_combo.getSelectionModel().select(shiftindex);
             //==================================================================\\
 
@@ -246,11 +256,15 @@ public class EventEditController {
             if (tc.getValue().getCook() != null)
                 return new SimpleObjectProperty<>(tc.getValue().getCook().getName());
             else
-                return new SimpleObjectProperty<>("Unassigned");
+                return new SimpleObjectProperty<>("Non assegnato");
         });
 
         task_list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        task_list.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+
+        task_list.getSelectionModel().selectedIndexProperty().addListener((observable, oldVal, newVal) -> {
+            System.out.println(oldVal + " " + newVal);
+            if (!oldVal.equals(-1) && !newVal.equals(-1) && !oldVal.equals(newVal))
+                error_label.setText("");
             selectedTask = task_list.getSelectionModel().getSelectedItem();
             if (selectedTask != null)
                 showDetailedView(selectedTask, false);
