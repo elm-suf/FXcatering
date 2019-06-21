@@ -28,6 +28,7 @@ public class RecipeManager {
         // il contenuto
         List<Recipe> ret = new ArrayList<>();
         ret.addAll(recipes);
+        ret.forEach(System.out::println);
         return ret;
     }
 }

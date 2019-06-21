@@ -96,76 +96,113 @@ public class EventEditController {
     @FXML
     private Label position_lbl;
 
+
+    @FXML
+    private TextField shift_txf;
+
+    @FXML
+    private TextField cook_txf;
+
+
+    @FXML
+    private TextField difficulty_txf;
+
+    @FXML
+    private Button edit_task_btn;
+
+    @FXML
+    private Button delete_task_btn;
+
     private Recipe selectedRecipe;
+    private Shift currentShift;
 
 
     @FXML
     void initialize() {
         initTaskList();
         loadRecipes();
-        initView();
         initData();
+        initView();
     }
 
-    private void showDetailedView(Task selectedTask, boolean isNew) {
-        detail_task.setVisible(true);
-        difficulty_combo.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(
-                "Facile", "Medio", "Difficile"
-        ))));
-        shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
-        shift_combo.setItems(shifts);
-        if (isNew) {
-            assign_task_btn.setOnAction(e -> addTask());
-            List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
-            recipes = FXCollections.observableList(allRec);
-            recipe_combo.setItems(recipes);
+    private void setListeners() {
+//        shift_combo.setOnAction(e -> {
+//            System.out.println("shift_combo.setOnAction");
+//            if (shift_combo.getSelectionModel().getSelectedItem() != null) {
+//                users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shift_combo.getSelectionModel().getSelectedItem()));
+//                User selectedItem = cook_combo.getSelectionModel().getSelectedItem();
+//                if (selectedItem != null) {
+//                    cook_combo.setItems(users);
+//                    cook_combo.getSelectionModel().select(selectedItem);
+//                }
+//            }
+//        });
 
-            recipe_combo.setVisible(true);
-            recipe_txf.setVisible(false);
-//            difficulty_combo.setText("");
-            duration_txf.setText("");
-
-            quantity_txf.setText("");
-        } else {
-            assign_task_btn.setOnMouseClicked(e -> {
-//            selectedTask.setShift();
-                        assignTask(selectedTask, shift_combo.getSelectionModel().getSelectedItem(),
-                                cook_combo.getSelectionModel().getSelectedItem(), quantity_txf.getText(), duration_txf.getText(),
-                                difficulty_combo.getSelectionModel().getSelectedItem());
-                    }
-            );
-
-            recipe_combo.setVisible(false);
-            recipe_txf.setVisible(true);
-            if (selectedTask.isAssigned()) {
-                shift_combo.getSelectionModel().select(selectedTask.getShift());
-                cook_combo.getSelectionModel().select(selectedTask.getCook());
-            } else {
-                shift_combo.getSelectionModel().select(null);
-                cook_combo.getSelectionModel().select(null);
-            }
-            recipe_txf.setText(selectedTask.getRecipe().toString());
-            difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
-            duration_txf.setText(String.valueOf(selectedTask.getDurationMinutes()));
-            quantity_txf.setText(String.valueOf(selectedTask.getQuantity()));
-        }
-
-        shift_combo.setOnAction(e -> {
-            if (shift_combo.getSelectionModel().getSelectedItem() != null) {
+        shift_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> {
+            if (newVal == null)
+                System.out.println("isnull");
+            if (oldVal != newVal) {
+                currentShift = newVal;
+                System.out.println("changed val: ");
                 users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(shift_combo.getSelectionModel().getSelectedItem()));
+                User selectedItem = cook_combo.getSelectionModel().getSelectedItem();
                 cook_combo.setItems(users);
+                cook_combo.getSelectionModel().select(selectedItem);
+            } else {
+                System.out.println("same");
             }
         });
 
         recipe_combo.setOnAction(e -> {
+            System.out.println("recipe_combo.setOnAction");
             int selected = recipe_combo.getSelectionModel().getSelectedIndex();
             System.out.println(recipe_combo.getSelectionModel().getSelectedIndex());
             this.selectedRecipe = recipes.get(selected);
         });
-
-
-        //todo wire the save button
     }
+
+//    private void showDetailedView(Task selectedTask, boolean isNew) {
+//        setListeners();
+//        users = FXCollections.observableList(CateringAppManager.userManager.getUsersInShift(selectedTask.getShift()));
+//        cook_combo.setItems(users);
+//        detail_task.setVisible(true);
+//        difficulty_combo.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(
+//                "Facile", "Medio", "Difficile"
+//        ))));
+//        shifts = FXCollections.observableList(CateringAppManager.shiftManager.getShifts());
+//        shift_combo.setItems(shifts);
+//        System.out.println("ciao");
+//        if (isNew) {
+//            assign_task_btn.setOnAction(e -> addTask());
+//            List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
+//            recipes = FXCollections.observableList(allRec);
+//            recipe_combo.setItems(recipes);
+//
+//            recipe_combo.setVisible(true);
+//            recipe_txf.setVisible(false);
+//            duration_txf.setText("");
+//            quantity_txf.setText("");
+//        } else {
+//            assign_task_btn.setOnMouseClicked(e -> assignTask(selectedTask, shift_combo.getSelectionModel().getSelectedItem(),
+//                    cook_combo.getSelectionModel().getSelectedItem(), quantity_txf.getText(), duration_txf.getText(),
+//                    difficulty_combo.getSelectionModel().getSelectedItem())
+//
+//            );
+//
+//            recipe_combo.setVisible(false);
+//            recipe_txf.setVisible(true);
+//            shift_combo.getSelectionModel().select(selectedTask.getShift());
+//            cook_combo.getSelectionModel().select(selectedTask.getCook());
+//
+//            System.out.println("Cook attuale: " + selectedTask.getCook());
+//            System.out.println("Cook_combo dopo: " + cook_combo.getSelectionModel().getSelectedItem());
+//
+//            recipe_txf.setText(selectedTask.getRecipe().toString());
+//            difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
+//            duration_txf.setText(String.valueOf(selectedTask.getDurationMinutes()));
+//            quantity_txf.setText(String.valueOf(selectedTask.getQuantity()));
+//        }
+//    }
 
     private void addTask() {
         System.out.println("Adding Task : " + selectedRecipe.getName());
@@ -226,12 +263,19 @@ public class EventEditController {
     }
 
     private void initView() {
-//        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
-        add_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
+        setListeners();
+        difficulty_combo.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(
+                "Facile", "Medio", "Difficile"
+        ))));
+        edit_task_btn.setOnAction(e -> showEditTask(selectedTask, true));
+
+//        assign_task_btn.setOnAction(e -> showEditTask(selectedTask, true));
+//        add_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
         position_up_btn.setOnAction(e -> increasePosition());
         position_down_btn.setOnAction(e -> decreasePositionIfNotZero());
         detail_task.setVisible(false);
 
+        recipe_combo.setItems(recipes);
         //todo check set selected task
 
 
@@ -252,11 +296,75 @@ public class EventEditController {
         task_list.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedTask = task_list.getSelectionModel().getSelectedItem();
             if (selectedTask != null)
-                showDetailedView(selectedTask, false);
+                showEditTask(selectedTask, false);
         });
     }
 
+    private void showEditTask(Task selectedTask, boolean isEditable) {
+        recipe_txf.setVisible(!isEditable);
+        shift_txf.setVisible(!isEditable);
+        cook_txf.setVisible(!isEditable);
+        difficulty_txf.setVisible(!isEditable);
+
+        cook_combo.setVisible(isEditable);
+        difficulty_combo.setVisible(isEditable);
+        shift_combo.setVisible(isEditable);
+        recipe_combo.setVisible(isEditable);
+
+        duration_txf.setEditable(isEditable);
+        quantity_txf.setEditable(isEditable);
+
+        if (isEditable) {
+//            currentShift = selectedTask.getShift();
+
+        } else {
+
+
+        }
+
+        System.out.println("showEditTask() " + selectedTask.getId() + " flag=" + isEditable);
+        detail_task.setVisible(true);
+        recipe_combo.setVisible(false);
+        recipe_txf.setVisible(true);
+
+
+        currentShift = selectedTask.getShift();
+        int i = shifts.indexOf(currentShift);
+        shift_combo.getSelectionModel().select(i);
+        System.out.println("Selected item " + shift_combo.getSelectionModel().getSelectedItem());
+        System.out.println("Selected shift " + currentShift);
+        System.out.println("***Selected index " + i);
+        cook_combo.getSelectionModel().select(selectedTask.getCook());
+        difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
+
+        recipe_txf.setText(selectedTask.getRecipe().getName());
+        shift_txf.setText(selectedTask.getShift().toString());
+        quantity_txf.setText(Integer.toString(selectedTask.getQuantity()));
+        duration_txf.setText(Integer.toString(selectedTask.getDurationMinutes()));
+        cook_txf.setText(selectedTask.getCook().toString());
+
+
+        String difficulty;
+        if (selectedTask.getDifficulty() == 0)
+            difficulty = "Facile";
+        else if (selectedTask.getDifficulty() == 1)
+            difficulty = "Medio";
+        else
+            difficulty = "Difficile";
+
+        difficulty_txf.setText(difficulty);
+
+    }
+
     private void initData() {
+        List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
+        recipes = FXCollections.observableList(allRec);
+        recipe_combo.setItems(recipes);
+
+        List<Shift> allShifts = CateringAppManager.shiftManager.getShifts();
+        shifts = FXCollections.observableList(allShifts);
+        shift_combo.setItems(shifts);
+
         CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
             @Override
             public void notifyTaskAdded(Task task) {
@@ -279,10 +387,9 @@ public class EventEditController {
             public void notifyTaskAssigned(Task task) {
                 selectedTask = task;
                 refreshTable();
-                showDetailedView(task, false);
                 task_list.getSelectionModel().select(task);
+//                showDetailedView(task, false);
             }
-
 
 
             @Override

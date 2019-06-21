@@ -1,6 +1,7 @@
 package catering.businesslogic.grasp_controllers;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Shift {
     //public enum Type {service, kitchen};
@@ -38,5 +39,18 @@ public class Shift {
     @Override
     public String toString() {
         return date + " - " + type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shift shift = (Shift) o;
+        return id == shift.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

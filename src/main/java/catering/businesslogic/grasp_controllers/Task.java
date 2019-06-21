@@ -128,6 +128,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
+                "id=" + recipe.getId() +
                 "recipe=" + recipe.getName() +
                 ", shift=" + (shift != null ? shift.toString() : "") +
                 ", cook=" + (cook != null ? cook.getName() : "") +
