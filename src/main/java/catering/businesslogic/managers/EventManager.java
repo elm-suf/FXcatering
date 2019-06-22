@@ -71,6 +71,7 @@ public class EventManager {
     }
 
     public void deleteTAsk(Task task) throws AssignTaskException {
+        System.out.println("DeleteTask " + task);
         User currentUser = checkIfChef();
         if (currentEvent == null) {
             throw new AssignTaskException("Evento non puo essere null");
@@ -78,7 +79,7 @@ public class EventManager {
         if (!currentEvent.getChef().equals(currentUser)) {
             throw new AssignTaskException("Solo lo chef incaricato dell'evento puo assegnare cose");
         }
-        if (!currentEvent.getTasks().contains(task))
+        if (!getAllTasks().contains(task))
             throw new AssignTaskException("Non puoi eliminare Task inesistente");
 
         currentEvent.deleteTask(task);

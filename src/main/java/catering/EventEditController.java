@@ -327,7 +327,9 @@ public class EventEditController {
 
             @Override
             public void notifyTaskRemoved(Task task) {
-                System.out.println("Task Removed " + task);
+                System.out.println("[ Notify - EvEdCtrl ]Task Removed " + task);
+                System.out.println("\t##- Index " + tasks.indexOf(task));
+                tasks.remove(task);
 
             }
 

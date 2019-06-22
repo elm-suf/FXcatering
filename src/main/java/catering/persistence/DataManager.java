@@ -232,7 +232,19 @@ public class DataManager {
 
             @Override
             public void notifyTaskRemoved(Task task) {
-
+                //todo
+                String SQL1 = "delete from assignment where assignment.task=?;\n";
+                String SQL2 = "delete  from task where task.id=?;\n";
+                try (PreparedStatement st1 = connection.prepareStatement(SQL1);
+                     PreparedStatement st2 = connection.prepareStatement(SQL2)) {
+                    st1.setInt(1, task.getId());
+                    st2.setInt(1, task.getId());
+                    int i1 = st1.executeUpdate();
+                    int i2 = st2.executeUpdate();
+                    System.out.println("[DB delete task] status:\n\t assignment =" + i1 + "; task= " + i2);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -1136,12 +1148,12 @@ public class DataManager {
                 } else if (task.getShift() != null) {
                     st_update = this.connection.prepareStatement(update_shift);
                     st_update.setInt(1, task.getShift().getId());
-                    st_update.setInt(3, task.getId());
+                    st_update.setInt(2, task.getId());
                     st_update.executeUpdate();
                 } else {
                     st_update = this.connection.prepareStatement(update_cook);
                     st_update.setInt(1, task.getCook().getId());
-                    st_update.setInt(3, task.getId());
+                    st_update.setInt(2, task.getId());
                     st_update.executeUpdate();
                 }
             } else { //assegnamento della task non esisteva, inserisco nuova tupla
