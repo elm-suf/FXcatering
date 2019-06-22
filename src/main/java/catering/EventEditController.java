@@ -334,16 +334,20 @@ public class EventEditController {
 
 
         CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
-            @Override
-            public void notifyTaskAdded(Task task) {
-                tasks.add(task);
+            private void showNotification(String title, String text) {
                 Notifications.create()
-                        .title("Compito agiiunto")
-                        .text(task.toString())
+                        .title(title)
+                        .text(text)
                         .position(Pos.TOP_RIGHT)
                         .hideAfter(Duration.seconds(1))
                         .showInformation();
-//                refreshTable();
+            }
+
+            @Override
+            public void notifyTaskAdded(Task task) {
+                tasks.add(task);
+
+                showNotification("Compito agiiunto", task.toString());
             }
 
             @Override
@@ -353,17 +357,7 @@ public class EventEditController {
                 tasks.remove(task);
 
                 showNotification("Eliminazione Compito", "Questo compito e' stato eliminato eliminato ...");
-                Notifications.create()
-                        .title("Eliminazione Compito")
-                        .text("Questo compito e' stato eliminato eliminato ...")
-                        .position(Pos.TOP_RIGHT)
-                        .hideAfter(Duration.seconds(1))
-                        .showInformation();
             }
-
-            private void showNotification(String eliminazione_compito, String s) {
-            }
-
             @Override
             public void notifyTaskSorted(Task task) {
                 selectedTask = task;
@@ -377,19 +371,9 @@ public class EventEditController {
                 refreshTable();
                 task_list.getSelectionModel().select(task);
                 if (task.getCook() != null)
-                    Notifications.create()
-                            .title("Assegnamento Compito")
-                            .text("Questo compito e' stato asseganto a " + task.getCook().getName())
-                            .position(Pos.TOP_RIGHT)
-                            .hideAfter(Duration.seconds(1))
-                            .showWarning();
+                    showNotification("Assegnamento Compito", "Questo compito e' stato asseganto a " + task.getCook().getName());
                 else
-                    Notifications.create()
-                            .title("Compito Aggiornato")
-                            .text("Questo compito e' stato aggiornato ")
-                            .position(Pos.TOP_RIGHT)
-                            .hideAfter(Duration.seconds(1))
-                            .showWarning();
+                    showNotification("Compito Aggiornato", "Questo compito e' stato aggiornato ");
             }
 
 
