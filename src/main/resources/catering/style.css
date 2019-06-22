@@ -1,0 +1,65 @@
+/*#jfx_combo{*/
+/*    -fx-prompt-text-fill: red;*/
+/*}*/
+/*#jfx_combo:selected{*/
+/*    -fx-prompt-text-fill: red;*/
+/*}*/
+/*#jfx_combo:filled{*/
+/*    -fx-prompt-text-fill: red;*/
+/*}*/
+/*#jfx_combo:hover{*/
+/*    -fx-prompt-text-fill: red;*/
+/*}*/
+/*#jfx_combo:showing{*/
+/*    -fx-prompt-text-fill: red;*/
+/*}*/
+
+.cell:selected {
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-label-padding: 0 0 0 20;
+}
+
+
+/*#jfx_combo {*/
+/*    -fx-background: white;*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-text-fill: red;*/
+/*    -fx-padding: 3 0 2 7;*/
+/*    -fx-cell-size: 1.66667em;*/
+/*}*/
+
+
+/*#jfx_combo .combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover {*/
+/*    -fx-background: -fx-accent;*/
+/*    -fx-background-color: -fx-selection-bar;*/
+/*    -fx-text-fill: -fx-selection-bar-text;*/
+/*}*/
+
+
+/*#jfx_combo .combo-box-base {*/
+/*    -fx-background-color: white, white, white, white;*/
+/*    -fx-background-radius: 5, 5, 4, 3;*/
+/*    -fx-background-insets: 0 0 -1 0, 0, 1, 2;*/
+/*    -fx-padding: 0;*/
+/*}*/
+
+/*#jfx_combo .combo-box-base:hover {*/
+/*    -fx-color: -fx-hover-base;*/
+/*}*/
+
+/*#jfx_combo .combo-box-base:showing {*/
+/*    -fx-color: -fx-pressed-base;*/
+/*}*/
+
+/*#jfx_combo .combo-box-base:focused {*/
+/*    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;*/
+/*    -fx-background-radius: 6.4, 4, 5, 3;*/
+/*    -fx-background-insets: -1.4, 0, 1, 2;*/
+/*}*/
+
+/*#jfx_combo .combo-box-base:disabled {*/
+/*    -fx-opacity: .4;*/
+/*}*/

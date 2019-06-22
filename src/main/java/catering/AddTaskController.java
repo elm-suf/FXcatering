@@ -3,12 +3,13 @@ package catering;
 import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.grasp_controllers.Recipe;
 import catering.businesslogic.managers.CateringAppManager;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -17,13 +18,17 @@ import java.util.ResourceBundle;
 public class AddTaskController implements Initializable {
 
     @FXML
+    private JFXComboBox<Recipe> jfx_combo;
+
+    @FXML
+    private JFXButton jfx_button;
+
+    @FXML
     public Button commit_addtask_btn;
 
     @FXML
     private AnchorPane add_task_root;
 
-    @FXML
-    private ComboBox<Recipe> combo_recepies;
     private ObservableList<Recipe> allRecipes;
 
     public AddTaskController() {
@@ -31,21 +36,21 @@ public class AddTaskController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+//        jfx_combo.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList("facile", "facile", "facile"))));
         System.out.println("intialize");
         if (allRecipes == null)
             loadRecipes();
 
         initView();
-
-
     }
 
     private void initView() {
-        commit_addtask_btn.setOnAction(e -> {
-            System.out.println("ID= " + combo_recepies.getSelectionModel().getSelectedItem().getId());
-            try {
-                int index = combo_recepies.getSelectionModel().getSelectedIndex();
+        jfx_button.setOnAction(e -> {
+//            System.out.println("ID= " + combo_recepies.getSelectionModel().getSelectedItem().getId());
 
+            try {
+                int index = jfx_combo.getSelectionModel().getSelectedIndex();
+                System.out.println("Index " + index);
                 CateringAppManager.eventManager.addTask(allRecipes.get(index));
             } catch (AssignTaskException ex) {
                 System.out.println(ex.toString());
@@ -56,6 +61,6 @@ public class AddTaskController implements Initializable {
 
     private void loadRecipes() {
         allRecipes = FXCollections.observableList(CateringAppManager.recipeManager.getRecipes());
-        combo_recepies.setItems(allRecipes);
+        jfx_combo.setItems(allRecipes);
     }
 }

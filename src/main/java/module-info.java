@@ -4,6 +4,7 @@ module catering {
     requires java.sql;
     requires java.desktop;
     requires org.controlsfx.controls;
+    requires com.jfoenix;
 
     opens catering to javafx.fxml;
     exports catering;
