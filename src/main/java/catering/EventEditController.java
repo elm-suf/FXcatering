@@ -243,6 +243,15 @@ public class EventEditController {
 
     private void initView() {
 //        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
+        delete_task_btn.setOnAction(e -> {
+            try {
+                int index = task_list.getSelectionModel().getSelectedIndex();
+                CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
+            } catch (AssignTaskException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         newAnchorPane = new AnchorPane();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("add_task.fxml"));
@@ -282,6 +291,7 @@ public class EventEditController {
             System.out.println(oldVal + " " + newVal);
             if (!oldVal.equals(-1) && !newVal.equals(-1) && !oldVal.equals(newVal))
                 error_label.setText("");
+//            selectedTask = task_list.getSelectionModel().getSelectedItem();
             selectedTask = task_list.getSelectionModel().getSelectedItem();
             if (selectedTask != null)
                 showDetailedView(selectedTask, false);
@@ -317,6 +327,7 @@ public class EventEditController {
 
             @Override
             public void notifyTaskRemoved(Task task) {
+                System.out.println("Task Removed " + task);
 
             }
 
