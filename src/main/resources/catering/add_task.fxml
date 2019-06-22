@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="jfx_combo" fx:id="add_task_root" prefHeight="574.0"
-            prefWidth="310.0" style="-fx-background-color: #2D3447;" stylesheets="@style.css"
+            prefWidth="310.0" style="-fx-background-color: #2D3447;" stylesheets="@add_task.css"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
             AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="catering.AddTaskController">

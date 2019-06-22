@@ -8,7 +8,7 @@
             minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #2D3447;"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1"
+            stylesheets="@event_edit.css" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="catering.EventEditController">
     <children>
         <SplitPane dividerPositions="0.6124818577648766" layoutX="102.0" layoutY="56.0" minWidth="-Infinity"
@@ -18,7 +18,7 @@
             <items>
                 <AnchorPane fx:id="all_tasks_pane" prefHeight="342.0" prefWidth="354.0">
                     <children>
-                        <TableView fx:id="task_list" layoutX="-3.0" prefHeight="342.0" prefWidth="340.0"
+                        <TableView fx:id="task_list" layoutX="-3.0" prefHeight="525.0" prefWidth="486.0"
                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>

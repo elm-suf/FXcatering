@@ -59,6 +59,7 @@ public class AssignTasksController implements Initializable {
     private void initView() {
         title_label.setText("Bentornato " + currentUser.toString());
 
+        jfx_list.setFixedCellSize(52.0);
         jfx_list.setItems(catEvents);
         jfx_list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         jfx_list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
