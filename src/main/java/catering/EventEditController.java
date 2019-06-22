@@ -11,14 +11,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @noinspection Duplicates
@@ -244,12 +248,23 @@ public class EventEditController {
     private void initView() {
 //        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
         delete_task_btn.setOnAction(e -> {
-            try {
-                int index = task_list.getSelectionModel().getSelectedIndex();
-                CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
-            } catch (AssignTaskException ex) {
-                ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminazione di Compito");
+            alert.setHeaderText("Questo compito verra eliminato ...");
+            alert.setContentText("Sicur* di voler procedere?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                try {
+                    int index = task_list.getSelectionModel().getSelectedIndex();
+                    CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
+                } catch (AssignTaskException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                alert.close();
             }
+
         });
 
         newAnchorPane = new AnchorPane();
@@ -322,6 +337,12 @@ public class EventEditController {
             @Override
             public void notifyTaskAdded(Task task) {
                 tasks.add(task);
+                Notifications.create()
+                        .title("Compito agiiunto")
+                        .text(task.toString())
+                        .position(Pos.TOP_RIGHT)
+                        .hideAfter(Duration.seconds(1))
+                        .showInformation();
 //                refreshTable();
             }
 
@@ -331,6 +352,16 @@ public class EventEditController {
                 System.out.println("\t##- Index " + tasks.indexOf(task));
                 tasks.remove(task);
 
+                showNotification("Eliminazione Compito", "Questo compito e' stato eliminato eliminato ...");
+                Notifications.create()
+                        .title("Eliminazione Compito")
+                        .text("Questo compito e' stato eliminato eliminato ...")
+                        .position(Pos.TOP_RIGHT)
+                        .hideAfter(Duration.seconds(1))
+                        .showInformation();
+            }
+
+            private void showNotification(String eliminazione_compito, String s) {
             }
 
             @Override
@@ -345,7 +376,20 @@ public class EventEditController {
                 selectedTask = task;
                 refreshTable();
                 task_list.getSelectionModel().select(task);
-//                showDetailedView(task, false);
+                if (task.getCook() != null)
+                    Notifications.create()
+                            .title("Assegnamento Compito")
+                            .text("Questo compito e' stato asseganto a " + task.getCook().getName())
+                            .position(Pos.TOP_RIGHT)
+                            .hideAfter(Duration.seconds(1))
+                            .showWarning();
+                else
+                    Notifications.create()
+                            .title("Compito Aggiornato")
+                            .text("Questo compito e' stato aggiornato ")
+                            .position(Pos.TOP_RIGHT)
+                            .hideAfter(Duration.seconds(1))
+                            .showWarning();
             }
 
 
@@ -358,6 +402,7 @@ public class EventEditController {
             public void notifyEventSelected(CatEvent event) {
 
             }
+
         });
     }
 }
