@@ -38,6 +38,10 @@ public class Task {
         this.cook = cook;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Task() {
     }
 

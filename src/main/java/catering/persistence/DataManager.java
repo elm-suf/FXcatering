@@ -6,8 +6,8 @@ import catering.businesslogic.receivers.CatEventReceiver;
 import catering.businesslogic.receivers.MenuEventReceiver;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
+import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
@@ -1097,19 +1097,27 @@ public class DataManager {
         }
     }
 
-    public void addTask(Recipe recipe) {
-        String SQL = "INSERT into task (recipe, event, is_assigned, is_completed, `index`, quantity, difficulty, duration)\n" +
+    public int addTask(Recipe recipe) {
+        String SQL = "INSERT into task (recipe, event, is_assigned, is_completed, `index`, quantity, difficulty, duration) " +
                 "values (?, ?, 0, 0, 0, 0, 0, 0);";
+
+        String getId = "SELECT LAST_INSERT_ID() AS last_id FROM task;";
 
         PreparedStatement st = null;
         try {
             st = this.connection.prepareStatement(SQL);
             st.setInt(1, recipe.getId());
-//            st.setInt("event", task.getId());
             int eventId = CateringAppManager.eventManager.getCurrentEvent().getId();
             st.setInt(2, eventId);
-            int rs = st.executeUpdate();
             System.out.println("Exec query :\n" + st.toString());
+            st.execute();
+
+            st = this.connection.prepareStatement(getId);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return rs.getInt("last_id");
+
+
         } catch (SQLException exc) {
             exc.printStackTrace();
         } finally {
@@ -1119,6 +1127,7 @@ public class DataManager {
                 exc2.printStackTrace();
             }
         }
+        return 1;
     }
 
     private void assignTask(Task task) {
@@ -1162,6 +1171,9 @@ public class DataManager {
                     st_insert.setInt(1, task.getShift().getId());
                     st_insert.setInt(2, task.getCook().getId());
                     st_insert.setInt(3, task.getId());
+                    System.out.println("shift: " + task.getShift().getId() +
+                            "cook: " + task.getCook().getId() +
+                            "task: " + task.getId());
                     st_insert.execute();
                 } else if (task.getShift() != null) {
                     st_insert = this.connection.prepareStatement(insert_shift);

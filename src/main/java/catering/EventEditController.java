@@ -245,8 +245,8 @@ public class EventEditController implements CatEventReceiver {
         delete_task_btn.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminazione di Compito");
-            alert.setHeaderText("Questo compito verra eliminato ...");
-            alert.setContentText("Sicur* di voler procedere?");
+            alert.setHeaderText("Questo compito verrà eliminato");
+            alert.setContentText("Vuoi procedere?");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent())
@@ -368,7 +368,7 @@ public class EventEditController implements CatEventReceiver {
         refreshTable();
         task_list.getSelectionModel().select(task);
         if (task.getCook() != null)
-            showNotification("Assegnamento Compito", "Questo compito e' stato asseganto a " + task.getCook().getName());
+            showNotification("Assegnamento Compito", "Questo compito è stato assegnato a " + task.getCook().getName());
         else
             showNotification("Compito Aggiornato", "Questo compito e' stato aggiornato ");
     }

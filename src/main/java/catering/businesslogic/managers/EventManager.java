@@ -63,7 +63,7 @@ public class EventManager {
         task.setAssigned(false);
         task.setCompleted(false);
         currentEvent.addTask(task);
-        CateringAppManager.dataManager.addTask(recipe);
+        task.setId(CateringAppManager.dataManager.addTask(recipe));
 
         System.out.println("sending " + task.getRecipe());
         System.out.println("sen " + recipe);
