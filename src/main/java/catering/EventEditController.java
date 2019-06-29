@@ -27,9 +27,9 @@ import java.util.Optional;
 /**
  * @noinspection Duplicates
  */
-public class EventEditController {
+public class EventEditController implements CatEventReceiver {
 
-    AnchorPane newAnchorPane;
+    private AnchorPane newAnchorPane;
 
     @FXML
     AnchorPane add_task_here;
@@ -39,7 +39,7 @@ public class EventEditController {
     private AnchorPane all_tasks_pane;
     @FXML
     private TableView<Task> task_list;
-    ObservableList<Task> tasks;
+    private ObservableList<Task> tasks;
 
     @FXML
     private TableColumn<Task, Integer> task_index;
@@ -47,10 +47,8 @@ public class EventEditController {
     private TableColumn<Task, String> task_recipe;
     SimpleObjectProperty<Task> obsSelectedTas;
 
-    List<Task> allTasks;
-    String shift;
-    String user;
-    Task selectedTask;
+    private List<Task> allTasks;
+    private Task selectedTask;
     @FXML
     private TableColumn<Task, String> task_is_assigned;
     @FXML
@@ -66,8 +64,6 @@ public class EventEditController {
     @FXML
     private AnchorPane detail_task;
 
-
-    //    Detail Task FXML
     @FXML
     private TextField recipe_txf;
 
@@ -186,7 +182,6 @@ public class EventEditController {
     }
 
     private void addTask() {
-
         System.out.println("Adding Task : " + selectedRecipe.getName());
         try {
             CateringAppManager.eventManager.addTask(selectedRecipe);
@@ -203,7 +198,6 @@ public class EventEditController {
 
     private void loadRecipes() {
         List<Recipe> allRec = CateringAppManager.recipeManager.getRecipes();
-//        allRec.removeIf(recipe -> !recipe.isDish());
         recipes = FXCollections.observableList(allRec);
         recipe_combo.setItems(recipes);
     }
@@ -221,6 +215,7 @@ public class EventEditController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        CateringAppManager.eventManager.removeReceiver(this);
         edit_root_pane.getChildren().removeAll();
         edit_root_pane.getChildren().setAll(newAnchorPane);
     }
@@ -239,7 +234,7 @@ public class EventEditController {
         }
     }
 
-    void refreshTable() {
+    private void refreshTable() {
         tasks.clear();
         tasks = FXCollections.observableList(CateringAppManager.eventManager.getAllTasks());
         task_list.setItems(tasks);
@@ -254,16 +249,17 @@ public class EventEditController {
             alert.setContentText("Sicur* di voler procedere?");
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                try {
-                    int index = task_list.getSelectionModel().getSelectedIndex();
-                    CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
-                } catch (AssignTaskException ex) {
-                    ex.printStackTrace();
+            if (result.isPresent())
+                if (result.get() == ButtonType.OK) {
+                    try {
+                        int index = task_list.getSelectionModel().getSelectedIndex();
+                        CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
+                    } catch (AssignTaskException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    alert.close();
                 }
-            } else {
-                alert.close();
-            }
 
         });
 
@@ -331,62 +327,60 @@ public class EventEditController {
 
         recipes = FXCollections.observableList(CateringAppManager.recipeManager.getRecipes());
         recipe_combo.setItems(recipes);
+        CateringAppManager.eventManager.addReceiver(this);
+    }
+
+    private void showNotification(String title, String text) {
+        Notifications.create()
+                .title(title)
+                .text(text)
+                .position(Pos.TOP_RIGHT)
+                .hideAfter(Duration.seconds(1))
+                .showInformation();
+    }
+
+    @Override
+    public void notifyTaskAdded(Task task) {
+        System.out.println("notifyTaskAdded");
+        tasks.add(task);
+        showNotification("Compito agiunto", task.toString());
+    }
+
+    @Override
+    public void notifyTaskRemoved(Task task) {
+        System.out.println("[ Notify - EvEdCtrl ]Task Removed " + task);
+        System.out.println("\t##- Index " + tasks.indexOf(task));
+        tasks.remove(task);
+
+        showNotification("Eliminazione Compito", "Questo compito e' stato eliminato eliminato ...");
+    }
+
+    @Override
+    public void notifyTaskSorted(Task task) {
+        selectedTask = task;
+        refreshTable();
+        task_list.getSelectionModel().select(task);
+    }
+
+    @Override
+    public void notifyTaskAssigned(Task task) {
+        selectedTask = task;
+        refreshTable();
+        task_list.getSelectionModel().select(task);
+        if (task.getCook() != null)
+            showNotification("Assegnamento Compito", "Questo compito e' stato asseganto a " + task.getCook().getName());
+        else
+            showNotification("Compito Aggiornato", "Questo compito e' stato aggiornato ");
+    }
 
 
-        CateringAppManager.eventManager.addReceiver(new CatEventReceiver() {
-            private void showNotification(String title, String text) {
-                Notifications.create()
-                        .title(title)
-                        .text(text)
-                        .position(Pos.TOP_RIGHT)
-                        .hideAfter(Duration.seconds(1))
-                        .showInformation();
-            }
+    @Override
+    public void notifyTaskAssignmentDeleted(Task task, User cook) {
 
-            @Override
-            public void notifyTaskAdded(Task task) {
-                tasks.add(task);
+    }
 
-                showNotification("Compito agiiunto", task.toString());
-            }
+    @Override
+    public void notifyEventSelected(CatEvent event) {
 
-            @Override
-            public void notifyTaskRemoved(Task task) {
-                System.out.println("[ Notify - EvEdCtrl ]Task Removed " + task);
-                System.out.println("\t##- Index " + tasks.indexOf(task));
-                tasks.remove(task);
-
-                showNotification("Eliminazione Compito", "Questo compito e' stato eliminato eliminato ...");
-            }
-            @Override
-            public void notifyTaskSorted(Task task) {
-                selectedTask = task;
-                refreshTable();
-                task_list.getSelectionModel().select(task);
-            }
-
-            @Override
-            public void notifyTaskAssigned(Task task) {
-                selectedTask = task;
-                refreshTable();
-                task_list.getSelectionModel().select(task);
-                if (task.getCook() != null)
-                    showNotification("Assegnamento Compito", "Questo compito e' stato asseganto a " + task.getCook().getName());
-                else
-                    showNotification("Compito Aggiornato", "Questo compito e' stato aggiornato ");
-            }
-
-
-            @Override
-            public void notifyTaskAssignmentDeleted(Task task, User cook) {
-
-            }
-
-            @Override
-            public void notifyEventSelected(CatEvent event) {
-
-            }
-
-        });
     }
 }

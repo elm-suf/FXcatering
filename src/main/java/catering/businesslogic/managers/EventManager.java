@@ -98,6 +98,7 @@ public class EventManager {
     }
 
     public void addReceiver(CatEventReceiver rec) {
+        System.out.println("~~~~~~~~~~~~~adding receiver " + rec.toString());
         this.receivers.add(rec);
     }
 
@@ -147,5 +148,9 @@ public class EventManager {
         task.setIndex(newIndex);
         currentEvent.addTask(task);
         receivers.forEach(rec -> rec.notifyTaskSorted(task));
+    }
+
+    public void removeReceiver(CatEventReceiver receiver) {
+        receivers.remove(receiver);
     }
 }
