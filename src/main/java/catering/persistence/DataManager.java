@@ -631,6 +631,52 @@ public class DataManager {
         return ret;
     }
 
+    public List<Recipe> loadRecipesFromEvent(CatEvent event) {
+        PreparedStatement st = null;
+        String query = "SELECT DISTINCT r.* " +
+                "FROM recipes r " +
+                "JOIN menuitems m on r.id = m.recipe " +
+                "JOIN menus m2 on m.menu = m2.id " +
+                "JOIN events e on m2.id = e.menu " +
+                "WHERE e.id = ?";
+        List<Recipe> ret = new ArrayList<>();
+
+        try {
+            st = this.connection.prepareStatement(query);
+            st.setInt(1, event.getId());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                char type = rs.getString("type").charAt(0);
+                int id = rs.getInt("id");
+
+                // Verifica se per caso l'ha già caricata
+                Recipe rec = this.idToRecipeObject.get(id);
+
+                if (rec == null) {
+                    rec = createRecipeWithType(id, name, type);
+
+                    if (rec != null) {
+                        ret.add(rec);
+                        this.recipeObjects.put(rec, id);
+                        this.idToRecipeObject.put(id, rec);
+                    }
+                } else {
+                    ret.add(rec);
+                }
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return ret;
+    }
+
     public List<Menu> loadMenus() {
         List<Menu> ret = new ArrayList<>();
         Statement st = null;

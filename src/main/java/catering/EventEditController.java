@@ -4,9 +4,9 @@ import catering.businesslogic.exceptions.AssignTaskException;
 import catering.businesslogic.grasp_controllers.*;
 import catering.businesslogic.managers.CateringAppManager;
 import catering.businesslogic.receivers.CatEventReceiver;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,7 +60,7 @@ public class EventEditController implements CatEventReceiver {
     @FXML
     private Button event_edit_back_btn;
     @FXML
-    private TableColumn<Task, Boolean> task_is_completed;
+    private TableColumn<Task, String> task_is_completed;
     @FXML
     private AnchorPane detail_task;
 
@@ -102,6 +102,9 @@ public class EventEditController implements CatEventReceiver {
 
     @FXML
     private Label error_label;
+
+    @FXML
+    private Button add_tasks_btn;
 
     private Recipe selectedRecipe;
 
@@ -194,6 +197,19 @@ public class EventEditController implements CatEventReceiver {
         }
     }
 
+    private void addTasks() {
+        System.out.println("Adding all Tasks");
+        try {
+            if (allTasks.isEmpty())
+                CateringAppManager.eventManager.addTasks();
+            else
+                System.out.println("allTasks is not empty");
+        } catch (AssignTaskException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
         System.out.println(task + " shift: " + shift + " cook: " + cook + " quantity: " + quantity + "dur: " + duration + " diff: " + difficulty);
         CateringAppManager.eventManager.assignTask(task, shift, cook, quantity, duration, difficulty);
@@ -257,6 +273,7 @@ public class EventEditController implements CatEventReceiver {
                     try {
                         int index = task_list.getSelectionModel().getSelectedIndex();
                         CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
+//                        allTasks.remove(task_list.getSelectionModel().getSelectedItem());
                     } catch (AssignTaskException ex) {
                         ex.printStackTrace();
                     }
@@ -278,6 +295,7 @@ public class EventEditController implements CatEventReceiver {
 
 
         add_task_btn.setOnAction(e -> showAddTaskView());
+        add_tasks_btn.setOnAction(e -> addTasks());
 
         position_up_btn.setOnAction(e -> increasePosition());
         position_down_btn.setOnAction(e -> decreasePositionIfNotZero());
@@ -287,8 +305,7 @@ public class EventEditController implements CatEventReceiver {
 
 
         event_edit_back_btn.setOnMouseClicked(e -> goBack());
-//        task_is_assigned.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isAssigned()));
-        task_is_completed.setCellValueFactory(tc -> new SimpleBooleanProperty(tc.getValue().isCompleted()));
+        task_is_completed.setCellValueFactory(tc -> new SimpleStringProperty(tc.getValue().isCompleted() ? "Sì" : "No"));
         task_index.setCellValueFactory(tc -> new SimpleIntegerProperty(tc.getValue().getIndex()).asObject());
         task_recipe.setCellValueFactory(tc -> new SimpleObjectProperty<>(tc.getValue().getRecipe().toString()));
 

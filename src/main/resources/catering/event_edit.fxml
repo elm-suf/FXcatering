@@ -5,11 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="edit_root_pane" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #2D3447;"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            stylesheets="@event_edit.css" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="catering.EventEditController">
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: #2D3447;" stylesheets="@event_edit.css" AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="catering.EventEditController">
     <children>
         <SplitPane dividerPositions="0.6124818577648766" layoutX="102.0" layoutY="56.0" minWidth="-Infinity"
                    prefHeight="344.0" prefWidth="648.0" style="-fx-background-color: white;"
@@ -89,9 +88,9 @@
                                 <ComboBox fx:id="cook_combo" maxWidth="1.7976931348623157E308" prefHeight="26.0"
                                           prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
                                 <TextField fx:id="quantity_txf" prefHeight="25.0" prefWidth="106.0"
-                                           GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                                           promptText="In porzioni" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
                                 <TextField fx:id="duration_txf" prefHeight="25.0" prefWidth="106.0"
-                                           GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                                           promptText="In minuti" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
                                 <ComboBox fx:id="difficulty_combo" maxWidth="1.7976931348623157E308" prefHeight="26.0"
                                           prefWidth="183.0" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
                                 <HBox alignment="CENTER" spacing="16.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
@@ -189,6 +188,13 @@
         <Button fx:id="delete_task_btn" layoutX="631.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
                 prefWidth="71.0" style="-fx-background-color: #d91e36;" text="Elimina" textFill="WHITE"
                 AnchorPane.rightAnchor="98.0">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Button>
+        <Button fx:id="add_tasks_btn" layoutX="205.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="155.0" style="-fx-background-color: #3da35d;" text="Aggiungi tutti i compiti"
+                textFill="WHITE" AnchorPane.leftAnchor="205.0">
             <font>
                 <Font name="System Bold" size="12.0"/>
             </font>

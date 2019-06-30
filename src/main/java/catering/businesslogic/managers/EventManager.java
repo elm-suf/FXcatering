@@ -62,12 +62,35 @@ public class EventManager {
         task.setRecipe(recipe);
         task.setAssigned(false);
         task.setCompleted(false);
-        currentEvent.addTask(task);
         task.setId(CateringAppManager.dataManager.addTask(recipe));
+        currentEvent.addTask(task);
 
         System.out.println("sending " + task.getRecipe());
         System.out.println("sen " + recipe);
         receivers.forEach(rec -> rec.notifyTaskAdded(task));
+    }
+
+    public void addTasks() throws AssignTaskException {
+        User currentUser = checkIfChef();
+        if (currentEvent == null) {
+            throw new AssignTaskException("Evento non può essere null");
+        }
+        if (!currentEvent.getChef().equals(currentUser)) {
+            throw new AssignTaskException("Solo lo chef incaricato dell'evento puo assegnare cose");
+        }
+        System.out.println("currentEvent: " + currentEvent.getId());
+        List<Recipe> recipes = CateringAppManager.dataManager.loadRecipesFromEvent(currentEvent);
+        for (Recipe recipe : recipes) {
+            System.out.println(recipe);
+            Task task = new Task();
+            task.setRecipe(recipe);
+            task.setAssigned(false);
+            task.setCompleted(false);
+            task.setId(CateringAppManager.dataManager.addTask(recipe));
+            currentEvent.addTask(task);
+            receivers.forEach(rec -> rec.notifyTaskAdded(task));
+        }
+
     }
 
     public void deleteTAsk(Task task) throws AssignTaskException {
