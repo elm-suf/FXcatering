@@ -48,6 +48,8 @@ public class AddTaskController implements Initializable {
         jfx_button.setOnAction(e -> {
             try {
                 int index = jfx_combo.getSelectionModel().getSelectedIndex();
+                if (index == -1)
+                    return;
                 CateringAppManager.eventManager.addTask(allRecipes.get(index));
             } catch (AssignTaskException ex) {
                 System.out.println(ex.toString());

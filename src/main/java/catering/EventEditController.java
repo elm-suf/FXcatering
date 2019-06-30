@@ -225,9 +225,9 @@ public class EventEditController implements CatEventReceiver {
         this.allTasks = CateringAppManager.eventManager.getAllTasks();
         tasks = FXCollections.observableList(allTasks);
         task_list.setItems(tasks);
-        if (!CateringAppManager.eventManager.isInitialized()) {
+        task_list.setPlaceholder(new Label("Non sono presenti compiti"));
+        if (!CateringAppManager.eventManager.isInitialized())
             addTasks();
-        }
         if (!allTasks.isEmpty())
             task_list.getSelectionModel().select(0);
         else
@@ -269,6 +269,9 @@ public class EventEditController implements CatEventReceiver {
     private void initView() {
 //        assign_task_btn.setOnAction(e -> showDetailedView(new Task(), true));
         delete_task_btn.setOnAction(e -> {
+            int index = task_list.getSelectionModel().getSelectedIndex();
+            if (index == -1)
+                return;
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminazione di Compito");
             alert.setHeaderText("Questo compito verrà eliminato");
@@ -278,7 +281,6 @@ public class EventEditController implements CatEventReceiver {
             if (result.isPresent())
                 if (result.get() == ButtonType.OK) {
                     try {
-                        int index = task_list.getSelectionModel().getSelectedIndex();
                         CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
                         if (allTasks.isEmpty())
                             showAddTaskView();
