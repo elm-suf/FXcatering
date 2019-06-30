@@ -228,6 +228,8 @@ public class EventEditController implements CatEventReceiver {
         if (!CateringAppManager.eventManager.isInitialized()) {
             addTasks();
         }
+        if (allTasks.isEmpty())
+            showAddTaskView();
     }
 
     private void goBack() {
@@ -276,7 +278,8 @@ public class EventEditController implements CatEventReceiver {
                     try {
                         int index = task_list.getSelectionModel().getSelectedIndex();
                         CateringAppManager.eventManager.deleteTAsk(tasks.get(index));
-//                        allTasks.remove(task_list.getSelectionModel().getSelectedItem());
+                        if (allTasks.isEmpty())
+                            showAddTaskView();
                     } catch (AssignTaskException ex) {
                         ex.printStackTrace();
                     }
