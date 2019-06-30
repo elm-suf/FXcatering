@@ -146,17 +146,19 @@ public class EventManager {
         task.setQuantity(quantity);
         task.setDurationMinutes(duration);
         if (difficulty == null)
-            return;
-        switch (difficulty) {
-            case "Facile":
-                task.setDifficulty(0);
-                break;
-            case "Medio":
-                task.setDifficulty(1);
-                break;
-            default:
-                task.setDifficulty(2);
-                break;
+            task.setDifficulty(-1);
+        else {
+            switch (difficulty) {
+                case "Facile":
+                    task.setDifficulty(0);
+                    break;
+                case "Medio":
+                    task.setDifficulty(1);
+                    break;
+                default:
+                    task.setDifficulty(2);
+                    break;
+            }
         }
 
         for (CatEventReceiver r : receivers) {
