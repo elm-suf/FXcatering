@@ -228,7 +228,9 @@ public class EventEditController implements CatEventReceiver {
         if (!CateringAppManager.eventManager.isInitialized()) {
             addTasks();
         }
-        if (allTasks.isEmpty())
+        if (!allTasks.isEmpty())
+            task_list.getSelectionModel().select(0);
+        else
             showAddTaskView();
     }
 
@@ -369,16 +371,16 @@ public class EventEditController implements CatEventReceiver {
     public void notifyTaskAdded(Task task) {
         System.out.println("notifyTaskAdded");
         tasks.add(task);
-        showNotification("Compito agiunto", task.toString());
+        showNotification("Compito aggiunto", "");
     }
 
     @Override
     public void notifyTaskRemoved(Task task) {
         System.out.println("[ Notify - EvEdCtrl ]Task Removed " + task);
         System.out.println("\t##- Index " + tasks.indexOf(task));
-        tasks.remove(task);
 
-        showNotification("Eliminazione Compito", "Questo compito e' stato eliminato eliminato ...");
+        showNotification("Compito eliminato", "");
+        tasks.remove(task);
     }
 
     @Override

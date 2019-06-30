@@ -42,7 +42,7 @@ public class Shift {
 
     @Override
     public String toString() {
-        return date + " - " + type;
+        return date.toString();
     }
 
     @Override
