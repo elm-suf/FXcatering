@@ -1144,8 +1144,8 @@ public class DataManager {
     }
 
     public int addTask(Recipe recipe) {
-        String SQL = "INSERT into task (recipe, event, is_assigned, is_completed, `index`, quantity, difficulty, duration) " +
-                "values (?, ?, 0, 0, 0, 0, 0, 0);";
+        String SQL = "INSERT into task (recipe, event, is_assigned, is_completed, `index`) " +
+                "values (?, ?, 0, 0, 0);";
 
         String getId = "SELECT LAST_INSERT_ID() AS last_id FROM task;";
 

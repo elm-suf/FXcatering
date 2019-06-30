@@ -60,6 +60,9 @@ public class EventManager {
 
         Task task = new Task();
         task.setRecipe(recipe);
+        task.setDifficulty(-1);
+        task.setDurationMinutes(null);
+        task.setQuantity(null);
         task.setAssigned(false);
         task.setCompleted(false);
         task.setId(CateringAppManager.dataManager.addTask(recipe));
@@ -84,6 +87,9 @@ public class EventManager {
             System.out.println(recipe);
             Task task = new Task();
             task.setRecipe(recipe);
+            task.setDifficulty(-1);
+            task.setDurationMinutes(null);
+            task.setQuantity(null);
             task.setAssigned(false);
             task.setCompleted(false);
             task.setId(CateringAppManager.dataManager.addTask(recipe));
@@ -139,6 +145,8 @@ public class EventManager {
         task.setCook(cook);
         task.setQuantity(quantity);
         task.setDurationMinutes(duration);
+        if (difficulty == null)
+            return;
         switch (difficulty) {
             case "Facile":
                 task.setDifficulty(0);
