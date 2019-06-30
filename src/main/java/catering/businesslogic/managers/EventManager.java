@@ -182,4 +182,8 @@ public class EventManager {
     public void removeReceiver(CatEventReceiver receiver) {
         receivers.remove(receiver);
     }
+
+    public Boolean isInitialized() {
+        return CateringAppManager.dataManager.isInitialized(currentEvent);
+    }
 }

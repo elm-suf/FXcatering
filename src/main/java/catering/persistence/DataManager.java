@@ -1260,4 +1260,26 @@ public class DataManager {
             e.printStackTrace();
         }
     }
+
+    public Boolean isInitialized(CatEvent event) {
+        String SQL = "SELECT initialized FROM events WHERE id = ?";
+        String updateInitialized = "UPDATE events SET initialized = 1 WHERE id = ?";
+        PreparedStatement st = null;
+        try {
+            st = connection.prepareStatement(SQL);
+            st.setInt(1, event.getId());
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            int initialized = rs.getInt("initialized");
+            if (initialized == 0) {
+                st = connection.prepareStatement(updateInitialized);
+                st.setInt(1, event.getId());
+                st.execute();
+            }
+            return initialized == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -225,7 +225,9 @@ public class EventEditController implements CatEventReceiver {
         this.allTasks = CateringAppManager.eventManager.getAllTasks();
         tasks = FXCollections.observableList(allTasks);
         task_list.setItems(tasks);
-        addTasks();
+        if (!CateringAppManager.eventManager.isInitialized()) {
+            addTasks();
+        }
     }
 
     private void goBack() {
