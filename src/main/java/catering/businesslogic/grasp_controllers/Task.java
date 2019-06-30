@@ -7,11 +7,11 @@ public class Task {
     private Recipe recipe;
     private Shift shift;
     private User cook;
-    private int quantity;
+    private String quantity;
     private int difficulty;
     private Boolean isCompleted;
     private Boolean isAssigned;
-    private int durationMinutes;
+    private String durationMinutes;
     private int index;
 
     public Recipe getRecipe() {
@@ -45,7 +45,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(int id, Recipe recipe, Shift shift, User cook, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
+    public Task(int id, Recipe recipe, Shift shift, User cook, String quantity, int difficulty, boolean isCompleted, boolean isAssigned, String durationMinutes, int index) {
         this.id = id;
         this.recipe = recipe;
         this.shift = shift;
@@ -58,7 +58,7 @@ public class Task {
         this.index = index;
     }
 
-    public Task(int id, Recipe recipe, int quantity, int difficulty, boolean isCompleted, boolean isAssigned, int durationMinutes, int index) {
+    public Task(int id, Recipe recipe, String quantity, int difficulty, boolean isCompleted, boolean isAssigned, String durationMinutes, int index) {
         this.id = id;
         this.recipe = recipe;
         this.shift = null;
@@ -76,11 +76,11 @@ public class Task {
         this.isAssigned = isAssigned;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
@@ -108,11 +108,11 @@ public class Task {
         isAssigned = assigned;
     }
 
-    public int getDurationMinutes() {
+    public String getDurationMinutes() {
         return durationMinutes;
     }
 
-    public void setDurationMinutes(int durationMinutes) {
+    public void setDurationMinutes(String durationMinutes) {
         this.durationMinutes = durationMinutes;
     }
 

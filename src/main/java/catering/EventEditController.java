@@ -164,8 +164,10 @@ public class EventEditController implements CatEventReceiver {
             }
             recipe_txf.setText(selectedTask.getRecipe().toString());
             difficulty_combo.getSelectionModel().select(selectedTask.getDifficulty());
-            duration_txf.setText(String.valueOf(selectedTask.getDurationMinutes()));
-            quantity_txf.setText(String.valueOf(selectedTask.getQuantity()));
+            String duration = selectedTask.getDurationMinutes();
+            duration_txf.setText(duration == null ? "" : duration);
+            String quantity = selectedTask.getQuantity();
+            quantity_txf.setText(quantity == null ? "" : quantity);
             shift_combo.getSelectionModel().select(shiftindex);
             //==================================================================\\
 
@@ -185,6 +187,7 @@ public class EventEditController implements CatEventReceiver {
         System.out.println("Adding Task : " + selectedRecipe.getName());
         try {
             CateringAppManager.eventManager.addTask(selectedRecipe);
+
         } catch (AssignTaskException e) {
             //todo catch
             e.printStackTrace();

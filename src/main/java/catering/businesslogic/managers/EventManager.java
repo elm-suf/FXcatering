@@ -114,12 +114,8 @@ public class EventManager {
     public void assignTask(Task task, Shift shift, User cook, String quantity, String duration, String difficulty) {
         task.setShift(shift);
         task.setCook(cook);
-        if (quantity.equals(""))
-            quantity = "0";
-        if (duration.equals(""))
-            duration = "0";
-        task.setQuantity(Integer.valueOf(quantity));
-        task.setDurationMinutes(Integer.valueOf(duration));
+        task.setQuantity(quantity);
+        task.setDurationMinutes(duration);
         switch (difficulty) {
             case "Facile":
                 task.setDifficulty(0);

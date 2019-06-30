@@ -916,8 +916,8 @@ public class DataManager {
                 boolean isAssigned = rs.getBoolean("is_assigned");
                 boolean isCompleted = rs.getBoolean("is_completed");
                 int difficulty = rs.getInt("difficulty");
-                int duration = rs.getInt("duration");
-                int quantity = rs.getInt("quantity");
+                String duration = rs.getString("duration");
+                String quantity = rs.getString("quantity");
                 int index = rs.getInt("position");
                 int recipeId = rs.getInt("recipe_id");
 
@@ -1081,8 +1081,8 @@ public class DataManager {
 
         try {
             st = this.connection.prepareStatement(SQL);
-            st.setInt(1, task.getQuantity());
-            st.setInt(2, task.getDurationMinutes());
+            st.setString(1, task.getQuantity());
+            st.setString(2, task.getDurationMinutes());
             st.setInt(3, task.getDifficulty());
             st.setInt(4, task.getId());
             System.out.println(st.executeUpdate());
