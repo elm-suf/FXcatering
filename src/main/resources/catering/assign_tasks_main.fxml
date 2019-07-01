@@ -6,7 +6,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root_pane" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: #BDC2C2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
@@ -27,13 +26,6 @@
                 </Label>
             </children>
         </AnchorPane>
-        <Text fill="#4c3f4c" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;"
-              text="Seleziona un Evento" textAlignment="CENTER" wrappingWidth="800.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
-            <font>
-                <Font name="Microsoft YaHei Light" size="36.0"/>
-            </font>
-        </Text>
         <JFXListView fx:id="jfx_list" depth="1" layoutX="32.0" layoutY="184.0" prefHeight="339.0" prefWidth="736.0"
                      stylesheets="@style.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="32.0"
                      AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="184.0">
@@ -44,5 +36,12 @@
                 <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
             </padding>
         </JFXListView>
+        <Label alignment="CENTER" layoutX="181.0" layoutY="107.0" prefHeight="67.0" prefWidth="613.0"
+               text="Seleziona un Evento" textAlignment="CENTER" textFill="#4c3f4c" AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0">
+            <font>
+                <Font name="Microsoft YaHei Light" size="36.0"/>
+            </font>
+        </Label>
     </children>
 </AnchorPane>
